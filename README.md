@@ -99,9 +99,14 @@ Poziomy rzęd przewijalnych kafelków:
 - ❤️ Tętno
 - 💪 Wellness
 
+**IMPORT DANYCH**
+- 📁 Import żywienia (CSV z Fitatu)
+- 📊 Import danych zdrowotnych (Mi Fit / inne źródła)
+
 **INNE**
 - ⚙️ Ustawienia
-- ℹ️ Pomoc
+- ❓ Pomoc
+- ℹ️ O aplikacji
 
 ## Kolory i Style
 

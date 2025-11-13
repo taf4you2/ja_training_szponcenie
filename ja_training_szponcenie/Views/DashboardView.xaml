@@ -241,12 +241,12 @@
                                             <TextBlock Text="4" FontWeight="SemiBold" HorizontalAlignment="Left"/>
                                             <TextBlock Text="🏋️" FontSize="10" HorizontalAlignment="Right"/>
                                         </Grid>
-                                        <StackPanel Margin="0,4,0,0" Spacing="2">
-                                            <StackPanel Orientation="Horizontal">
+                                        <StackPanel Margin="0,4,0,0">
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
                                                 <TextBlock Text="🚴" FontSize="10" Margin="0,0,4,0"/>
                                                 <TextBlock Text="1h 30min" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
                                             </StackPanel>
-                                            <TextBlock Text="245 TSS" FontSize="10" FontWeight="SemiBold"/>
+                                            <TextBlock Text="245 TSS" FontSize="10" FontWeight="SemiBold" Margin="0,0,0,2"/>
                                             <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
                                                 <Border Background="{StaticResource SuccessColor}" Width="12" Height="12" CornerRadius="6" Margin="0,0,2,0">
                                                     <TextBlock Text="😴" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>

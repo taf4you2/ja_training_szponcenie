@@ -205,6 +205,40 @@
                     <!-- Separator -->
                     <Border Style="{StaticResource SeparatorStyle}" Margin="20,12"/>
 
+                    <!-- Sekcja Import danych -->
+                    <TextBlock Text="IMPORT DANYCH" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextSecondaryColor}"
+                               Margin="20,12,20,8"/>
+
+                    <Button Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent"
+                            Foreground="{StaticResource TextPrimaryColor}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Padding="20,12"
+                            Margin="8,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📁" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Import żywienia" FontSize="14" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent"
+                            Foreground="{StaticResource TextPrimaryColor}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Padding="20,12"
+                            Margin="8,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📊" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Import danych zdrowotnych" FontSize="14" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Separator -->
+                    <Border Style="{StaticResource SeparatorStyle}" Margin="20,12"/>
+
                     <!-- Sekcja Inne -->
                     <TextBlock Text="INNE" FontSize="11" FontWeight="SemiBold"
                                Foreground="{StaticResource TextSecondaryColor}"
@@ -231,8 +265,21 @@
                             Padding="20,12"
                             Margin="8,2">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="ℹ️" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="❓" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
                             <TextBlock Text="Pomoc" FontSize="14" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent"
+                            Foreground="{StaticResource TextPrimaryColor}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Padding="20,12"
+                            Margin="8,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="ℹ️" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="O aplikacji" FontSize="14" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
