@@ -932,6 +932,8 @@
                         </Grid>
                     </StackPanel>
                 </Border>
+
+                <!-- ==================== QUICK STATS ==================== -->
                 <Border Grid.Row="3" Style="{StaticResource CardStyle}" Margin="16,8">
                     <StackPanel>
                         <TextBlock Text="Szybkie statystyki" Style="{StaticResource SubtitleTextStyle}"/>
