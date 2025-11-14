@@ -12,7 +12,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Converters -->
-            <converters:PercentToWidthConverter x:Key="PercentToWidthConverter"/>
             <converters:ScoreToColorConverter x:Key="ScoreToColorConverter"/>
             <converters:DayTypeToBrushConverter x:Key="DayTypeToBrushConverter"/>
             <converters:DayTypeToTextConverter x:Key="DayTypeToTextConverter"/>

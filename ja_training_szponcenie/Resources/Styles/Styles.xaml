@@ -119,21 +119,6 @@
         <Setter Property="Height" Value="8"/>
         <Setter Property="Background" Value="#E0E0E0"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ProgressBar">
-                    <Grid>
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="4"/>
-                        <Border Background="{TemplateBinding Foreground}"
-                                CornerRadius="4"
-                                HorizontalAlignment="Left"
-                                Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Value,
-                                       Converter={StaticResource PercentToWidthConverter}}"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
 </ResourceDictionary>
