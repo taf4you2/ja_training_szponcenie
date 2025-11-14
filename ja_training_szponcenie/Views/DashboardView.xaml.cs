@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ja_training_szponcenie.Views
@@ -10,6 +11,14 @@ namespace ja_training_szponcenie.Views
         public DashboardView()
         {
             InitializeComponent();
+            SettingsButton.Click += SettingsButton_Click;
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigate to Settings
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+            mainWindow?.NavigateToSettings();
         }
     }
 }
