@@ -304,30 +304,7 @@
                                     <CheckBox Content="Tylko nowe rekordy" Margin="10,0"/>
                                 </StackPanel>
 
-                                <!-- Tabela -->
-                                <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
-                                         HeadersVisibility="Column" GridLinesVisibility="Horizontal"
-                                         BorderThickness="1" BorderBrush="#E0E0E0">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Czas" Width="80"/>
-                                        <DataGridTextColumn Header="Moc (W)" Width="100"/>
-                                        <DataGridTextColumn Header="W/kg" Width="80"/>
-                                        <DataGridTextColumn Header="% FTP" Width="80"/>
-                                        <DataGridTextColumn Header="Data" Width="120"/>
-                                        <DataGridTextColumn Header="Trening" Width="*"/>
-                                        <DataGridTextColumn Header="Status" Width="100"/>
-                                        <DataGridTextColumn Header="Akcje" Width="100"/>
-                                    </DataGrid.Columns>
-
-                                    <!-- Przykładowe dane -->
-                                    <DataGrid.Items>
-                                        <DataGridRow/>
-                                        <DataGridRow/>
-                                        <DataGridRow/>
-                                    </DataGrid.Items>
-                                </DataGrid>
-
-                                <!-- Przykładowe wiersze (statyczne) -->
+                                <!-- Tabela rekordów (statyczne wiersze) -->
                                 <Grid Margin="0,15,0,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
