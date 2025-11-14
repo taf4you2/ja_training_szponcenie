@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ja_training_szponcenie.Views;
 
 namespace ja_training_szponcenie
 {
@@ -19,6 +20,12 @@ namespace ja_training_szponcenie
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void OpenRecordsPowerCurveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var recordsWindow = new RecordsPowerCurveView();
+            recordsWindow.Show();
         }
     }
 }
