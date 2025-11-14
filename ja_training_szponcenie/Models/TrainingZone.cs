@@ -1,0 +1,11 @@
+namespace ja_training_szponcenie.Models
+{
+    public enum TrainingZone
+    {
+        Z1 = 1,
+        Z2 = 2,
+        Z3 = 3,
+        Z4 = 4,
+        Z5 = 5
+    }
+}
