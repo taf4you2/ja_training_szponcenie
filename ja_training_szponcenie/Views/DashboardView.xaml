@@ -1,0 +1,1301 @@
+<UserControl x:Class="ja_training_szponcenie.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             Background="{StaticResource BackgroundColor}">
+
+    <Grid>
+        <!-- Główny ScrollViewer dla całego dashboardu -->
+        <ScrollViewer Style="{StaticResource CustomScrollViewerStyle}">
+            <Grid Margin="0,0,0,80">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Header -->
+                    <RowDefinition Height="Auto"/> <!-- Performance Management Chart -->
+                    <RowDefinition Height="Auto"/> <!-- Kalendarz -->
+                    <RowDefinition Height="Auto"/> <!-- Quick Stats -->
+                    <RowDefinition Height="Auto"/> <!-- Rekordy -->
+                </Grid.RowDefinitions>
+
+                <!-- ==================== HEADER ==================== -->
+                <Border Grid.Row="0" Background="{StaticResource SurfaceColor}" Padding="16,12">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#000000" Opacity="0.1" BlurRadius="8" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Lewa strona headera -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <Button Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="0,0,16,0">
+                                <TextBlock Text="☰" FontSize="20"/>
+                            </Button>
+                            <TextBlock Text="JA Training" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" Foreground="{StaticResource PrimaryColor}"/>
+                        </StackPanel>
+
+                        <!-- Środek headera -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Dashboard" Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Center" Margin="0"/>
+                            <TextBlock Text="Czwartek, 14 listopada 2025" Style="{StaticResource SecondaryTextStyle}" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Prawa strona headera -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="0,0,8,0">
+                                <TextBlock Text="⚙️" FontSize="18"/>
+                            </Button>
+                            <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource PrimaryColor}">
+                                <TextBlock Text="👤" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- ==================== HEALTH & TRAINING OVERVIEW ==================== -->
+                <Grid Grid.Row="1" Margin="16,16,16,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- KAFELEK SEN - PO LEWEJ -->
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="0,0,8,0" MinWidth="450" MaxWidth="550">
+                        <StackPanel>
+                            <!-- Nagłówek -->
+                            <Grid Margin="0,0,0,16">
+                                <TextBlock Text="😴 Sen - Dzisiaj" FontWeight="SemiBold" FontSize="16" HorizontalAlignment="Left"/>
+                                <TextBlock Text="23:15 - 06:50" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <!-- Główna sekcja - układ poziomy -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Pierścień z jakością snu -->
+                                <Grid Grid.Column="0" Margin="0,0,20,0">
+                                    <Ellipse Width="100" Height="100" Stroke="{StaticResource SuccessColor}" StrokeThickness="8">
+                                        <Ellipse.Fill>
+                                            <SolidColorBrush Color="#E8F5E9"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock Text="82" FontSize="40" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                        <TextBlock Text="Jakość" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Fazy snu - w środku -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,20,0">
+                                    <TextBlock Text="Fazy snu (7h 35m)" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,0,8"/>
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.Column="0" Background="#2196F3" Height="28" CornerRadius="4,0,0,4">
+                                            <TextBlock Text="3h 15m" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="1" Background="#42A5F5" Height="28">
+                                            <TextBlock Text="2h 10m" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="2" Background="#90CAF9" Height="28">
+                                            <TextBlock Text="1h 55m" FontSize="11" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="3" Background="#BBDEFB" Height="28" CornerRadius="0,4,4,0">
+                                            <TextBlock Text="15m" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <!-- Legenda pozioma -->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
+                                            <Border Width="10" Height="10" Background="#2196F3" CornerRadius="2" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Głęboki" FontSize="9" Foreground="{StaticResource TextSecondaryColor}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
+                                            <Border Width="10" Height="10" Background="#42A5F5" CornerRadius="2" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Lekki" FontSize="9" Foreground="{StaticResource TextSecondaryColor}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
+                                            <Border Width="10" Height="10" Background="#90CAF9" CornerRadius="2" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="REM" FontSize="9" Foreground="{StaticResource TextSecondaryColor}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="10" Height="10" Background="#BBDEFB" CornerRadius="2" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Czuwanie" FontSize="9" Foreground="{StaticResource TextSecondaryColor}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Metryki po prawej -->
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                    <Border Background="#E3F2FD" CornerRadius="6" Padding="12,8" Margin="0,0,0,6" MinWidth="110">
+                                        <StackPanel>
+                                            <TextBlock Text="⏱️ Długość" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                            <TextBlock Text="7h 35m" FontSize="16" FontWeight="Bold" Foreground="{StaticResource PrimaryColor}"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Background="#FFEBEE" CornerRadius="6" Padding="12,8" Margin="0,0,0,6" MinWidth="110">
+                                        <StackPanel>
+                                            <TextBlock Text="❤️ Śr. tętno" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                            <TextBlock Text="52 bpm" FontSize="16" FontWeight="Bold" Foreground="#E53935"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Background="#F3E5F5" CornerRadius="6" Padding="12,8" MinWidth="110">
+                                        <StackPanel>
+                                            <TextBlock Text="📊 HRV" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                            <TextBlock Text="68 ms" FontSize="16" FontWeight="Bold" Foreground="#7B1FA2"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Porównanie ze średnią -->
+                            <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <TextBlock Text="Śr. z 7 dni: 81/100" FontSize="10" Foreground="{StaticResource TextSecondaryColor}" HorizontalAlignment="Left"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="▲" FontSize="10" Foreground="{StaticResource SuccessColor}" Margin="0,0,3,0"/>
+                                    <TextBlock Text="+1" FontSize="10" Foreground="{StaticResource SuccessColor}" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- PERFORMANCE MANAGEMENT CHART - W ŚRODKU -->
+                    <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="0" MinWidth="380" MaxWidth="500">
+                        <StackPanel>
+                            <!-- Nagłówek sekcji PMC -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
+                                <TextBlock Text="Forma treningowa" Style="{StaticResource SubtitleTextStyle}" Margin="0"/>
+                                <Button Background="Transparent" BorderThickness="0" Margin="8,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="ⓘ" FontSize="14" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Button>
+                            </StackPanel>
+
+                            <!-- Trzy kafelki metryk -->
+                            <Grid Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Kafelek FITNESS (CTL) -->
+                                <Border Grid.Column="0" CornerRadius="8" Padding="12" Margin="4" MinHeight="90" Background="White">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#000000" Opacity="0.05" BlurRadius="6" ShadowDepth="1"/>
+                                    </Border.Effect>
+                                    <StackPanel>
+                                        <TextBlock Text="62" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,4,0,2" Foreground="{StaticResource FitnessColor}"/>
+                                        <TextBlock Text="Fitness (CTL)" FontSize="12" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,6,0,0">
+                                            <TextBlock Text="▲" FontSize="10" Foreground="{StaticResource SuccessColor}" Margin="0,0,3,0"/>
+                                            <TextBlock Text="+2.3" FontSize="10" Foreground="{StaticResource SuccessColor}" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Kafelek FATIGUE (ATL) -->
+                                <Border Grid.Column="1" CornerRadius="8" Padding="12" Margin="4" MinHeight="90" Background="White">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#000000" Opacity="0.05" BlurRadius="6" ShadowDepth="1"/>
+                                    </Border.Effect>
+                                    <StackPanel>
+                                        <TextBlock Text="48" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,4,0,2" Foreground="{StaticResource FatigueColor}"/>
+                                        <TextBlock Text="Fatigue (ATL)" FontSize="12" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,6,0,0">
+                                            <TextBlock Text="▲" FontSize="10" Foreground="{StaticResource WarningColor}" Margin="0,0,3,0"/>
+                                            <TextBlock Text="+5.1" FontSize="10" Foreground="{StaticResource WarningColor}" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Kafelek FORM (TSB) -->
+                                <Border Grid.Column="2" CornerRadius="8" Padding="12" Margin="4" MinHeight="90" Background="White">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#000000" Opacity="0.05" BlurRadius="6" ShadowDepth="1"/>
+                                    </Border.Effect>
+                                    <StackPanel>
+                                        <TextBlock Text="+14" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,4,0,2" Foreground="{StaticResource FormPositiveColor}"/>
+                                        <TextBlock Text="Form (TSB)" FontSize="12" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Border Background="{StaticResource SuccessColor}" CornerRadius="10" Padding="10,3" Margin="0,6,0,0" HorizontalAlignment="Center">
+                                            <TextBlock Text="Świeży" FontSize="10" Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- KAFELEK ŻYWIENIE - PO PRAWEJ -->
+                    <Border Grid.Column="3" Style="{StaticResource CardStyle}" Margin="8,0,0,0" MinWidth="450" MaxWidth="550">
+                        <StackPanel>
+                            <!-- Nagłówek -->
+                            <Grid Margin="0,0,0,16">
+                                <TextBlock Text="🍽️ Żywienie - Dzisiaj" FontWeight="SemiBold" FontSize="16" HorizontalAlignment="Left"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="4/5" FontSize="11" Foreground="{StaticResource SuccessColor}" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <TextBlock Text="posiłków" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Główna sekcja - układ poziomy -->
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Kalorie po lewej -->
+                                <Border Grid.Column="0" Background="#FFF3E0" CornerRadius="12" Padding="20,16" Margin="0,0,20,0" MinWidth="140">
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Text="2450" FontSize="42" FontWeight="Bold" Foreground="{StaticResource WarningColor}" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="kcal" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+
+                                        <Border Background="#FFFFFF" Height="8" CornerRadius="4" Margin="0,0,0,6" Width="110">
+                                            <Border Background="{StaticResource WarningColor}" Height="8" CornerRadius="4" HorizontalAlignment="Left" Width="103"/>
+                                        </Border>
+                                        <TextBlock Text="94% celu" FontSize="9" Foreground="{StaticResource TextSecondaryColor}" HorizontalAlignment="Center" Margin="0,0,0,6"/>
+
+                                        <StackPanel>
+                                            <TextBlock Text="Cel: 2600" FontSize="10" Foreground="{StaticResource TextSecondaryColor}" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="Zostało: 150" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Makroskładniki po prawej - poziomo -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Makroskładniki" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,0,12"/>
+
+                                    <!-- Węglowodany -->
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,12,0">
+                                            <TextBlock Text="🍞" FontSize="16" Margin="0,0,6,0"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="268g / 280g" FontSize="12" FontWeight="Bold"/>
+                                                <TextBlock Text="Węglowodany" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <Border Background="#E0E0E0" Height="6" CornerRadius="3" Margin="0,0,0,2">
+                                                <Border Background="#FF9800" Height="6" CornerRadius="3" HorizontalAlignment="Left" Width="210"/>
+                                            </Border>
+                                            <TextBlock Text="96% • 1072 kcal" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Proteiny -->
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,12,0">
+                                            <TextBlock Text="🥩" FontSize="16" Margin="0,0,6,0"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="138g / 150g" FontSize="12" FontWeight="Bold"/>
+                                                <TextBlock Text="Proteiny" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <Border Background="#E0E0E0" Height="6" CornerRadius="3" Margin="0,0,0,2">
+                                                <Border Background="#E91E63" Height="6" CornerRadius="3" HorizontalAlignment="Left" Width="202"/>
+                                            </Border>
+                                            <TextBlock Text="92% • 552 kcal" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Tłuszcze -->
+                                    <Grid Margin="0,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,12,0">
+                                            <TextBlock Text="🥑" FontSize="16" Margin="0,0,6,0"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="88g / 90g" FontSize="12" FontWeight="Bold"/>
+                                                <TextBlock Text="Tłuszcze" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <Border Background="#E0E0E0" Height="6" CornerRadius="3" Margin="0,0,0,2">
+                                                <Border Background="#8BC34A" Height="6" CornerRadius="3" HorizontalAlignment="Left" Width="215"/>
+                                            </Border>
+                                            <TextBlock Text="98% • 792 kcal" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Dodatkowe informacje -->
+                            <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="💧" FontSize="12" Margin="0,0,6,0"/>
+                                    <TextBlock Text="Nawodnienie: 2.1L / 2.5L" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="⚡" FontSize="12" Margin="0,0,4,0"/>
+                                    <TextBlock Text="Balans: -150 kcal" FontSize="10" Foreground="{StaticResource SuccessColor}" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- ==================== KALENDARZ Z PODSUMOWANIAMI ==================== -->
+                <Border Grid.Row="2" Style="{StaticResource CardStyle}" Margin="16,8">
+                    <StackPanel>
+                        <!-- Nagłówek sekcji kalendarz -->
+                        <TextBlock Text="Kalendarz treningowy" Style="{StaticResource SubtitleTextStyle}" Margin="0,0,0,16"/>
+
+                        <!-- Nagłówki dni tygodnia -->
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Pn" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11"/>
+                                <TextBlock Grid.Column="1" Text="Wt" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11"/>
+                                <TextBlock Grid.Column="2" Text="Śr" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11"/>
+                                <TextBlock Grid.Column="3" Text="Cz" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11"/>
+                                <TextBlock Grid.Column="4" Text="Pt" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11"/>
+                                <TextBlock Grid.Column="5" Text="So" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11"/>
+                                <TextBlock Grid.Column="6" Text="Nd" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11"/>
+                            </Grid>
+                        </Grid>
+
+                        <!-- TYDZIEŃ 1 (3 tygodnie wstecz) - 21-27 października -->
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Kalendarz tygodnia -->
+                            <Grid Grid.Column="0" Margin="0,0,16,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <!-- Nagłówek dnia -->
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="21" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="🚴" FontSize="11" HorizontalAlignment="Right"/>
+                                        </Grid>
+
+                                        <!-- Trening -->
+                                        <Border Background="#E3F2FD" CornerRadius="4" Padding="4,3" Margin="0,0,0,3">
+                                            <StackPanel>
+                                                <TextBlock Text="⏱️ 2h 30m" FontSize="8" Foreground="{StaticResource TextPrimaryColor}"/>
+                                                <Grid Margin="0,1,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="142 TSS" FontSize="8" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Column="1" Text="🔥 845" FontSize="8" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!-- Sen + Pierścień -->
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="88" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 7h 45m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <!-- Żywienie -->
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2650 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:285 P:165 T:98" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                                <!-- Dzień 22 - Odpoczynek -->
+                                <Border Grid.Column="1" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="22" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="😴" FontSize="11" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <TextBlock Text="Odpoczynek" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,8" HorizontalAlignment="Center"/>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="92" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 8h 20m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2280 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:245 P:125 T:85" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Dzień 23 - Trening -->
+                                <Border Grid.Column="2" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="23" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="🚴" FontSize="11" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Border Background="#E3F2FD" CornerRadius="4" Padding="4,3" Margin="0,0,0,3">
+                                            <StackPanel>
+                                                <TextBlock Text="⏱️ 1h 20m" FontSize="8" Foreground="{StaticResource TextPrimaryColor}"/>
+                                                <Grid Margin="0,1,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="98 TSS" FontSize="8" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Column="1" Text="🔥 520" FontSize="8" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource WarningColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#FFF3E0"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="72" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource WarningColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 6h 30m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2410 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:265 P:145 T:88" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Dzień 24 - Odpoczynek -->
+                                <Border Grid.Column="3" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="24" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Left"/>
+                                        </Grid>
+                                        <TextBlock Text="Odpoczynek" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,8" HorizontalAlignment="Center"/>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="85" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 7h 55m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2180 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:235 P:118 T:78" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Dzień 25 - Trening -->
+                                <Border Grid.Column="4" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="25" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="🚴" FontSize="11" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Border Background="#E3F2FD" CornerRadius="4" Padding="4,3" Margin="0,0,0,3">
+                                            <StackPanel>
+                                                <TextBlock Text="⏱️ 2h 50m" FontSize="8" Foreground="{StaticResource TextPrimaryColor}"/>
+                                                <Grid Margin="0,1,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="165 TSS" FontSize="8" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Column="1" Text="🔥 1125" FontSize="8" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource WarningColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#FFF3E0"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="68" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource WarningColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 6h 15m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 3120 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:385 P:185 T:115" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Dzień 26 - Trening lekki -->
+                                <Border Grid.Column="5" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="26" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="🚴" FontSize="11" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Border Background="#E3F2FD" CornerRadius="4" Padding="4,3" Margin="0,0,0,3">
+                                            <StackPanel>
+                                                <TextBlock Text="⏱️ 1h 10m" FontSize="8" Foreground="{StaticResource TextPrimaryColor}"/>
+                                                <Grid Margin="0,1,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="87 TSS" FontSize="8" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Column="1" Text="🔥 465" FontSize="8" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="79" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 7h 10m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2580 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:295 P:155 T:92" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Dzień 27 - Odpoczynek -->
+                                <Border Grid.Column="6" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="27" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Left"/>
+                                        </Grid>
+                                        <TextBlock Text="Odpoczynek" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,8" HorizontalAlignment="Center"/>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="90" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 8h 05m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2340 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:258 P:132 T:82" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                            <!-- Podsumowanie tygodnia -->
+                            <Border Grid.Column="1" Background="White" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="6" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="21-27 paź" FontWeight="SemiBold" FontSize="12" Margin="0,0,0,2"/>
+                                    <TextBlock Text="✓ Ukończony" FontSize="9" Foreground="{StaticResource SuccessColor}" Margin="0,0,0,8"/>
+
+                                    <!-- TSS + Treningi -->
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="492" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="TSS" FontSize="8" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="4" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="treningi" FontSize="8" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,8"/>
+
+                                    <!-- Dodatkowe metryki -->
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="⏱️ Czas treningu" FontSize="8" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="8h 00m" FontSize="8" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="🔥 Spalono" FontSize="8" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="2955 kcal" FontSize="8" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="😴 Śr. sen" FontSize="8" HorizontalAlignment="Left"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Ellipse Width="12" Height="12" Stroke="{StaticResource SuccessColor}" StrokeThickness="1.5" Margin="0,0,3,0">
+                                                    <Ellipse.Fill>
+                                                        <SolidColorBrush Color="#E8F5E9"/>
+                                                    </Ellipse.Fill>
+                                                </Ellipse>
+                                                <TextBlock Text="82" FontSize="8" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,0">
+                                            <TextBlock Text="🍽️ Śr. kalorie" FontSize="8" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="2509 kcal" FontSize="8" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- TYDZIEŃ 2 (2 tygodnie wstecz) - 28 paź-3 lis -->
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Margin="0,0,16,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="28" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="178 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="1" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <TextBlock Text="29" FontWeight="SemiBold" FontSize="12"/>
+                                </Border>
+                                <Border Grid.Column="2" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="30" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="124 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="3" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="31" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="89 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="4" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <TextBlock Text="1" FontWeight="SemiBold" FontSize="12"/>
+                                </Border>
+                                <Border Grid.Column="5" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="2" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="156 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="6" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <TextBlock Text="3" FontWeight="SemiBold" FontSize="12"/>
+                                </Border>
+                            </Grid>
+
+                            <Border Grid.Column="1" Background="White" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="6" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="28 paź-3 lis" FontWeight="SemiBold" FontSize="12"/>
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="547" FontSize="16" FontWeight="Bold"/>
+                                            <TextBlock Text="TSS" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="4" FontSize="16" FontWeight="Bold"/>
+                                            <TextBlock Text="treningi" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- TYDZIEŃ 3 (1 tydzień wstecz) - 4-10 listopada -->
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Margin="0,0,16,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="4" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="245 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="1" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <TextBlock Text="5" FontWeight="SemiBold" FontSize="12"/>
+                                </Border>
+                                <Border Grid.Column="2" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="6" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="312 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="3" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="7" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="189 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="4" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <TextBlock Text="8" FontWeight="SemiBold" FontSize="12"/>
+                                </Border>
+                                <Border Grid.Column="5" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <StackPanel>
+                                        <TextBlock Text="9" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="167 TSS" FontSize="9" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="6" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70">
+                                    <TextBlock Text="10" FontWeight="SemiBold" FontSize="12"/>
+                                </Border>
+                            </Grid>
+
+                            <Border Grid.Column="1" Background="White" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="6" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="4-10 lis" FontWeight="SemiBold" FontSize="12"/>
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="913" FontSize="16" FontWeight="Bold"/>
+                                            <TextBlock Text="TSS" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="4" FontSize="16" FontWeight="Bold"/>
+                                            <TextBlock Text="treningi" FontSize="9" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- TYDZIEŃ 4 (OBECNY) - 11-17 listopada -->
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Margin="0,0,16,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Pn 11 - Odpoczynek -->
+                                <Border Grid.Column="0" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="11" FontWeight="SemiBold" FontSize="13"/>
+                                        </Grid>
+                                        <TextBlock Text="Odpoczynek" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,8" HorizontalAlignment="Center"/>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="87" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 7h 45m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2320 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:248 P:128 T:85" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Wt 12 - Trening -->
+                                <Border Grid.Column="1" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="12" FontWeight="SemiBold" FontSize="13"/>
+                                            <TextBlock Text="🚴" FontSize="11" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Border Background="#E3F2FD" CornerRadius="4" Padding="4,3" Margin="0,0,0,3">
+                                            <StackPanel>
+                                                <TextBlock Text="⏱️ 2h 45m" FontSize="8" Foreground="{StaticResource TextPrimaryColor}"/>
+                                                <Grid Margin="0,1,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="198 TSS" FontSize="8" FontWeight="SemiBold"/>
+                                                    <TextBlock Grid.Column="1" Text="🔥 985" FontSize="8" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource WarningColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#FFF3E0"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="70" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource WarningColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 6h 40m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2890 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:325 P:175 T:102" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Śr 13 - Odpoczynek -->
+                                <Border Grid.Column="2" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="13" FontWeight="SemiBold" FontSize="13"/>
+                                        </Grid>
+                                        <TextBlock Text="Odpoczynek" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,8" HorizontalAlignment="Center"/>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="84" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 7h 50m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2240 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:240 P:120 T:82" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Cz 14 - DZISIAJ -->
+                                <Border Grid.Column="3" Style="{StaticResource TodayCalendarCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="14" FontWeight="Bold" FontSize="13" Foreground="{StaticResource PrimaryColor}"/>
+                                            <TextBlock Text="🗓️" FontSize="11" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Border Background="{StaticResource PrimaryColor}" CornerRadius="4" Padding="6,3" Margin="0,0,0,8">
+                                            <TextBlock Text="DZISIAJ" FontSize="9" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <Grid Margin="0,0,0,3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Grid.Column="0" Width="20" Height="20" Stroke="{StaticResource SuccessColor}" StrokeThickness="2.5" Margin="0,0,4,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="#E8F5E9"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <TextBlock Grid.Column="0" Text="82" FontSize="7" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SuccessColor}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="😴 7h 35m" FontSize="8"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Border Background="#FFF3E0" CornerRadius="4" Padding="4,2">
+                                            <StackPanel>
+                                                <TextBlock Text="🍽️ 2450 kcal" FontSize="8" FontWeight="SemiBold"/>
+                                                <TextBlock Text="W:268 P:138 T:88" FontSize="7" Foreground="{StaticResource TextSecondaryColor}" Margin="0,1,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Pozostałe dni prostsze -->
+                                <Border Grid.Column="4" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <TextBlock Text="15" FontWeight="SemiBold" FontSize="13"/>
+                                        <TextBlock Text="Planowany" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="5" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <TextBlock Text="16" FontWeight="SemiBold" FontSize="13"/>
+                                        <TextBlock Text="Planowany" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="6" Style="{StaticResource CalendarDayCellStyle}" MinHeight="140">
+                                    <StackPanel>
+                                        <TextBlock Text="17" FontWeight="SemiBold" FontSize="13"/>
+                                        <TextBlock Text="Planowany" FontSize="8" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}" Margin="0,8,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                            <Border Grid.Column="1" Background="#E3F2FD" BorderBrush="{StaticResource PrimaryColor}" BorderThickness="2" CornerRadius="6" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="11-17 lis" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource PrimaryColor}" Margin="0,0,0,2"/>
+                                    <TextBlock Text="⚡ Bieżący" FontSize="9" Foreground="{StaticResource PrimaryColor}" Margin="0,0,0,8"/>
+
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="198" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="TSS" FontSize="8" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="1" FontSize="18" FontWeight="Bold"/>
+                                            <TextBlock Text="trening" FontSize="8" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,8"/>
+
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="⏱️ Czas treningu" FontSize="8" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="2h 45m" FontSize="8" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="🔥 Spalono" FontSize="8" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="985 kcal" FontSize="8" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="😴 Śr. sen" FontSize="8" HorizontalAlignment="Left"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Ellipse Width="12" Height="12" Stroke="{StaticResource SuccessColor}" StrokeThickness="1.5" Margin="0,0,3,0">
+                                                    <Ellipse.Fill>
+                                                        <SolidColorBrush Color="#E8F5E9"/>
+                                                    </Ellipse.Fill>
+                                                </Ellipse>
+                                                <TextBlock Text="81" FontSize="8" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,0">
+                                            <TextBlock Text="🍽️ Śr. kalorie" FontSize="8" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="2475 kcal" FontSize="8" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- TYDZIEŃ 5 (1 tydzień do przodu) - 18-24 listopada -->
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Margin="0,0,16,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70" Background="#FAFAFA">
+                                    <TextBlock Text="18" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Border>
+                                <Border Grid.Column="1" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70" Background="#FAFAFA">
+                                    <TextBlock Text="19" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Border>
+                                <Border Grid.Column="2" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70" Background="#FAFAFA">
+                                    <TextBlock Text="20" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Border>
+                                <Border Grid.Column="3" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70" Background="#FAFAFA">
+                                    <TextBlock Text="21" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Border>
+                                <Border Grid.Column="4" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70" Background="#FAFAFA">
+                                    <TextBlock Text="22" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Border>
+                                <Border Grid.Column="5" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70" Background="#FAFAFA">
+                                    <TextBlock Text="23" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Border>
+                                <Border Grid.Column="6" Style="{StaticResource CalendarDayCellStyle}" MinHeight="70" Background="#FAFAFA">
+                                    <TextBlock Text="24" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Border>
+                            </Grid>
+
+                            <Border Grid.Column="1" Background="White" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="6" Padding="12">
+                                <StackPanel>
+                                    <TextBlock Text="18-24 lis" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    <TextBlock Text="Zaplanowany" FontSize="10" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- ==================== QUICK STATS ==================== -->
+                <Border Grid.Row="3" Style="{StaticResource CardStyle}" Margin="16,8">
+                    <StackPanel>
+                        <TextBlock Text="Szybkie statystyki" Style="{StaticResource SubtitleTextStyle}"/>
+
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Ten miesiąc -->
+                                <Border Style="{StaticResource MetricTileStyle}" Width="200" Background="#FFF3E0">
+                                    <StackPanel>
+                                        <TextBlock Text="Ten miesiąc" FontWeight="SemiBold" FontSize="14"/>
+                                        <TextBlock Text="Listopad 2025" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,8"/>
+                                        <TextBlock Text="18" FontSize="28" FontWeight="Bold"/>
+                                        <TextBlock Text="treningów" FontSize="11" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="1,247 TSS" FontSize="16" FontWeight="SemiBold" Margin="0,4,0,0"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                            <TextBlock Text="😴 " FontSize="12"/>
+                                            <TextBlock Text="82/100" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Bieżący tydzień -->
+                                <Border Style="{StaticResource MetricTileStyle}" Width="200" Background="#E3F2FD">
+                                    <StackPanel>
+                                        <TextBlock Text="Bieżący tydzień" FontWeight="SemiBold" FontSize="14"/>
+                                        <TextBlock Text="Tydzień 46" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,8"/>
+                                        <TextBlock Text="4" FontSize="28" FontWeight="Bold"/>
+                                        <TextBlock Text="treningi" FontSize="11" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="312 TSS" FontSize="16" FontWeight="SemiBold" Margin="0,4,0,0"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                            <TextBlock Text="❤️ " FontSize="12"/>
+                                            <TextBlock Text="68ms" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- FTP -->
+                                <Border Style="{StaticResource MetricTileStyle}" Width="200" Background="#F3E5F5">
+                                    <StackPanel>
+                                        <TextBlock Text="Aktualny FTP" FontWeight="SemiBold" FontSize="14"/>
+                                        <TextBlock Text="Test: 2 tyg. temu" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,8"/>
+                                        <TextBlock Text="285 W" FontSize="28" FontWeight="Bold"/>
+                                        <TextBlock Text="3.8 W/kg" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Wellness -->
+                                <Border Style="{StaticResource MetricTileStyle}" Width="200" Background="#E8F5E9">
+                                    <StackPanel>
+                                        <TextBlock Text="Gotowość do treningu" FontWeight="SemiBold" FontSize="14"/>
+                                        <TextBlock Text="Wellness" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,8"/>
+                                        <TextBlock Text="76/100" FontSize="28" FontWeight="Bold" Foreground="{StaticResource SuccessColor}"/>
+                                        <Border Background="{StaticResource SuccessColor}" CornerRadius="12" Padding="8,4" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                            <TextBlock Text="Dobra forma" FontSize="12" Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
+                <!-- ==================== REKORDY OSOBISTE ==================== -->
+                <Border Grid.Row="4" Style="{StaticResource CardStyle}" Margin="16,8,16,16">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,16">
+                            <TextBlock Text="🏆 Ostatnie rekordy" Style="{StaticResource SubtitleTextStyle}" HorizontalAlignment="Left"/>
+                            <Button Content="Zobacz wszystkie >" Style="{StaticResource PrimaryButtonStyle}"
+                                    Padding="12,4" HorizontalAlignment="Right" Background="Transparent"
+                                    Foreground="{StaticResource PrimaryColor}"/>
+                        </Grid>
+
+                        <StackPanel>
+                            <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1" Padding="0,8">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🆕" FontSize="16" Margin="0,0,8,0"/>
+                                    <StackPanel>
+                                        <TextBlock Text="5 min Power: 324 W" FontWeight="SemiBold" FontSize="14"/>
+                                        <TextBlock Text="3 dni temu" FontSize="11" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1" Padding="0,8">
+                                <StackPanel>
+                                    <TextBlock Text="20 min Power: 295 W" FontWeight="SemiBold" FontSize="14"/>
+                                    <TextBlock Text="2 tyg. temu" FontSize="11" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Padding="0,8">
+                                <StackPanel>
+                                    <TextBlock Text="1h Power: 245 W" FontWeight="SemiBold" FontSize="14"/>
+                                    <TextBlock Text="1 mies. temu" FontSize="11" Foreground="{StaticResource TextSecondaryColor}"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- ==================== FAB (Floating Action Button) ==================== -->
+        <Button Style="{StaticResource FABStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,24,24">
+            <TextBlock Text="+" FontSize="28" FontWeight="Bold"/>
+        </Button>
+
+        <!-- ==================== BOCZNE MENU NAWIGACYJNE (Drawer) ==================== -->
+        <!-- To będzie implementowane jako osobny komponent lub overlay, tutaj placeholder -->
+    </Grid>
+</UserControl>

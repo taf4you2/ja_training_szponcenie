@@ -6,9 +6,12 @@
         xmlns:local="clr-namespace:ja_training_szponcenie"
         xmlns:views="clr-namespace:ja_training_szponcenie.Views"
         mc:Ignorable="d"
-        Title="Training Analysis - JA Training" Height="900" Width="1400"
-        WindowState="Maximized">
+        Title="JA Training - Dashboard"
+        Height="900"
+        Width="1600"
+        WindowState="Maximized"
+        Background="{StaticResource BackgroundColor}">
     <Grid>
-        <views:TrainingAnalysisView/>
+        <views:DashboardView/>
     </Grid>
 </Window>
