@@ -7,8 +7,8 @@ namespace ja_training_szponcenie.ViewModels
     public class TrainingAnalysisViewModel : ViewModelBase
     {
         private TrainingData _trainingData;
-        private bool _showMoreMetrics;
         private bool _showRestPeriods = true;
+        private bool _showPowerZones = true;
 
         public TrainingAnalysisViewModel()
         {
@@ -20,6 +20,7 @@ namespace ja_training_szponcenie.ViewModels
             ExportCommand = new RelayCommand(Export);
             SettingsCommand = new RelayCommand(ShowSettings);
             DeleteCommand = new RelayCommand(Delete);
+            ToggleZonesCommand = new RelayCommand(() => ShowPowerZones = !ShowPowerZones);
         }
 
         #region Properties
@@ -33,10 +34,10 @@ namespace ja_training_szponcenie.ViewModels
         public ObservableCollection<MetricCard> MainMetrics { get; } = new();
         public ObservableCollection<MetricCard> AdditionalMetrics { get; } = new();
 
-        public bool ShowMoreMetrics
+        public bool ShowPowerZones
         {
-            get => _showMoreMetrics;
-            set => SetProperty(ref _showMoreMetrics, value);
+            get => _showPowerZones;
+            set => SetProperty(ref _showPowerZones, value);
         }
 
         public bool ShowRestPeriods
@@ -57,6 +58,7 @@ namespace ja_training_szponcenie.ViewModels
         public ICommand ExportCommand { get; }
         public ICommand SettingsCommand { get; }
         public ICommand DeleteCommand { get; }
+        public ICommand ToggleZonesCommand { get; }
 
         private void GoBack() { /* Navigate back */ }
         private void Export() { /* Export training */ }
@@ -321,6 +323,16 @@ namespace ja_training_szponcenie.ViewModels
                 new TimeInZone { ZoneNumber = 5, ZoneName = "Z5", ZoneDescription = "VO2max", ZoneColor = "#FF9800", MinValue = 286, MaxValue = 342, Time = TimeSpan.FromMinutes(6.3), Percentage = 6, AverageValue = 320, RangeText = "286-342 W (100-120% FTP)", TimeText = "6:18" },
                 new TimeInZone { ZoneNumber = 6, ZoneName = "Z6", ZoneDescription = "Anaerobic Capacity", ZoneColor = "#F44336", MinValue = 343, MaxValue = 456, Time = TimeSpan.FromSeconds(20), Percentage = 0.3, AverageValue = 380, RangeText = "343-456 W (120-160% FTP)", TimeText = "0:20" },
                 new TimeInZone { ZoneNumber = 7, ZoneName = "Z7", ZoneDescription = "Neuromuscular Power", ZoneColor = "#B71C1C", MinValue = 457, MaxValue = 999, Time = TimeSpan.Zero, Percentage = 0, AverageValue = 0, RangeText = ">456 W (>160% FTP)", TimeText = "0:00" }
+            };
+
+            // Heart Rate zones
+            data.HeartRateZones = new List<TimeInZone>
+            {
+                new TimeInZone { ZoneNumber = 1, ZoneName = "Z1", ZoneDescription = "Very Light", ZoneColor = "#90CAF9", MinValue = 0, MaxValue = 109, Time = TimeSpan.FromMinutes(8.5), Percentage = 8, AverageValue = 102, RangeText = "0-109 bpm (0-60% Max)", TimeText = "8:30" },
+                new TimeInZone { ZoneNumber = 2, ZoneName = "Z2", ZoneDescription = "Light", ZoneColor = "#64B5F6", MinValue = 110, MaxValue = 128, Time = TimeSpan.FromMinutes(32.2), Percentage = 30, AverageValue = 122, RangeText = "110-128 bpm (60-70% Max)", TimeText = "32:12" },
+                new TimeInZone { ZoneNumber = 3, ZoneName = "Z3", ZoneDescription = "Moderate", ZoneColor = "#42A5F5", MinValue = 129, MaxValue = 146, Time = TimeSpan.FromMinutes(41.8), Percentage = 40, AverageValue = 140, RangeText = "129-146 bpm (70-80% Max)", TimeText = "41:48" },
+                new TimeInZone { ZoneNumber = 4, ZoneName = "Z4", ZoneDescription = "Hard", ZoneColor = "#FB8C00", MinValue = 147, MaxValue = 164, Time = TimeSpan.FromMinutes(18.3), Percentage = 17, AverageValue = 158, RangeText = "147-164 bpm (80-90% Max)", TimeText = "18:18" },
+                new TimeInZone { ZoneNumber = 5, ZoneName = "Z5", ZoneDescription = "Maximum", ZoneColor = "#F4511E", MinValue = 165, MaxValue = 183, Time = TimeSpan.FromMinutes(4.7), Percentage = 5, AverageValue = 172, RangeText = "165-183 bpm (90-100% Max)", TimeText = "4:42" }
             };
 
             // Power curve

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ja_training_szponcenie.Views"
              xmlns:vm="clr-namespace:ja_training_szponcenie.ViewModels"
+             xmlns:controls="clr-namespace:ja_training_szponcenie.Controls"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200"
              Background="{StaticResource BackgroundColor}">
@@ -73,27 +74,8 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <!-- Expand/Collapse button for additional metrics -->
-                    <Button Content="Pokaż więcej metryk ▼"
-                            Style="{StaticResource BaseButtonStyle}"
-                            Background="Transparent"
-                            Foreground="{StaticResource PrimaryColor}"
-                            HorizontalAlignment="Center"
-                            Margin="0,16,0,0"
-                            Command="{Binding ToggleMoreMetricsCommand}"/>
-
-                    <!-- Additional metrics (collapsed by default) -->
+                    <!-- Additional metrics (always visible) -->
                     <ItemsControl ItemsSource="{Binding AdditionalMetrics}" Margin="0,16,0,0">
-                        <ItemsControl.Style>
-                            <Style TargetType="ItemsControl">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ShowMoreMetrics}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ItemsControl.Style>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="1" Columns="6"/>
@@ -197,6 +179,115 @@
                 </StackPanel>
             </Border>
 
+            <!-- MAP SECTION -->
+            <Border Style="{StaticResource CardStyle}" Margin="16,8">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="🗺️ Mapa i trasa" Style="{StaticResource SubheaderTextStyle}" HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Style="{StaticResource IconButtonStyle}" Content="📍" ToolTip="Pokaż całą trasę"/>
+                            <Button Style="{StaticResource IconButtonStyle}" Content="🎨" ToolTip="Heatmap" Margin="4,0,0,0"/>
+                            <Button Style="{StaticResource IconButtonStyle}" Content="⛰️" ToolTip="Profil wysokości" Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Map placeholder -->
+                    <Border Background="#F0F4F8" Height="400" CornerRadius="8" BorderBrush="{StaticResource DividerColor}" BorderThickness="1">
+                        <Grid>
+                            <!-- Simulated map background -->
+                            <Border Background="#E1E8ED"/>
+
+                            <!-- Map content -->
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="🗺️" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                <TextBlock Text="Mapa trasy" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Wymaga danych GPS z pliku .FIT"
+                                           Style="{StaticResource CaptionTextStyle}"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+
+                            <!-- Map markers (simulated) -->
+                            <Canvas>
+                                <!-- Start marker -->
+                                <Border Background="#4CAF50"
+                                        Width="16"
+                                        Height="16"
+                                        CornerRadius="8"
+                                        Canvas.Left="80"
+                                        Canvas.Top="320"
+                                        ToolTip="Start"/>
+
+                                <!-- End marker -->
+                                <Border Background="#F44336"
+                                        Width="16"
+                                        Height="16"
+                                        CornerRadius="8"
+                                        Canvas.Left="680"
+                                        Canvas.Top="80"
+                                        ToolTip="Meta"/>
+
+                                <!-- Simulated route line -->
+                                <Path Stroke="#1976D2"
+                                      StrokeThickness="3"
+                                      Opacity="0.6"
+                                      Data="M 80,320 Q 200,280 280,250 Q 360,220 450,180 Q 540,140 620,100 Q 650,90 680,80"/>
+                            </Canvas>
+                        </Grid>
+                    </Border>
+
+                    <!-- Elevation profile -->
+                    <Border Background="White" Height="120" CornerRadius="4" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" Margin="0,12,0,0">
+                        <Grid>
+                            <TextBlock Text="Profil wysokości"
+                                       Style="{StaticResource CaptionTextStyle}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+
+                            <!-- Simulated elevation profile -->
+                            <Canvas Margin="20,10">
+                                <Polygon Fill="#81C784"
+                                         Opacity="0.4"
+                                         Points="0,100 50,90 100,70 150,65 200,75 250,60 300,50 350,55 400,45 450,40 500,50 550,55 600,60 650,70 700,65 750,70 750,100"/>
+                                <Polyline Stroke="#4CAF50"
+                                          StrokeThickness="2"
+                                          Points="0,100 50,90 100,70 150,65 200,75 250,60 300,50 350,55 400,45 450,40 500,50 550,55 600,60 650,70 700,65 750,70"/>
+                            </Canvas>
+                        </Grid>
+                    </Border>
+
+                    <!-- Route statistics -->
+                    <Grid Margin="0,12,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBlock Text="Przewyższenie" Style="{StaticResource CaptionTextStyle}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="⬆ 340 m" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Text="Zjazd" Style="{StaticResource CaptionTextStyle}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="⬇ 335 m" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBlock Text="Średnie nachylenie" Style="{StaticResource CaptionTextStyle}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="4.2%" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" HorizontalAlignment="Center">
+                            <TextBlock Text="Maks. nachylenie" Style="{StaticResource CaptionTextStyle}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="12.5%" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
             <!-- POWER CHART PLACEHOLDER -->
             <Border Style="{StaticResource CardStyle}" Margin="16,8">
                 <StackPanel>
@@ -285,44 +376,125 @@
 
             <!-- TIME IN ZONES SECTION -->
             <Border Style="{StaticResource CardStyle}" Margin="16,8">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <!-- Header with tabs -->
+                    <Grid Margin="0,0,0,16">
+                        <TextBlock Text="📊 Czas w strefach" Style="{StaticResource SubheaderTextStyle}" HorizontalAlignment="Left"/>
 
-                    <!-- Chart placeholder -->
-                    <StackPanel Grid.Column="0" Margin="0,0,16,0">
-                        <TextBlock Text="📊 Czas w strefach mocy" Style="{StaticResource SubheaderTextStyle}" Margin="0,0,0,12"/>
-                        <Border Background="#F5F5F5" Height="250" CornerRadius="4" BorderBrush="{StaticResource DividerColor}" BorderThickness="1">
-                            <TextBlock Text="Wykres kołowy/słupkowy"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Style="{StaticResource CaptionTextStyle}"/>
-                        </Border>
-                    </StackPanel>
+                        <!-- Tabs for Power/HR zones -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Strefy mocy"
+                                    Command="{Binding ToggleZonesCommand}"
+                                    Margin="0,0,8,0">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}"/>
+                                        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ShowPowerZones}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryColor}"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Content="Strefy tętna"
+                                    Command="{Binding ToggleZonesCommand}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}"/>
+                                        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ShowPowerZones}" Value="False">
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryColor}"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
 
-                    <!-- Zones table -->
-                    <DataGrid Grid.Column="1"
-                              ItemsSource="{Binding TrainingData.PowerZones}"
-                              Style="{StaticResource IntervalDataGridStyle}"
-                              HeadersVisibility="Column">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Strefa" Width="80">
-                                <DataGridTextColumn.Binding>
-                                    <MultiBinding StringFormat="{}{0}: {1}">
-                                        <Binding Path="ZoneName"/>
-                                        <Binding Path="ZoneDescription"/>
-                                    </MultiBinding>
-                                </DataGridTextColumn.Binding>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Zakres mocy" Binding="{Binding RangeText}" Width="180"/>
-                            <DataGridTextColumn Header="Czas" Binding="{Binding TimeText}" Width="80"/>
-                            <DataGridTextColumn Header="%" Binding="{Binding Percentage, StringFormat='{}{0}%'}" Width="60"/>
-                            <DataGridTextColumn Header="Średnia moc" Binding="{Binding AverageValue, StringFormat='{}{0:F0} W'}" Width="110"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+                    <!-- Power Zones Content -->
+                    <Grid Visibility="{Binding ShowPowerZones, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Bar chart -->
+                        <controls:ZoneBarChart Grid.Column="0" Zones="{Binding TrainingData.PowerZones}" Margin="0,0,32,0"/>
+
+                        <!-- Zones table -->
+                        <DataGrid Grid.Column="1"
+                                  ItemsSource="{Binding TrainingData.PowerZones}"
+                                  Style="{StaticResource IntervalDataGridStyle}"
+                                  HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Strefa" Width="150">
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding StringFormat="{}{0}: {1}">
+                                            <Binding Path="ZoneName"/>
+                                            <Binding Path="ZoneDescription"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Zakres mocy" Binding="{Binding RangeText}" Width="200"/>
+                                <DataGridTextColumn Header="Czas" Binding="{Binding TimeText}" Width="80"/>
+                                <DataGridTextColumn Header="%" Binding="{Binding Percentage, StringFormat='{}{0}%'}" Width="70"/>
+                                <DataGridTextColumn Header="Średnia moc" Binding="{Binding AverageValue, StringFormat='{}{0:F0} W'}" Width="110"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <!-- Heart Rate Zones Content -->
+                    <Grid Visibility="{Binding ShowPowerZones, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Bar chart -->
+                        <controls:ZoneBarChart Grid.Column="0" Zones="{Binding TrainingData.HeartRateZones}" Margin="0,0,32,0"/>
+
+                        <!-- Zones table -->
+                        <DataGrid Grid.Column="1"
+                                  ItemsSource="{Binding TrainingData.HeartRateZones}"
+                                  Style="{StaticResource IntervalDataGridStyle}"
+                                  HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Strefa" Width="150">
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding StringFormat="{}{0}: {1}">
+                                            <Binding Path="ZoneName"/>
+                                            <Binding Path="ZoneDescription"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Zakres tętna" Binding="{Binding RangeText}" Width="200"/>
+                                <DataGridTextColumn Header="Czas" Binding="{Binding TimeText}" Width="80"/>
+                                <DataGridTextColumn Header="%" Binding="{Binding Percentage, StringFormat='{}{0}%'}" Width="70"/>
+                                <DataGridTextColumn Header="Średnie tętno" Binding="{Binding AverageValue, StringFormat='{}{0:F0} bpm'}" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <!-- FTP/MaxHR info -->
+                    <TextBlock Style="{StaticResource CaptionTextStyle}" Margin="0,16,0,0" HorizontalAlignment="Center">
+                        <Run Text="FTP używane do obliczeń: "/>
+                        <Run Text="{Binding TrainingData.FTP, StringFormat='{}{0} W', Mode=OneWay}" FontWeight="SemiBold"/>
+                        <Run Text="  |  Max HR: "/>
+                        <Run Text="{Binding TrainingData.MaxHR, StringFormat='{}{0} bpm', Mode=OneWay}" FontWeight="SemiBold"/>
+                    </TextBlock>
+                </StackPanel>
             </Border>
 
             <!-- POWER CURVE SECTION -->
