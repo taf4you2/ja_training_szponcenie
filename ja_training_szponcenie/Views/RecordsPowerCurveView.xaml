@@ -12,11 +12,7 @@
         <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
             <Setter Property="Padding" Value="20,10"/>
             <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="Background" Value="#E0E0E0"/>
-            <Setter Property="Foreground" Value="#424242"/>
-            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Cursor" Value="Hand"/>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Background" Value="#2196F3"/>
@@ -30,7 +26,6 @@
         <Style x:Key="TabItemStyle" TargetType="TabItem">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="Foreground" Value="#757575"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Foreground" Value="#2196F3"/>
@@ -38,41 +33,12 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-        <!-- Style dla przycisków akcji -->
-        <Style x:Key="ActionButtonStyle" TargetType="Button">
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
-
-        <!-- Style dla przycisków szarych -->
-        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-            <Setter Property="Background" Value="#757575"/>
-        </Style>
-
-        <!-- Style dla kart statystyk -->
-        <Style x:Key="StatCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> <!-- Header -->
-            <RowDefinition Height="*"/>    <!-- Content -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- HEADER -->
@@ -84,228 +50,78 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Lewy górny róg - Powrót -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Content="←" FontSize="20" Padding="10,5" Background="Transparent" BorderThickness="0" Cursor="Hand"/>
+                    <Button Content="Back" Padding="10,5"/>
                     <TextBlock Text="Rekordy i Power Curve" FontSize="20" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- Prawy górny róg - Akcje -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Content="⚙️" FontSize="18" Padding="10" Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="Ustawienia wykresu"/>
-                    <Button Content="📤" FontSize="18" Padding="10" Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="Eksportuj" Margin="5,0"/>
-                    <Button Content="⋮" FontSize="18" Padding="10" Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="Więcej opcji"/>
+                    <Button Content="Settings" Padding="10"/>
+                    <Button Content="Export" Padding="10" Margin="5,0"/>
+                    <Button Content="Menu" Padding="10"/>
                 </StackPanel>
             </Grid>
         </Border>
 
         <!-- MAIN CONTENT -->
-        <TabControl Grid.Row="1" Margin="0" BorderThickness="0" Background="Transparent">
+        <TabControl Grid.Row="1" Margin="0" BorderThickness="0">
+
             <!-- ZAKŁADKA 1: POWER CURVE -->
             <TabItem Header="Power Curve" Style="{StaticResource TabItemStyle}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="20">
 
                         <!-- Sekcja wyboru zakresu czasowego -->
-                        <Border Background="White" Padding="20" CornerRadius="8" Margin="0,0,0,20">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                            </Border.Effect>
+                        <Border Background="White" Padding="20" Margin="0,0,0,20">
                             <StackPanel>
                                 <TextBlock Text="Zakres czasowy" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,15"/>
 
-                                <!-- Przyciski szybkiego wyboru -->
                                 <WrapPanel Margin="0,0,0,15">
                                     <ToggleButton Content="Ostatnie 30 dni" Style="{StaticResource ToggleButtonStyle}"/>
                                     <ToggleButton Content="Ostatnie 90 dni" Style="{StaticResource ToggleButtonStyle}"/>
                                     <ToggleButton Content="Ostatnie 6 miesięcy" Style="{StaticResource ToggleButtonStyle}"/>
                                     <ToggleButton Content="Ostatni rok" Style="{StaticResource ToggleButtonStyle}"/>
                                     <ToggleButton Content="Cały czas" Style="{StaticResource ToggleButtonStyle}" IsChecked="True"/>
-                                    <ToggleButton Content="Niestandardowy..." Style="{StaticResource ToggleButtonStyle}"/>
                                 </WrapPanel>
 
-                                <!-- Informacja o wybranym okresie -->
-                                <StackPanel>
-                                    <TextBlock Text="Wyświetlane dane z okresu: 01.01.2024 - 14.11.2025" FontSize="13" Foreground="#757575"/>
-                                    <TextBlock Text="Liczba treningów w okresie: 247" FontSize="13" Foreground="#757575" Margin="0,5,0,0"/>
-                                </StackPanel>
+                                <TextBlock Text="Wyświetlane dane z okresu: 01.01.2024 - 14.11.2025" FontSize="13" Foreground="Gray"/>
+                                <TextBlock Text="Liczba treningów w okresie: 247" FontSize="13" Foreground="Gray" Margin="0,5,0,0"/>
                             </StackPanel>
                         </Border>
 
                         <!-- Główny wykres Power Curve -->
-                        <Border Background="White" Padding="20" CornerRadius="8" Margin="0,0,0,20">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                            </Border.Effect>
+                        <Border Background="White" Padding="20" Margin="0,0,0,20">
                             <StackPanel>
-                                <!-- Nagłówek wykresu -->
                                 <Grid Margin="0,0,0,15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Krzywa mocy - Najlepsze wyniki" FontSize="18" FontWeight="SemiBold"/>
 
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                        <TextBlock Text="Krzywa mocy - Najlepsze wyniki" FontSize="18" FontWeight="SemiBold"/>
-                                        <TextBlock Text="ⓘ" FontSize="16" Margin="10,0,0,0" Foreground="#2196F3" Cursor="Hand" ToolTip="Mean Maximal Power - maksymalna średnia moc dla różnych czasów trwania"/>
-                                    </StackPanel>
-
-                                    <!-- Toolbar wykresu -->
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                         <CheckBox Content="Pokaż punkty" IsChecked="True" Margin="10,0"/>
                                         <CheckBox Content="Pokaż FTP" Margin="10,0"/>
-                                        <CheckBox Content="Pokaż W/kg" Margin="10,0"/>
-                                        <Button Content="🔍+" Padding="8,5" Margin="5,0" Background="Transparent" BorderBrush="#E0E0E0" BorderThickness="1"/>
-                                        <Button Content="🔍−" Padding="8,5" Margin="5,0" Background="Transparent" BorderBrush="#E0E0E0" BorderThickness="1"/>
-                                        <Button Content="🔄" Padding="8,5" Margin="5,0" Background="Transparent" BorderBrush="#E0E0E0" BorderThickness="1"/>
+                                        <Button Content="Zoom +" Padding="8,5" Margin="5,0"/>
+                                        <Button Content="Zoom -" Padding="8,5" Margin="5,0"/>
+                                        <Button Content="Reset" Padding="8,5" Margin="5,0"/>
                                     </StackPanel>
                                 </Grid>
 
                                 <!-- Placeholder dla wykresu -->
-                                <Border Height="400" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4">
-                                    <Grid>
-                                        <!-- Siatka wykresu -->
-                                        <Canvas>
-                                            <!-- Linie siatki poziome -->
-                                            <Line X1="0" Y1="80" X2="1000" Y2="80" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="4,4"/>
-                                            <Line X1="0" Y1="160" X2="1000" Y2="160" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="4,4"/>
-                                            <Line X1="0" Y1="240" X2="1000" Y2="240" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="4,4"/>
-                                            <Line X1="0" Y1="320" X2="1000" Y2="320" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="4,4"/>
-
-                                            <!-- Przykładowa krzywa mocy (uproszczona) -->
-                                            <Polyline Points="50,20 100,30 150,40 200,55 250,70 300,85 400,120 500,160 600,200 700,240 800,270 900,290 950,300"
-                                                     Stroke="#2196F3" StrokeThickness="3" Fill="Transparent"/>
-
-                                            <!-- Przykładowe punkty -->
-                                            <Ellipse Canvas.Left="48" Canvas.Top="18" Width="8" Height="8" Fill="#2196F3" Stroke="White" StrokeThickness="2"/>
-                                            <Ellipse Canvas.Left="98" Canvas.Top="28" Width="8" Height="8" Fill="#4CAF50" Stroke="White" StrokeThickness="2" ToolTip="🆕 Nowy rekord!"/>
-                                            <Ellipse Canvas.Left="198" Canvas.Top="53" Width="8" Height="8" Fill="#2196F3" Stroke="White" StrokeThickness="2"/>
-                                            <Ellipse Canvas.Left="298" Canvas.Top="83" Width="8" Height="8" Fill="#2196F3" Stroke="White" StrokeThickness="2"/>
-                                            <Ellipse Canvas.Left="498" Canvas.Top="158" Width="8" Height="8" Fill="#2196F3" Stroke="White" StrokeThickness="2"/>
-                                            <Ellipse Canvas.Left="698" Canvas.Top="238" Width="8" Height="8" Fill="#2196F3" Stroke="White" StrokeThickness="2"/>
-                                        </Canvas>
-
-                                        <!-- Etykiety osi -->
-                                        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,5" Orientation="Horizontal">
-                                            <TextBlock Text="5s" Margin="40,0" FontSize="11" Foreground="#757575"/>
-                                            <TextBlock Text="30s" Margin="40,0" FontSize="11" Foreground="#757575"/>
-                                            <TextBlock Text="1min" Margin="40,0" FontSize="11" Foreground="#757575"/>
-                                            <TextBlock Text="5min" Margin="40,0" FontSize="11" Foreground="#757575"/>
-                                            <TextBlock Text="20min" Margin="40,0" FontSize="11" Foreground="#757575"/>
-                                            <TextBlock Text="60min" Margin="40,0" FontSize="11" Foreground="#757575"/>
-                                        </StackPanel>
-
-                                        <!-- Etykiety osi Y -->
-                                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,10,0,0">
-                                            <TextBlock Text="900W" FontSize="11" Foreground="#757575" Margin="0,50"/>
-                                            <TextBlock Text="600W" FontSize="11" Foreground="#757575" Margin="0,50"/>
-                                            <TextBlock Text="300W" FontSize="11" Foreground="#757575" Margin="0,50"/>
-                                            <TextBlock Text="0W" FontSize="11" Foreground="#757575" Margin="0,50"/>
-                                        </StackPanel>
-                                    </Grid>
+                                <Border Height="400" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1">
+                                    <TextBlock Text="[Wykres Power Curve - placeholder]"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             FontSize="20"
+                                             Foreground="Gray"/>
                                 </Border>
-
-                                <!-- Legenda -->
-                                <StackPanel Orientation="Horizontal" Margin="0,15,0,0" HorizontalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" Margin="15,0">
-                                        <Rectangle Width="30" Height="3" Fill="#2196F3" VerticalAlignment="Center"/>
-                                        <TextBlock Text="Rekordy osobiste" Margin="8,0,0,0" FontSize="12"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="15,0">
-                                        <Ellipse Width="8" Height="8" Fill="#4CAF50" VerticalAlignment="Center"/>
-                                        <TextBlock Text="🆕 Nowy rekord (7 dni)" Margin="8,0,0,0" FontSize="12"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="15,0">
-                                        <Ellipse Width="8" Height="8" Fill="#FFD700" VerticalAlignment="Center"/>
-                                        <TextBlock Text="Bardzo blisko rekordu (>98%)" Margin="8,0,0,0" FontSize="12"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Sekcja porównania okresów -->
-                        <Border Background="White" Padding="20" CornerRadius="8" Margin="0,0,0,20">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                            </Border.Effect>
-                            <StackPanel>
-                                <Grid Margin="0,0,0,15">
-                                    <TextBlock Text="📊 Porównaj okresy" FontSize="16" FontWeight="SemiBold"/>
-                                    <Button Content="+ Dodaj okres do porównania" HorizontalAlignment="Right"
-                                           Style="{StaticResource SecondaryButtonStyle}"/>
-                                </Grid>
-
-                                <!-- Lista okresów -->
-                                <StackPanel>
-                                    <!-- Okres 1 -->
-                                    <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <CheckBox Grid.Column="0" IsChecked="True" VerticalAlignment="Center"/>
-                                            <Ellipse Grid.Column="1" Width="12" Height="12" Fill="#F44336" Margin="10,0"/>
-                                            <StackPanel Grid.Column="2">
-                                                <TextBlock Text="Ostatnie 90 dni" FontWeight="SemiBold"/>
-                                                <TextBlock Text="15.08.2025 - 14.11.2025 • 48 treningów" FontSize="12" Foreground="#757575"/>
-                                            </StackPanel>
-                                            <Button Grid.Column="4" Content="❌" Background="Transparent" BorderThickness="0" Padding="5"/>
-                                        </Grid>
-                                    </Border>
-
-                                    <!-- Okres 2 -->
-                                    <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <CheckBox Grid.Column="0" IsChecked="True" VerticalAlignment="Center"/>
-                                            <Ellipse Grid.Column="1" Width="12" Height="12" Fill="#4CAF50" Margin="10,0"/>
-                                            <StackPanel Grid.Column="2">
-                                                <TextBlock Text="Rok 2024" FontWeight="SemiBold"/>
-                                                <TextBlock Text="01.01.2024 - 31.12.2024 • 152 treningi" FontSize="12" Foreground="#757575"/>
-                                            </StackPanel>
-                                            <Button Grid.Column="4" Content="❌" Background="Transparent" BorderThickness="0" Padding="5"/>
-                                        </Grid>
-                                    </Border>
-                                </StackPanel>
                             </StackPanel>
                         </Border>
 
                         <!-- Tabela rekordów Power Curve -->
-                        <Border Background="White" Padding="20" CornerRadius="8">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                            </Border.Effect>
+                        <Border Background="White" Padding="20">
                             <StackPanel>
-                                <Grid Margin="0,0,0,15">
-                                    <TextBlock Text="📋 Szczegółowe rekordy mocy" FontSize="16" FontWeight="SemiBold"/>
-                                    <Button Content="Eksportuj do CSV" HorizontalAlignment="Right"
-                                           Style="{StaticResource SecondaryButtonStyle}"/>
-                                </Grid>
+                                <TextBlock Text="Szczegółowe rekordy mocy" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,15"/>
 
-                                <!-- Opcje wyświetlania -->
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                    <ComboBox Width="200" Margin="0,0,10,0">
-                                        <ComboBoxItem Content="Według czasu trwania" IsSelected="True"/>
-                                        <ComboBoxItem Content="Według mocy (najwyższe)"/>
-                                        <ComboBoxItem Content="Według daty (najnowsze)"/>
-                                    </ComboBox>
-                                    <CheckBox Content="Tylko nowe rekordy" Margin="10,0"/>
-                                </StackPanel>
-
-                                <!-- Tabela rekordów (statyczne wiersze) -->
-                                <Grid Margin="0,15,0,0">
+                                <!-- Tabela jako Grid -->
+                                <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
@@ -324,21 +140,19 @@
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="80"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="⏱️ Czas" FontWeight="SemiBold" FontSize="12"/>
-                                            <TextBlock Grid.Column="1" Text="Moc (W)" FontWeight="SemiBold" FontSize="12"/>
-                                            <TextBlock Grid.Column="2" Text="W/kg" FontWeight="SemiBold" FontSize="12"/>
-                                            <TextBlock Grid.Column="3" Text="% FTP" FontWeight="SemiBold" FontSize="12"/>
-                                            <TextBlock Grid.Column="4" Text="Data" FontWeight="SemiBold" FontSize="12"/>
-                                            <TextBlock Grid.Column="5" Text="Trening" FontWeight="SemiBold" FontSize="12"/>
-                                            <TextBlock Grid.Column="6" Text="Status" FontWeight="SemiBold" FontSize="12"/>
-                                            <TextBlock Grid.Column="7" Text="Akcje" FontWeight="SemiBold" FontSize="12"/>
+                                            <TextBlock Grid.Column="0" Text="Czas" FontWeight="SemiBold"/>
+                                            <TextBlock Grid.Column="1" Text="Moc (W)" FontWeight="SemiBold"/>
+                                            <TextBlock Grid.Column="2" Text="W/kg" FontWeight="SemiBold"/>
+                                            <TextBlock Grid.Column="3" Text="% FTP" FontWeight="SemiBold"/>
+                                            <TextBlock Grid.Column="4" Text="Data" FontWeight="SemiBold"/>
+                                            <TextBlock Grid.Column="5" Text="Trening" FontWeight="SemiBold"/>
+                                            <TextBlock Grid.Column="6" Text="Status" FontWeight="SemiBold"/>
                                         </Grid>
                                     </Border>
 
-                                    <!-- Wiersz 1 - Nowy rekord -->
-                                    <Border Grid.Row="1" Background="#E8F5E9" BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Padding="10,8">
+                                    <!-- Wiersz 1 -->
+                                    <Border Grid.Row="1" Background="LightGreen" BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Padding="10,8">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="80"/>
@@ -348,21 +162,16 @@
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="80"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="5s" FontWeight="Bold"/>
-                                            <TextBlock Grid.Column="1" Text="856 W" FontWeight="Bold" Foreground="#B71C1C"/>
-                                            <TextBlock Grid.Column="2" Text="11.4" Foreground="#757575"/>
-                                            <TextBlock Grid.Column="3" Text="300%" Foreground="#B71C1C"/>
+                                            <TextBlock Grid.Column="1" Text="856 W" FontWeight="Bold" Foreground="Red"/>
+                                            <TextBlock Grid.Column="2" Text="11.4" Foreground="Gray"/>
+                                            <TextBlock Grid.Column="3" Text="300%" Foreground="Red"/>
                                             <TextBlock Grid.Column="4" Text="09.11.2025"/>
-                                            <TextBlock Grid.Column="5" Text="Evening intervals" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            <Border Grid.Column="6" Background="#4CAF50" CornerRadius="3" Padding="5,2" HorizontalAlignment="Left">
-                                                <TextBlock Text="🆕 NOWY" Foreground="White" FontSize="11" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="5" Text="Evening intervals"/>
+                                            <Border Grid.Column="6" Background="Green" Padding="5,2" HorizontalAlignment="Left">
+                                                <TextBlock Text="NOWY" Foreground="White" FontWeight="Bold"/>
                                             </Border>
-                                            <StackPanel Grid.Column="7" Orientation="Horizontal">
-                                                <Button Content="👁️" Background="Transparent" BorderThickness="0" Padding="3" FontSize="14"/>
-                                                <Button Content="🔗" Background="Transparent" BorderThickness="0" Padding="3" FontSize="14"/>
-                                            </StackPanel>
                                         </Grid>
                                     </Border>
 
@@ -377,21 +186,14 @@
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="80"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="1min" FontWeight="Bold"/>
-                                            <TextBlock Grid.Column="1" Text="412 W" FontWeight="Bold" Foreground="#D32F2F"/>
-                                            <TextBlock Grid.Column="2" Text="5.5" Foreground="#757575"/>
-                                            <TextBlock Grid.Column="3" Text="145%" Foreground="#D32F2F"/>
+                                            <TextBlock Grid.Column="1" Text="412 W" FontWeight="Bold" Foreground="OrangeRed"/>
+                                            <TextBlock Grid.Column="2" Text="5.5" Foreground="Gray"/>
+                                            <TextBlock Grid.Column="3" Text="145%" Foreground="OrangeRed"/>
                                             <TextBlock Grid.Column="4" Text="28.10.2025"/>
-                                            <TextBlock Grid.Column="5" Text="VO2max intervals" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            <Border Grid.Column="6" Background="#FFD700" CornerRadius="3" Padding="5,2" HorizontalAlignment="Left">
-                                                <TextBlock Text="🏆 Rekord" Foreground="White" FontSize="11" FontWeight="Bold"/>
-                                            </Border>
-                                            <StackPanel Grid.Column="7" Orientation="Horizontal">
-                                                <Button Content="👁️" Background="Transparent" BorderThickness="0" Padding="3" FontSize="14"/>
-                                                <Button Content="🔗" Background="Transparent" BorderThickness="0" Padding="3" FontSize="14"/>
-                                            </StackPanel>
+                                            <TextBlock Grid.Column="5" Text="VO2max intervals"/>
+                                            <TextBlock Grid.Column="6" Text="Rekord"/>
                                         </Grid>
                                     </Border>
 
@@ -406,21 +208,14 @@
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="80"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="5min" FontWeight="Bold"/>
-                                            <TextBlock Grid.Column="1" Text="324 W" FontWeight="Bold" Foreground="#F57C00"/>
-                                            <TextBlock Grid.Column="2" Text="4.3" Foreground="#757575"/>
-                                            <TextBlock Grid.Column="3" Text="114%" Foreground="#F57C00"/>
+                                            <TextBlock Grid.Column="1" Text="324 W" FontWeight="Bold" Foreground="Orange"/>
+                                            <TextBlock Grid.Column="2" Text="4.3" Foreground="Gray"/>
+                                            <TextBlock Grid.Column="3" Text="114%" Foreground="Orange"/>
                                             <TextBlock Grid.Column="4" Text="09.11.2025"/>
-                                            <TextBlock Grid.Column="5" Text="Evening intervals" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            <Border Grid.Column="6" Background="#C0C0C0" CornerRadius="3" Padding="5,2" HorizontalAlignment="Left">
-                                                <TextBlock Text="⭐ Top 3" Foreground="White" FontSize="11" FontWeight="Bold"/>
-                                            </Border>
-                                            <StackPanel Grid.Column="7" Orientation="Horizontal">
-                                                <Button Content="👁️" Background="Transparent" BorderThickness="0" Padding="3" FontSize="14"/>
-                                                <Button Content="🔗" Background="Transparent" BorderThickness="0" Padding="3" FontSize="14"/>
-                                            </StackPanel>
+                                            <TextBlock Grid.Column="5" Text="Evening intervals"/>
+                                            <TextBlock Grid.Column="6" Text="Top 3"/>
                                         </Grid>
                                     </Border>
                                 </Grid>
@@ -445,237 +240,63 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- Kafelek 1 -->
-                            <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                            <Border Grid.Column="0" Background="White" Padding="20" Margin="10">
                                 <StackPanel>
-                                    <TextBlock Text="🏆" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="47" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Wszystkie rekordy mocy" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="+3 w tym miesiącu" FontSize="11" HorizontalAlignment="Center" Foreground="#4CAF50" Margin="0,5,0,0"/>
+                                    <TextBlock Text="47" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Wszystkie rekordy mocy" FontSize="13" HorizontalAlignment="Center" Foreground="Gray"/>
+                                    <TextBlock Text="+3 w tym miesiącu" FontSize="11" HorizontalAlignment="Center" Foreground="Green" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Kafelek 2 -->
-                            <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                            <Border Grid.Column="1" Background="White" Padding="20" Margin="10">
                                 <StackPanel>
-                                    <TextBlock Text="🆕" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="856 W" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Ostatni rekord (5s)" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="3 dni temu" FontSize="11" HorizontalAlignment="Center" Foreground="#757575" Margin="0,5,0,0"/>
+                                    <TextBlock Text="856 W" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Ostatni rekord (5s)" FontSize="13" HorizontalAlignment="Center" Foreground="Gray"/>
+                                    <TextBlock Text="3 dni temu" FontSize="11" HorizontalAlignment="Center" Foreground="Gray" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Kafelek 3 -->
-                            <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
+                            <Border Grid.Column="2" Background="White" Padding="20" Margin="10">
                                 <StackPanel>
-                                    <TextBlock Text="🎯" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="295 W" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Najwyższy 20min" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="104% aktualnego FTP" FontSize="11" HorizontalAlignment="Center" Foreground="#757575" Margin="0,5,0,0"/>
+                                    <TextBlock Text="295 W" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Najwyższy 20min" FontSize="13" HorizontalAlignment="Center" Foreground="Gray"/>
+                                    <TextBlock Text="104% aktualnego FTP" FontSize="11" HorizontalAlignment="Center" Foreground="Gray" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Kafelek 4 -->
-                            <Border Grid.Column="3" Style="{StaticResource StatCardStyle}">
+                            <Border Grid.Column="3" Background="White" Padding="20" Margin="10">
                                 <StackPanel>
-                                    <TextBlock Text="📈" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="+2.3 W/mies" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Średnia progresja 5min" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="Ostatnie 12 miesięcy" FontSize="11" HorizontalAlignment="Center" Foreground="#757575" Margin="0,5,0,0"/>
+                                    <TextBlock Text="+2.3 W/mies" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Średnia progresja 5min" FontSize="13" HorizontalAlignment="Center" Foreground="Gray"/>
+                                    <TextBlock Text="Ostatnie 12 miesięcy" FontSize="11" HorizontalAlignment="Center" Foreground="Gray" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
 
-                        <!-- Filtry i sortowanie -->
-                        <Border Background="White" Padding="15" CornerRadius="8" Margin="0,0,0,20">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                            </Border.Effect>
-                            <StackPanel Orientation="Horizontal">
-                                <ComboBox Width="180" Margin="0,0,10,0">
-                                    <ComboBoxItem Content="Wszystkie rekordy" IsSelected="True"/>
-                                    <ComboBoxItem Content="Ostatnie 30 dni"/>
-                                    <ComboBoxItem Content="Ostatnie 90 dni"/>
-                                    <ComboBoxItem Content="Ten rok"/>
-                                </ComboBox>
-                                <CheckBox Content="Tylko nowe rekordy" Margin="10,0"/>
-                                <CheckBox Content="Tylko >100% FTP" Margin="10,0"/>
-                                <TextBox Width="200" Margin="10,0" Text="Szukaj po nazwie treningu..." Foreground="#BDBDBD"/>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Sekcja 1: Sprinty -->
-                        <Expander Header="⚡ Sprinty (&lt;1 min) • 7 rekordów" IsExpanded="True" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
+                        <!-- Expander: Sprinty -->
+                        <Expander Header="Sprinty (mniej niż 1 min) - 7 rekordów" IsExpanded="True" Margin="0,0,0,15">
+                            <Border Background="White" Padding="20">
                                 <StackPanel>
-                                    <!-- Tabela sprintów -->
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
+                                    <TextBlock Text="5s: 856 W | 11.4 W/kg | 300% FTP | 09.11.2025 | Evening intervals | NOWY" FontWeight="Bold" Foreground="Red"/>
+                                    <TextBlock Text="10s: 782 W | 10.4 W/kg | 274% FTP | 22.09.2025 | Sprint session" Margin="0,5,0,0"/>
+                                    <TextBlock Text="30s: 598 W | 7.9 W/kg | 210% FTP | 09.11.2025 | Evening intervals | NOWY" Margin="0,5,0,0" Foreground="Red"/>
 
-                                        <!-- Wiersz 1 -->
-                                        <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="5s" FontWeight="Bold" FontSize="14"/>
-                                                <TextBlock Grid.Column="1" Text="856 W" FontWeight="Bold" FontSize="16" Foreground="#B71C1C"/>
-                                                <TextBlock Grid.Column="2" Text="11.4 W/kg" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="300%" Foreground="#B71C1C"/>
-                                                <TextBlock Grid.Column="4" Text="Evening intervals" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                                <Border Grid.Column="5" Background="#4CAF50" CornerRadius="3" Padding="5,3" HorizontalAlignment="Left">
-                                                    <TextBlock Text="🆕 NOWY!" Foreground="White" FontSize="11" FontWeight="Bold"/>
-                                                </Border>
-                                            </Grid>
-                                        </Border>
-
-                                        <!-- Wiersz 2 -->
-                                        <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="10s" FontWeight="Bold" FontSize="14"/>
-                                                <TextBlock Grid.Column="1" Text="782 W" FontWeight="Bold" FontSize="16" Foreground="#C62828"/>
-                                                <TextBlock Grid.Column="2" Text="10.4 W/kg" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="274%" Foreground="#C62828"/>
-                                                <TextBlock Grid.Column="4" Text="Sprint session" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                                <TextBlock Grid.Column="5" Text="22.09.2025" Foreground="#757575"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <!-- Wiersz 3 -->
-                                        <Border Grid.Row="2" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="30s" FontWeight="Bold" FontSize="14"/>
-                                                <TextBlock Grid.Column="1" Text="598 W" FontWeight="Bold" FontSize="16" Foreground="#D32F2F"/>
-                                                <TextBlock Grid.Column="2" Text="7.9 W/kg" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="210%" Foreground="#D32F2F"/>
-                                                <TextBlock Grid.Column="4" Text="Evening intervals" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                                <Border Grid.Column="5" Background="#4CAF50" CornerRadius="3" Padding="5,3" HorizontalAlignment="Left">
-                                                    <TextBlock Text="🆕 NOWY!" Foreground="White" FontSize="11" FontWeight="Bold"/>
-                                                </Border>
-                                            </Grid>
-                                        </Border>
-                                    </StackPanel>
-
-                                    <!-- Podsumowanie sekcji -->
-                                    <Border Background="#F5F5F5" Padding="10" CornerRadius="4" Margin="0,15,0,0">
+                                    <Border Background="#F5F5F5" Padding="10" Margin="0,15,0,0">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Średnia moc sprintów: " FontSize="12" Foreground="#757575"/>
+                                            <TextBlock Text="Średnia moc sprintów: " FontSize="12" Foreground="Gray"/>
                                             <TextBlock Text="694 W" FontSize="12" FontWeight="Bold" Margin="5,0"/>
-                                            <TextBlock Text=" • " FontSize="12" Foreground="#757575" Margin="10,0"/>
-                                            <TextBlock Text="Nowych rekordów: " FontSize="12" Foreground="#757575"/>
-                                            <TextBlock Text="3" FontSize="12" FontWeight="Bold" Foreground="#4CAF50" Margin="5,0"/>
+                                            <TextBlock Text=" • Nowych rekordów: " FontSize="12" Foreground="Gray" Margin="10,0,0,0"/>
+                                            <TextBlock Text="3" FontSize="12" FontWeight="Bold" Foreground="Green" Margin="5,0"/>
                                         </StackPanel>
                                     </Border>
                                 </StackPanel>
                             </Border>
                         </Expander>
 
-                        <!-- Sekcja 2: Krótkie interwały -->
-                        <Expander Header="🔥 Krótkie interwały (1-5 min) • 5 rekordów" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <StackPanel>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Wiersz 1min -->
-                                        <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="1 min" FontWeight="Bold" FontSize="14"/>
-                                                <TextBlock Grid.Column="1" Text="412 W" FontWeight="Bold" FontSize="16" Foreground="#D32F2F"/>
-                                                <TextBlock Grid.Column="2" Text="5.5 W/kg" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="145%" Foreground="#D32F2F"/>
-                                                <TextBlock Grid.Column="4" Text="VO2max intervals" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                                <TextBlock Grid.Column="5" Text="28.10.2025" Foreground="#757575"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <!-- Wiersz 5min -->
-                                        <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="100"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="5 min" FontWeight="Bold" FontSize="14"/>
-                                                <TextBlock Grid.Column="1" Text="324 W" FontWeight="Bold" FontSize="16" Foreground="#F57C00"/>
-                                                <TextBlock Grid.Column="2" Text="4.3 W/kg" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="114%" Foreground="#F57C00"/>
-                                                <TextBlock Grid.Column="4" Text="Evening intervals" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                                <Border Grid.Column="5" Background="#4CAF50" CornerRadius="3" Padding="5,3" HorizontalAlignment="Left">
-                                                    <TextBlock Text="🆕 NOWY!" Foreground="White" FontSize="11" FontWeight="Bold"/>
-                                                </Border>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja 3: Średnie interwały -->
-                        <Expander Header="💪 Średnie interwały (5-20 min) • 4 rekordy" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <TextBlock Text="[Zawartość podobna jak powyżej]" Foreground="#BDBDBD" FontStyle="Italic"/>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja 4: Długie wysiłki -->
-                        <Expander Header="🚴 Długie wysiłki (>20 min) • 6 rekordów" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <TextBlock Text="[Zawartość podobna jak powyżej]" Foreground="#BDBDBD" FontStyle="Italic"/>
+                        <!-- Expander: Krótkie interwały -->
+                        <Expander Header="Krótkie interwały (1-5 min) - 5 rekordów" Margin="0,0,0,15">
+                            <Border Background="White" Padding="20">
+                                <TextBlock Text="[Podobna zawartość jak powyżej]" Foreground="Gray" FontStyle="Italic"/>
                             </Border>
                         </Expander>
 
@@ -687,171 +308,8 @@
             <TabItem Header="Rekordy tętna" Style="{StaticResource TabItemStyle}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="20">
-
-                        <!-- Statystyki ogólne tętna -->
-                        <Grid Margin="0,0,0,20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
-                                <StackPanel>
-                                    <TextBlock Text="❤️" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="189 bpm" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Max HR" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="22.08.2025" FontSize="11" HorizontalAlignment="Center" Foreground="#757575" Margin="0,5,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
-                                <StackPanel>
-                                    <TextBlock Text="💤" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="44 bpm" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Najniższe RHR" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="05.08.2025" FontSize="11" HorizontalAlignment="Center" Foreground="#757575" Margin="0,5,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
-                                <StackPanel>
-                                    <TextBlock Text="📊" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="78 ms" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Najwyższe HRV" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="15.10.2025" FontSize="11" HorizontalAlignment="Center" Foreground="#757575" Margin="0,5,0,0"/>
-                                </StackPanel>
-                            </Border>
-
-                            <Border Grid.Column="3" Style="{StaticResource StatCardStyle}">
-                                <StackPanel>
-                                    <TextBlock Text="📈" FontSize="32" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="49 bpm" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                                    <TextBlock Text="Średnie RHR (90d)" FontSize="13" HorizontalAlignment="Center" Foreground="#757575"/>
-                                    <TextBlock Text="↓ -2 bpm" FontSize="11" HorizontalAlignment="Center" Foreground="#4CAF50" Margin="0,5,0,0" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Border>
-                        </Grid>
-
-                        <!-- Wykres trendu -->
-                        <Border Background="White" Padding="20" CornerRadius="8" Margin="0,0,0,20">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                            </Border.Effect>
-                            <StackPanel>
-                                <Grid Margin="0,0,0,15">
-                                    <TextBlock Text="Trend tętna spoczynkowego" FontSize="16" FontWeight="SemiBold"/>
-                                    <ComboBox Width="150" HorizontalAlignment="Right">
-                                        <ComboBoxItem Content="RHR" IsSelected="True"/>
-                                        <ComboBoxItem Content="HRV"/>
-                                        <ComboBoxItem Content="Max HR"/>
-                                    </ComboBox>
-                                </Grid>
-
-                                <!-- Placeholder dla wykresu trendu -->
-                                <Border Height="250" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4">
-                                    <Canvas>
-                                        <Line X1="0" Y1="50" X2="1000" Y2="50" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="4,4"/>
-                                        <Line X1="0" Y1="125" X2="1000" Y2="125" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="4,4"/>
-                                        <Line X1="0" Y1="200" X2="1000" Y2="200" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="4,4"/>
-
-                                        <!-- Linia trendu RHR -->
-                                        <Polyline Points="50,180 150,175 250,170 350,165 450,162 550,158 650,155 750,150 850,148 950,145"
-                                                 Stroke="#F44336" StrokeThickness="2" Fill="Transparent"/>
-
-                                        <!-- Punkty -->
-                                        <Ellipse Canvas.Left="48" Canvas.Top="178" Width="6" Height="6" Fill="#F44336"/>
-                                        <Ellipse Canvas.Left="548" Canvas.Top="156" Width="6" Height="6" Fill="#F44336"/>
-                                        <Ellipse Canvas.Left="948" Canvas.Top="143" Width="6" Height="6" Fill="#4CAF50"/>
-                                    </Canvas>
-                                </Border>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Sekcja: Maksymalne wartości -->
-                        <Expander Header="❤️ Maksymalne wartości tętna" IsExpanded="True" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <StackPanel>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Maksymalne tętno (w treningu)" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="189 bpm" FontWeight="Bold" FontSize="16" Foreground="#D32F2F"/>
-                                                <TextBlock Grid.Column="2" Text="22.08.2025" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Sprint finish" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Średnie tętno (cały trening)" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="165 bpm" FontWeight="Bold" FontSize="16" Foreground="#F57C00"/>
-                                                <TextBlock Grid.Column="2" Text="15.10.2025" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Race simulation" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <Border Grid.Row="2" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Najwyższe średnie (60min)" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="158 bpm" FontWeight="Bold" FontSize="16" Foreground="#FFB300"/>
-                                                <TextBlock Grid.Column="2" Text="10.09.2025" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Threshold test" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja: Tętno spoczynkowe -->
-                        <Expander Header="💤 Rekordy tętna spoczynkowego" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <TextBlock Text="[Tabela z rekordami RHR]" Foreground="#BDBDBD" FontStyle="Italic"/>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja: HRV -->
-                        <Expander Header="📊 Rekordy HRV" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <TextBlock Text="[Tabela z rekordami HRV]" Foreground="#BDBDBD" FontStyle="Italic"/>
-                            </Border>
-                        </Expander>
-
+                        <TextBlock Text="Rekordy tętna" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Max HR: 189 bpm | RHR: 44 bpm | HRV: 78 ms" Margin="0,10,0,0"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -860,168 +318,8 @@
             <TabItem Header="Inne rekordy" Style="{StaticResource TabItemStyle}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="20">
-
-                        <!-- Sekcja: Dystans -->
-                        <Expander Header="📏 Rekordy dystansu" IsExpanded="True" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <StackPanel>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Najdłuższy trening (dystans)" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="185.4 km" FontWeight="Bold" FontSize="16" Foreground="#2196F3"/>
-                                                <TextBlock Grid.Column="2" Text="6h 45min" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Gran fondo training • 12.09.2025" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Najdłuższy trening (czas)" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="7h 12min" FontWeight="Bold" FontSize="16" Foreground="#2196F3"/>
-                                                <TextBlock Grid.Column="2" Text="168.2 km" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Ultra training • 05.08.2025" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <Border Grid.Row="2" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Największy dystans w miesiącu" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="1,240 km" FontWeight="Bold" FontSize="16" Foreground="#4CAF50"/>
-                                                <TextBlock Grid.Column="2" Text="24 treningi" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Sierpień 2025" Foreground="#757575"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja: Przewyższenie -->
-                        <Expander Header="⛰️ Rekordy przewyższenia" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <StackPanel>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Największe przewyższenie" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="2,340 m" FontWeight="Bold" FontSize="16" Foreground="#FF6F00"/>
-                                                <TextBlock Grid.Column="2" Text="142 km" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Mountain training • 28.08.2025" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-
-                                        <Border Grid.Row="1" Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Najdłuższe wzniesienie" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="15.8 km" FontWeight="Bold" FontSize="16" Foreground="#FF6F00"/>
-                                                <TextBlock Grid.Column="2" Text="840 m ↑" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Col du Tourmalet • 22.07.2025" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja: TSS -->
-                        <Expander Header="💪 Rekordy TSS i obciążenia" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <TextBlock Text="[Tabela z rekordami TSS, CTL, ATL]" Foreground="#BDBDBD" FontStyle="Italic"/>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja: Prędkość -->
-                        <Expander Header="🏃 Rekordy prędkości" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <StackPanel>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Border Padding="0,10">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="250"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="150"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="Maksymalna prędkość" FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1" Text="67.4 km/h" FontWeight="Bold" FontSize="16" Foreground="#9C27B0"/>
-                                                <TextBlock Grid.Column="2" Text="09.11.2025" Foreground="#757575"/>
-                                                <TextBlock Grid.Column="3" Text="Evening ride (zjazd)" TextDecorations="Underline" Foreground="#2196F3" Cursor="Hand"/>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </Expander>
-
-                        <!-- Sekcja: Kadencja -->
-                        <Expander Header="🔄 Rekordy kadencji" Margin="0,0,0,15">
-                            <Border Background="White" Padding="20" CornerRadius="8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.2"/>
-                                </Border.Effect>
-                                <TextBlock Text="[Tabela z rekordami kadencji]" Foreground="#BDBDBD" FontStyle="Italic"/>
-                            </Border>
-                        </Expander>
-
+                        <TextBlock Text="Inne rekordy" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Dystans: 185.4 km | Przewyższenie: 2,340 m | Prędkość: 67.4 km/h" Margin="0,10,0,0"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
