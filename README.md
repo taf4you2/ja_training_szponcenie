@@ -1,198 +1,250 @@
-# JA Training - Dashboard UI
+# 📅 Widok Dnia (Day View) - Aplikacja Treningowa
 
-Aplikacja WPF do zarządzania treningami, śledzenia wydolności i monitorowania zdrowia dla sportowców.
+Aplikacja WPF do zarządzania i wizualizacji danych treningowych, snu, żywienia i zdrowia.
 
-## Opis
-
-JA Training to zaawansowana aplikacja desktopowa stworzona w technologii WPF (.NET 8.0), która umożliwia sportowcom (szczególnie kolarzom) śledzenie:
-- Formy treningowej (Performance Management Chart - PMC)
-- Treningów i kalendarza
-- Snu i regeneracji
-- Żywienia
-- Wellness i gotowości do treningu
-- Rekordów osobistych
-
-## Struktura projektu
+## 📋 Struktura Projektu
 
 ```
 ja_training_szponcenie/
-├── Views/
-│   ├── DashboardView.xaml          # Główny widok dashboardu
-│   ├── DashboardView.xaml.cs       # Code-behind dla dashboardu
-│   ├── NavigationDrawer.xaml       # Boczne menu nawigacyjne
-│   └── NavigationDrawer.xaml.cs    # Code-behind dla menu
-├── Resources/
+├── Models/                      # Modele danych
+│   ├── DayType.cs              # Enum typu dnia
+│   ├── TrainingZone.cs         # Enum stref treningowych
+│   ├── SleepPhase.cs           # Enum faz snu
+│   ├── DayOverview.cs          # Podsumowanie dnia
+│   ├── Training.cs             # Dane treningu
+│   ├── Sleep.cs                # Dane snu
+│   ├── Nutrition.cs            # Dane żywienia
+│   ├── HeartRate.cs            # Dane tętna
+│   ├── AdditionalMetrics.cs    # Dodatkowe metryki
+│   ├── DayNotes.cs             # Notatki dnia
+│   └── DayData.cs              # Główny model danych dnia
+│
+├── ViewModels/                  # ViewModels (MVVM)
+│   ├── ViewModelBase.cs        # Bazowa klasa ViewModel
+│   ├── RelayCommand.cs         # Implementacja ICommand
+│   └── DayViewModel.cs         # ViewModel dla widoku dnia
+│
+├── Views/                       # Widoki XAML
+│   └── DayView/
+│       ├── DayView.xaml        # Główny widok dnia
+│       └── DayView.xaml.cs     # Code-behind
+│
+├── Converters/                  # Konwertery XAML
+│   ├── PercentToWidthConverter.cs
+│   ├── ScoreToColorConverter.cs
+│   ├── DayTypeToBrushConverter.cs
+│   ├── DayTypeToTextConverter.cs
+│   ├── TimeSpanToStringConverter.cs
+│   └── BooleanToVisibilityConverter.cs
+│
+├── Resources/                   # Zasoby
 │   └── Styles/
-│       └── Styles.xaml             # Globalne style i kolory
-├── App.xaml                         # Konfiguracja aplikacji
+│       ├── Colors.xaml         # Definicje kolorów
+│       └── Styles.xaml         # Style kontrolek
+│
+├── App.xaml                     # Konfiguracja aplikacji
 ├── App.xaml.cs
-├── MainWindow.xaml                  # Główne okno aplikacji
+├── MainWindow.xaml              # Główne okno
 └── MainWindow.xaml.cs
 ```
 
-## Komponenty Dashboard
+## 🎨 Sekcje Widoku Dnia
 
-### 1. Header (Nagłówek)
-- **Lewa strona**: Logo aplikacji "JA Training" i przycisk menu hamburger (☰)
-- **Środek**: Tytuł "Dashboard" i aktualna data
-- **Prawa strona**: Ikona ustawień (⚙️) i zdjęcie profilowe użytkownika
+### 1. **Header (Nagłówek)**
+- Przycisk powrotu (←)
+- Tytuł: "Szczegóły dnia"
+- Przycisk edycji notatek (✏️)
+- Menu opcji (⋮)
+- Nawigacja dni: ◀ Data ▶
 
-### 2. Performance Management Chart (PMC)
-Sekcja "Forma treningowa" zawierająca:
-- **Trzy kafelki metryk**:
-  - **Fitness (CTL)**: Chronic Training Load - długoterminowe obciążenie treningowe (kolor niebieski)
-  - **Fatigue (ATL)**: Acute Training Load - krótkoterminowe zmęczenie (kolor pomarańczowy)
-  - **Form (TSB)**: Training Stress Balance - balans między formą a zmęczeniem (kolor zielony/czerwony)
-- **Wykres liniowy**: Wizualizacja zmian CTL, ATL i TSB w czasie (6-12 tygodni)
-- **Przycisk ustawień**: Konfiguracja wykresu (przedział czasu, widoczność linii)
+### 2. **Podsumowanie Dnia (Overview Card)**
+- Badge typu dnia (🏋️ Dzień treningowy, 😴 Odpoczynek, 🏆 Wyścig, ⚠️ Uwaga)
+- Ogólna ocena dnia: 82/100
+- Quick metrics:
+  - TSS: 124
+  - Czas treningu: 1h 45min
+  - Kalorie: 2680 kcal 🍽️
+  - Sen: 7h 30min 😴 (Score: 88/100)
+  - HRV: 68ms ❤️
+- Pasek gotowości do treningu
 
-### 3. Kalendarz treningowy
-- **Nawigacja miesiąca**: Strzałki do przełączania między miesiącami i przycisk "Dzisiaj"
-- **Siatka kalendarza**:
-  - 7 kolumn (Pn-Nd)
-  - Każdy dzień zawiera:
-    - Numer dnia i badge statusu (🏋️ trening, 😴 odpoczynek, 🏆 wyścig)
-    - Informacje o treningu (czas, TSS)
-    - Dane o śnie (czas, jakość - kolorowe tło)
-    - Status wellness
-  - Dzisiejsza data wyróżniona niebieskim obramowaniem
-- **Podsumowania tygodni** (prawa strona):
-  - Lista tygodni z metrykami (TSS, liczba treningów, czas, dystans)
-  - Średni sleep score, bilans kaloryczny, HRV
-  - Wizualizacja tygodnia słupkami
+### 3. **Treningi 🚴**
+- Lista treningów z możliwością rozwijania
+- Godzina, nazwa, typ (indoor/outdoor)
+- Szybkie metryki: czas, dystans, moc, TSS
+- Pasek stref treningowych (kolorowy)
+- Po rozwinięciu: szczegółowe metryki (NP, IF, Work, przewyższenie)
 
-### 4. Quick Stats (Szybkie statystyki)
-Poziomy rzęd przewijalnych kafelków:
-- **Ten miesiąc**: Liczba treningów, całkowity TSS, średni sleep score
-- **Bieżący tydzień**: Treningi, TSS, HRV, bilans kaloryczny
-- **FTP**: Aktualne wartości FTP (W i W/kg), data ostatniego testu
-- **Wellness**: Gotowość do treningu (0-100), status formy
+### 4. **Sen 😴**
+- Sleep Score: 88/100
+- Całkowity czas snu: 7h 30min
+- Godziny: 22:45 - 6:15
+- Efektywność snu: 94%
+- **Fazy snu** (z paskami postępu):
+  - Sen głęboki: 1h 52min (25%)
+  - Sen REM: 1h 41min (22%)
+  - Sen lekki: 3h 45min (50%)
+  - Czuwanie: 12min (3%)
+- **Metryki fizjologiczne**:
+  - Tętno spoczynkowe: 47 bpm
+  - HRV poranne: 68ms
+  - Temperatura: ↓ 0.6°C
+  - Oddech: 14/min
+- Ocena algorytmu: "✅ Doskonała regeneracja"
 
-### 5. Rekordy osobiste
-- Lista 3 ostatnich/najważniejszych rekordów mocy
-- Ikona 🆕 przy nowych rekordach (ostatnie 7 dni)
-- Przycisk "Zobacz wszystkie >" do pełnego widoku
+### 5. **Żywienie 🍽️**
+- Pierścień kaloryczny: 2680 / 3000 kcal
+- **Makroskładniki** (z paskami):
+  - 🥩 Białko: 145g / 160g (91%)
+  - 🍞 Węglowodany: 312g / 350g (89%)
+  - 🥑 Tłuszcze: 78g / 90g (87%)
+- **Bilans energetyczny**:
+  - BMR: 1850 kcal
+  - Trening: 370 kcal
+  - Aktywność: 280 kcal
+  - Bilans: -320 kcal
 
-### 6. Floating Action Button (FAB)
-- Duży okrągły przycisk "+" w prawym dolnym rogu
-- Zawsze widoczny podczas przewijania
-- Służy do dodawania nowych treningów (import pliku FIT)
+### 6. **Tętno przez dzień ❤️**
+- Wykres tętna 24h (placeholder)
+- **Metryki**:
+  - RHR: 47 bpm (▼ -4 bpm)
+  - Średnie dzienne: 72 bpm
+  - Maksymalne: 182 bpm
+  - HRV poranne: 68ms (▲ +6ms)
 
-## Boczne Menu Nawigacyjne
+### 7. **Dodatkowe Metryki 📊** (rozwijane)
+- 👟 Kroki: 8,450 / 10,000
+- Aktywność: 2h 15min (280 kcal)
+- Poziom stresu: 35/100
+- Saturacja (SpO2): 97%
+- Temperatura: 36.6°C
 
-### Struktura menu:
+### 8. **Notatki i Obserwacje 📝**
+- Pole tekstowe do notatek
+- Wybór nastroju: 😃 😊 😐 😕 😫
+- **Tagi**:
+  - ✅ Dobry sen
+  - 💪 Świetna forma
+  - 😴 Zmęczenie
+  - 🤒 Choroba
+  - 😰 Stres
+  - 🌧️ Zła pogoda
+  - 🔥 Ciężki trening
 
-**GŁÓWNA**
-- 🏠 Dashboard (aktualnie wybrany)
-- 📅 Kalendarz
-- ➕ Dodaj trening
+### 9. **Przyciski Akcji**
+- 📊 Porównaj z innym dniem
+- 📤 Eksportuj raport dnia
 
-**ANALIZA**
-- 📋 Lista treningów
-- 📈 Analiza treningu
-- 📉 Power Curve
-- 🏆 Rekordy osobiste
+## 🎨 Kolorystyka
 
-**ZDROWIE I REGENERACJA**
-- 😴 Sen
-- 🍽️ Żywienie
-- ❤️ Tętno
-- 💪 Wellness
+### Sekcje
+- **Trening**: Niebieski (#2196F3)
+- **Sen**: Fioletowy (#9C27B0)
+- **Żywienie**: Zielony (#4CAF50)
+- **Tętno**: Czerwony (#F44336)
 
-**IMPORT DANYCH**
-- 📁 Import żywienia (CSV z Fitatu)
-- 📊 Import danych zdrowotnych (Mi Fit / inne źródła)
+### Statusy
+- **Dobry/Świetny**: Zielony (#4CAF50)
+- **Przeciętny**: Żółty (#FFC107)
+- **Słaby**: Czerwony (#F44336)
 
-**INNE**
-- ⚙️ Ustawienia
-- ❓ Pomoc
-- ℹ️ O aplikacji
+### Strefy Treningowe
+- **Z1**: Szary (#B0BEC5)
+- **Z2**: Niebieski (#64B5F6)
+- **Z3**: Zielony (#4CAF50)
+- **Z4**: Żółty (#FFC107)
+- **Z5**: Czerwony (#F44336)
 
-## Kolory i Style
+### Fazy Snu
+- **Głęboki**: Ciemny niebieski (#1A237E)
+- **REM**: Fioletowy (#9C27B0)
+- **Lekki**: Jasny niebieski (#64B5F6)
+- **Czuwanie**: Szary (#9E9E9E)
 
-### Paleta kolorów:
-- **Primary**: #2196F3 (niebieski)
-- **Secondary**: #1976D2 (ciemny niebieski)
-- **Accent**: #03A9F4 (jasny niebieski)
-- **Background**: #F5F5F5 (jasny szary)
-- **Surface**: #FFFFFF (biały)
+## 🔧 Funkcjonalności
 
-### Kolory metryk:
-- **Fitness**: #2196F3 (niebieski)
-- **Fatigue**: #FF9800 (pomarańczowy)
-- **Form pozytywna**: #4CAF50 (zielony)
-- **Form negatywna**: #F44336 (czerwony)
+### Nawigacja
+- Swipe w lewo → następny dzień
+- Swipe w prawo → poprzedni dzień
+- Przyciski ◀ / ▶ dla zmiany dnia
+- Przycisk ← powrót do dashboardu
 
-### Kolory statusów:
-- **Sukces**: #4CAF50 (zielony) - dobry sen, pozytywna forma
-- **Ostrzeżenie**: #FFC107 (żółty) - średni sen, neutralna forma
-- **Błąd**: #F44336 (czerwony) - słaby sen, negatywna forma
+### Interakcje
+- Kliknięcie sekcji treningu → szczegółowa analiza
+- Kliknięcie sekcji snu → pełny widok snu z trendami
+- Kliknięcie sekcji żywienia → szczegóły posiłków
+- Rozwijanie/zwijanie dodatkowych metryk
+- Edycja notatek inline
 
-## Uruchamianie aplikacji
+### Dane Przykładowe
+DayViewModel zawiera metodę `LoadSampleData()` która ładuje przykładowe dane dla prezentacji.
 
-### Wymagania:
-- .NET 8.0 SDK
-- Windows 10/11
-- Visual Studio 2022 lub JetBrains Rider (opcjonalnie)
+## 📱 Responsywność
 
-### Kompilacja i uruchomienie:
+### Szerokie ekrany (>1200px)
+- Treningi i Sen obok siebie (2 kolumny)
+- Żywienie i Tętno obok siebie
 
-```bash
-# Przejdź do katalogu projektu
-cd ja_training_szponcenie
+### Średnie (800-1200px)
+- Wszystko w jednej kolumnie
+- Większe karty
 
-# Zbuduj projekt
-dotnet build
+### Wąskie (<800px)
+- Jedna kolumna
+- Kompaktowe widoki
 
-# Uruchom aplikację
-dotnet run
-```
+## 🚀 Technologie
 
-### Visual Studio:
-1. Otwórz plik `ja_training_szponcenie.sln`
-2. Naciśnij F5 lub kliknij "Start"
+- **.NET 8.0**
+- **WPF (Windows Presentation Foundation)**
+- **MVVM Pattern**
+- **Data Binding**
+- **Converters**
+- **Styles & Templates**
 
-## Uwagi implementacyjne
+## 📐 Layout
 
-### Aktualna implementacja:
-- ✅ Kompletna struktura UI w XAML
-- ✅ Stylizacja i kolory
-- ✅ Layout responsywny
-- ✅ Przykładowe dane statyczne
+### Padding & Margins
+- Boczny padding: 16-20px
+- Między sekcjami: 24px
+- Wewnątrz kart: 16px
 
-### Do implementacji (logika):
-- ❌ Obsługa zdarzeń (kliknięcia przycisków)
-- ❌ Bindowanie danych (MVVM pattern)
-- ❌ Nawigacja między widokami
-- ❌ Import plików FIT
-- ❌ Baza danych
-- ❌ Wykresy (rekomendowane: LiveCharts2 lub OxyPlot)
-- ❌ Animacje menu wysuwnego
+### Wysokości Sekcji
+- Header: 60-80px
+- Podsumowanie: 150-200px
+- Sen: 300-400px
+- Żywienie: 350-450px
+- Tętno: 300-350px
+- Dodatkowe metryki: 200-400px
+- Notatki: 200-300px
 
-## Rozszerzenia do rozważenia
+## 📝 Notatki Implementacyjne
 
-1. **Biblioteki do wykresów**:
-   - LiveCharts2 - nowoczesne, responsywne wykresy
-   - OxyPlot - zaawansowane wykresy naukowe
-   - ScottPlot - szybkie wykresy do dużych zestawów danych
+1. **Wykresy** - Obecnie placeholdery, można zaimplementować używając:
+   - OxyPlot
+   - LiveCharts
+   - ScottPlot
 
-2. **MVVM Framework**:
-   - CommunityToolkit.Mvvm
-   - Prism
-   - ReactiveUI
+2. **Pierścień kaloryczny** - Uproszczona wersja z Ellipse, dla prawdziwego pierścienia użyć Arc lub Path z geometrią
 
-3. **Baza danych**:
-   - SQLite (lekka, lokalna)
-   - Entity Framework Core
+3. **Expandable Cards** - Obecnie Visibility="Collapsed", można dodać animacje z DoubleAnimation
 
-4. **Import plików**:
-   - FIT SDK (Garmin) do importu plików treningowych
-   - TCX/GPX parsery
+4. **Swipe Gestures** - Wymaga dodania TouchGesture lub ManipulationDelta handlers
 
-## Licencja
+5. **Export/Compare** - Funkcje TODO w DayViewModel
 
-Projekt jest częścią JA Training Team.
+## 🔮 Przyszłe Rozszerzenia
 
-## Kontakt
+- [ ] Implementacja wykresów (tętno 24h, fazy snu)
+- [ ] Animacje rozwijania/zwijania sekcji
+- [ ] Swipe gestures dla nawigacji
+- [ ] Export do PDF/CSV
+- [ ] Porównywanie dni
+- [ ] Integracja z bazą danych
+- [ ] Synchronizacja z urządzeniami (Garmin, Fitatu)
+- [ ] Widok kalendarza pełnoekranowego
+- [ ] Dashboard z przeglądem tygodnia/miesiąca
 
-Dla pytań i sugestii, skontaktuj się z zespołem JA Training.
+## 👨‍💻 Autor
+
+Projekt stworzony jako część systemu treningowego dla sportowców.

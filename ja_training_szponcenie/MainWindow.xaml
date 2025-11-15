@@ -4,31 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ja_training_szponcenie"
-        xmlns:views="clr-namespace:ja_training_szponcenie.Views"
+        xmlns:views="clr-namespace:ja_training_szponcenie.Views.DayView"
         mc:Ignorable="d"
-        Title="JA Training - Dashboard"
-        Height="900"
-        Width="1600"
+        Title="Widok Dnia - Trening" Height="1080" Width="1920"
         WindowState="Maximized"
-        Background="{StaticResource BackgroundColor}">
+        Background="{StaticResource BackgroundBrush}">
     <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Aplikacja Treningowa" FontSize="24" FontWeight="Bold"
-                      HorizontalAlignment="Center" Margin="0,0,0,20"/>
-
-            <Button x:Name="OpenRecordsPowerCurveButton"
-                   Content="Otwórz Rekordy i Power Curve"
-                   Click="OpenRecordsPowerCurveButton_Click"
-                   Padding="20,10"
-                   FontSize="16"
-                   Background="#2196F3"
-                   Foreground="White"
-                   BorderThickness="0"
-                   Cursor="Hand"
-                   Width="300"/>
-        </StackPanel>
-        <ContentControl x:Name="MainContent">
-            <views:DashboardView/>
-        </ContentControl>
+        <views:DayView/>
     </Grid>
 </Window>

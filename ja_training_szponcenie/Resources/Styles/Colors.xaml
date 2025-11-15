@@ -1,0 +1,49 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Section Colors -->
+    <SolidColorBrush x:Key="TrainingBrush" Color="#2196F3"/>
+    <SolidColorBrush x:Key="SleepBrush" Color="#9C27B0"/>
+    <SolidColorBrush x:Key="NutritionBrush" Color="#4CAF50"/>
+    <SolidColorBrush x:Key="HeartRateBrush" Color="#F44336"/>
+
+    <!-- Status Colors -->
+    <SolidColorBrush x:Key="GoodStatusBrush" Color="#4CAF50"/>
+    <SolidColorBrush x:Key="AverageStatusBrush" Color="#FFC107"/>
+    <SolidColorBrush x:Key="BadStatusBrush" Color="#F44336"/>
+
+    <!-- Training Zone Colors -->
+    <SolidColorBrush x:Key="Zone1Brush" Color="#B0BEC5"/>
+    <SolidColorBrush x:Key="Zone2Brush" Color="#64B5F6"/>
+    <SolidColorBrush x:Key="Zone3Brush" Color="#4CAF50"/>
+    <SolidColorBrush x:Key="Zone4Brush" Color="#FFC107"/>
+    <SolidColorBrush x:Key="Zone5Brush" Color="#F44336"/>
+
+    <!-- Sleep Phase Colors -->
+    <SolidColorBrush x:Key="DeepSleepBrush" Color="#1A237E"/>
+    <SolidColorBrush x:Key="REMSleepBrush" Color="#9C27B0"/>
+    <SolidColorBrush x:Key="LightSleepBrush" Color="#64B5F6"/>
+    <SolidColorBrush x:Key="AwakeBrush" Color="#9E9E9E"/>
+
+    <!-- Macro Colors -->
+    <SolidColorBrush x:Key="ProteinBrush" Color="#2196F3"/>
+    <SolidColorBrush x:Key="CarbsBrush" Color="#4CAF50"/>
+    <SolidColorBrush x:Key="FatBrush" Color="#FFC107"/>
+
+    <!-- Day Type Colors -->
+    <SolidColorBrush x:Key="TrainingDayBrush" Color="#2196F3"/>
+    <SolidColorBrush x:Key="RestDayBrush" Color="#4CAF50"/>
+    <SolidColorBrush x:Key="RaceDayBrush" Color="#FFD700"/>
+    <SolidColorBrush x:Key="WarningDayBrush" Color="#F44336"/>
+
+    <!-- Background Colors -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="#E0E0E0"/>
+
+    <!-- Text Colors -->
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#212121"/>
+    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#757575"/>
+    <SolidColorBrush x:Key="DisabledTextBrush" Color="#BDBDBD"/>
+
+</ResourceDictionary>

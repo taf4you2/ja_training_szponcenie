@@ -1,11 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace ja_training_szponcenie.ViewModels
 {
-    /// <summary>
-    /// Base class for all ViewModels implementing INotifyPropertyChanged
-    /// </summary>
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -1,0 +1,781 @@
+<UserControl x:Class="ja_training_szponcenie.Views.DayView.DayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ja_training_szponcenie.Views.DayView"
+             xmlns:vm="clr-namespace:ja_training_szponcenie.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             Background="{StaticResource BackgroundBrush}">
+
+    <UserControl.DataContext>
+        <vm:DayViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16,12,16,12">
+
+            <!-- Header Section -->
+            <Grid Margin="0,0,0,12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Top Header Row -->
+                <Grid Grid.Row="0" Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Back button and title -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Button Style="{StaticResource IconButtonStyle}"
+                                Command="{Binding GoBackCommand}"
+                                ToolTip="Powrót">
+                            <TextBlock Text="←" FontSize="20" FontWeight="Bold"/>
+                        </Button>
+                        <TextBlock Text="Szczegóły dnia"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Right: Edit and menu buttons -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource IconButtonStyle}"
+                                Command="{Binding EditNotesCommand}"
+                                ToolTip="Edytuj notatki">
+                            <TextBlock Text="✏️" FontSize="18"/>
+                        </Button>
+                        <Button Style="{StaticResource IconButtonStyle}"
+                                Margin="4,0,0,0"
+                                ToolTip="Opcje">
+                            <TextBlock Text="⋮" FontSize="20" FontWeight="Bold"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Date and Navigation Row -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Previous Day Button -->
+                    <Button Grid.Column="0"
+                            Style="{StaticResource IconButtonStyle}"
+                            Command="{Binding PreviousDayCommand}"
+                            ToolTip="Poprzedni dzień">
+                        <TextBlock Text="◀" FontSize="16"/>
+                    </Button>
+
+                    <!-- Current Date -->
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding FormattedDate}"
+                               FontSize="24"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+                    <!-- Next Day Button -->
+                    <Button Grid.Column="2"
+                            Style="{StaticResource IconButtonStyle}"
+                            Command="{Binding NextDayCommand}"
+                            ToolTip="Następny dzień">
+                        <TextBlock Text="▶" FontSize="16"/>
+                    </Button>
+                </Grid>
+            </Grid>
+
+            <!-- Section 1: Day Overview Card -->
+            <Border Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left Part -->
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <!-- Day Type Badge -->
+                        <Border Style="{StaticResource BadgeStyle}"
+                                Background="{Binding DayData.Overview.DayType, Converter={StaticResource DayTypeToBrushConverter}}"
+                                Margin="0,0,0,16">
+                            <TextBlock Text="{Binding DayData.Overview.DayType, Converter={StaticResource DayTypeToTextConverter}}"
+                                       Foreground="White"
+                                       FontWeight="SemiBold"
+                                       FontSize="14"/>
+                        </Border>
+
+                        <!-- Overall Score -->
+                        <TextBlock Style="{StaticResource LargeNumberStyle}"
+                                   Foreground="{Binding DayData.Overview.OverallScore, Converter={StaticResource ScoreToColorConverter}}">
+                            <Run Text="{Binding DayData.Overview.OverallScore, Mode=OneWay}"/><Run Text="/100"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding DayData.Overview.OverallScoreText}"
+                                   FontSize="14"
+                                   Foreground="{StaticResource SecondaryTextBrush}"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <!-- Right Part - Quick Metrics -->
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- TSS -->
+                        <StackPanel Grid.Row="0" Margin="0,4">
+                            <TextBlock Text="TSS" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Text="{Binding DayData.Overview.TSS}" Style="{StaticResource MetricValueStyle}"/>
+                        </StackPanel>
+
+                        <!-- Training Time -->
+                        <StackPanel Grid.Row="1" Margin="0,4">
+                            <TextBlock Text="Czas treningu" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Text="{Binding DayData.Overview.TrainingTime, Converter={StaticResource TimeSpanToStringConverter}}"
+                                       Style="{StaticResource MetricValueStyle}"/>
+                        </StackPanel>
+
+                        <!-- Calories -->
+                        <StackPanel Grid.Row="2" Margin="0,4">
+                            <TextBlock Style="{StaticResource LabelStyle}">
+                                <Run Text="Kalorie 🍽️"/>
+                            </TextBlock>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Overview.Calories, Mode=OneWay}"/><Run Text=" kcal"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!-- Sleep -->
+                        <StackPanel Grid.Row="3" Margin="0,4">
+                            <TextBlock Style="{StaticResource LabelStyle}">
+                                <Run Text="Sen 😴"/>
+                            </TextBlock>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Overview.SleepTime, Converter={StaticResource TimeSpanToStringConverter}, Mode=OneWay}"/>
+                                <Run Text=" • Score: "/><Run Text="{Binding DayData.Overview.SleepScore, Mode=OneWay}"/><Run Text="/100"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!-- HRV -->
+                        <StackPanel Grid.Row="4" Margin="0,4">
+                            <TextBlock Style="{StaticResource LabelStyle}">
+                                <Run Text="HRV ❤️"/>
+                            </TextBlock>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Overview.HRV, Mode=OneWay}"/><Run Text="ms"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Readiness Status -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Gotowość do treningu"
+                               Style="{StaticResource LabelStyle}"
+                               Margin="0,0,0,8"/>
+
+                    <!-- Readiness Bar -->
+                    <ProgressBar Value="{Binding DayData.Overview.ReadinessScore}"
+                                 Maximum="100"
+                                 Height="12"
+                                 Margin="0,0,0,8"
+                                 Foreground="{Binding DayData.Overview.ReadinessScore, Converter={StaticResource ScoreToColorConverter}}"
+                                 Style="{StaticResource CustomProgressBarStyle}"/>
+
+                    <TextBlock Style="{StaticResource MetricValueStyle}">
+                        <Run Text="Gotowość: "/><Run Text="{Binding DayData.Overview.ReadinessScore, Mode=OneWay}"/><Run Text="/100 - "/>
+                        <Run Text="{Binding DayData.Overview.ReadinessText, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- Section 2: Trainings -->
+            <TextBlock Text="🚴 Treningi"
+                       Style="{StaticResource SectionHeaderStyle}"/>
+
+            <ItemsControl ItemsSource="{Binding DayData.Trainings}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <!-- Training Header (Collapsed View) -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                        <TextBlock Text="{Binding StartTime, StringFormat='{}{0:HH:mm}'}"
+                                                   FontSize="18"
+                                                   FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontSize="14"
+                                                   Foreground="{StaticResource SecondaryTextBrush}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock FontSize="12" Foreground="{StaticResource SecondaryTextBrush}">
+                                            <Run Text="{Binding Duration, Converter={StaticResource TimeSpanToStringConverter}, Mode=OneWay}"/>
+                                            <Run Text=" • "/>
+                                            <Run Text="{Binding Distance, StringFormat='{}{0:F1} km', Mode=OneWay}"/>
+                                            <Run Text=" • "/>
+                                            <Run Text="{Binding AveragePower, Mode=OneWay}"/><Run Text="W"/>
+                                            <Run Text=" • TSS "/>
+                                            <Run Text="{Binding TSS, Mode=OneWay}"/>
+                                        </TextBlock>
+
+                                        <!-- Zone Bar -->
+                                        <StackPanel Orientation="Horizontal" Height="8" Margin="0,8,0,0">
+                                            <Border Background="{StaticResource Zone2Brush}" Width="60" CornerRadius="2,0,0,2"/>
+                                            <Border Background="{StaticResource Zone3Brush}" Width="80" Margin="1,0"/>
+                                            <Border Background="{StaticResource Zone4Brush}" Width="40" Margin="0,0,1,0"/>
+                                            <Border Background="{StaticResource Zone5Brush}" Width="10" CornerRadius="0,2,2,0"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Expanded Training Details -->
+                                <StackPanel Margin="0,16,0,0" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Metric Cards -->
+                                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="4">
+                                            <TextBlock Text="Średnia moc" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                                <Run Text="{Binding AveragePower, Mode=OneWay}"/><Run Text=" W"/>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="4">
+                                            <TextBlock Text="NP" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                                <Run Text="{Binding NormalizedPower, Mode=OneWay}"/><Run Text=" W"/>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="4">
+                                            <TextBlock Text="IF" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock Text="{Binding IntensityFactor, StringFormat='{}{0:F2}'}"
+                                                       Style="{StaticResource MetricValueStyle}"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="4">
+                                            <TextBlock Text="Średnie tętno" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                                <Run Text="{Binding AverageHeartRate, Mode=OneWay}"/><Run Text=" bpm"/>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="4">
+                                            <TextBlock Text="Work" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                                <Run Text="{Binding Work, StringFormat='{}{0:N0}', Mode=OneWay}"/><Run Text=" kJ"/>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="4">
+                                            <TextBlock Text="Przewyższenie" Style="{StaticResource LabelStyle}"/>
+                                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                                <Run Text="{Binding Elevation, Mode=OneWay}"/><Run Text=" m"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Button Content="Pełna analiza >"
+                                            Style="{StaticResource PrimaryButtonStyle}"
+                                            Margin="0,16,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Section 3: Sleep -->
+            <TextBlock Text="😴 Sen"
+                       Style="{StaticResource SectionHeaderStyle}"/>
+
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <!-- Sleep Score -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding DayData.Sleep.SleepScore}"
+                                   Style="{StaticResource LargeNumberStyle}"
+                                   Foreground="{Binding DayData.Sleep.SleepScore, Converter={StaticResource ScoreToColorConverter}}"/>
+                        <TextBlock Grid.Column="0"
+                                   Text="/100"
+                                   FontSize="20"
+                                   Margin="48,16,0,0"
+                                   Foreground="{StaticResource SecondaryTextBrush}"/>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="24,0,0,0">
+                            <TextBlock Text="{Binding DayData.Sleep.TotalSleepTime, Converter={StaticResource TimeSpanToStringConverter}}"
+                                       Style="{StaticResource MediumNumberStyle}"/>
+                            <TextBlock Foreground="{StaticResource SecondaryTextBrush}" FontSize="12">
+                                <Run Text="{Binding DayData.Sleep.BedTime, StringFormat='{}{0:HH:mm}', Mode=OneWay}"/>
+                                <Run Text=" - "/>
+                                <Run Text="{Binding DayData.Sleep.WakeTime, StringFormat='{}{0:HH:mm}', Mode=OneWay}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Sleep Phases -->
+                    <TextBlock Text="Fazy snu" FontWeight="SemiBold" Margin="0,16,0,8"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Deep Sleep -->
+                        <StackPanel Grid.Row="0" Margin="0,4">
+                            <Grid>
+                                <TextBlock Text="Sen głęboki" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock HorizontalAlignment="Right" FontSize="12">
+                                    <Run Text="{Binding DayData.Sleep.DeepSleepTime, Converter={StaticResource TimeSpanToStringConverter}, Mode=OneWay}"/>
+                                    <Run Text=" ("/><Run Text="{Binding DayData.Sleep.DeepSleepPercent, Mode=OneWay}"/><Run Text="%)"/>
+                                </TextBlock>
+                            </Grid>
+                            <ProgressBar Value="{Binding DayData.Sleep.DeepSleepPercent}"
+                                         Maximum="100"
+                                         Foreground="{StaticResource DeepSleepBrush}"
+                                         Style="{StaticResource CustomProgressBarStyle}"/>
+                        </StackPanel>
+
+                        <!-- REM Sleep -->
+                        <StackPanel Grid.Row="1" Margin="0,4">
+                            <Grid>
+                                <TextBlock Text="Sen REM" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock HorizontalAlignment="Right" FontSize="12">
+                                    <Run Text="{Binding DayData.Sleep.REMSleepTime, Converter={StaticResource TimeSpanToStringConverter}, Mode=OneWay}"/>
+                                    <Run Text=" ("/><Run Text="{Binding DayData.Sleep.REMSleepPercent, Mode=OneWay}"/><Run Text="%)"/>
+                                </TextBlock>
+                            </Grid>
+                            <ProgressBar Value="{Binding DayData.Sleep.REMSleepPercent}"
+                                         Maximum="100"
+                                         Foreground="{StaticResource REMSleepBrush}"
+                                         Style="{StaticResource CustomProgressBarStyle}"/>
+                        </StackPanel>
+
+                        <!-- Light Sleep -->
+                        <StackPanel Grid.Row="2" Margin="0,4">
+                            <Grid>
+                                <TextBlock Text="Sen lekki" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock HorizontalAlignment="Right" FontSize="12">
+                                    <Run Text="{Binding DayData.Sleep.LightSleepTime, Converter={StaticResource TimeSpanToStringConverter}, Mode=OneWay}"/>
+                                    <Run Text=" ("/><Run Text="{Binding DayData.Sleep.LightSleepPercent, Mode=OneWay}"/><Run Text="%)"/>
+                                </TextBlock>
+                            </Grid>
+                            <ProgressBar Value="{Binding DayData.Sleep.LightSleepPercent}"
+                                         Maximum="100"
+                                         Foreground="{StaticResource LightSleepBrush}"
+                                         Style="{StaticResource CustomProgressBarStyle}"/>
+                        </StackPanel>
+
+                        <!-- Awake -->
+                        <StackPanel Grid.Row="3" Margin="0,4">
+                            <Grid>
+                                <TextBlock Text="Czuwanie" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock HorizontalAlignment="Right" FontSize="12">
+                                    <Run Text="{Binding DayData.Sleep.AwakeTime, Converter={StaticResource TimeSpanToStringConverter}, Mode=OneWay}"/>
+                                    <Run Text=" ("/><Run Text="{Binding DayData.Sleep.AwakePercent, Mode=OneWay}"/><Run Text="%)"/>
+                                </TextBlock>
+                            </Grid>
+                            <ProgressBar Value="{Binding DayData.Sleep.AwakePercent}"
+                                         Maximum="100"
+                                         Foreground="{StaticResource AwakeBrush}"
+                                         Style="{StaticResource CustomProgressBarStyle}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Physiological Metrics -->
+                    <TextBlock Text="Metryki fizjologiczne" FontWeight="SemiBold" Margin="0,16,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,4">
+                            <TextBlock Text="Tętno spoczynkowe" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Sleep.RestingHeartRate, Mode=OneWay}"/><Run Text=" bpm"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="0,4">
+                            <TextBlock Text="HRV poranne" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Sleep.MorningHRV, Mode=OneWay}"/><Run Text=" ms"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Assessment -->
+                    <Border Background="#E8F5E9"
+                            CornerRadius="6"
+                            Padding="12"
+                            Margin="0,16,0,0">
+                        <StackPanel>
+                            <TextBlock Text="✅ Doskonała regeneracja"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource GoodStatusBrush}"/>
+                            <TextBlock Text="{Binding DayData.Sleep.AlgorithmAssessment}"
+                                       TextWrapping="Wrap"
+                                       FontSize="12"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Section 4: Nutrition -->
+            <TextBlock Text="🍽️ Żywienie"
+                       Style="{StaticResource SectionHeaderStyle}"/>
+
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <!-- Calorie Ring -->
+                    <Grid Height="80" Margin="0,0,0,12">
+                        <Viewbox Width="70" Height="70">
+                            <Grid>
+                                <!-- Background Circle -->
+                                <Ellipse Stroke="#E0E0E0"
+                                         StrokeThickness="10"
+                                         Width="100"
+                                         Height="100"/>
+
+                                <!-- Progress Circle (simplified - actual implementation would use Arc) -->
+                                <Ellipse Stroke="{StaticResource NutritionBrush}"
+                                         StrokeThickness="10"
+                                         Width="100"
+                                         Height="100"
+                                         Opacity="0.8"/>
+
+                                <!-- Center Text -->
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock HorizontalAlignment="Center" FontSize="16" FontWeight="Bold">
+                                        <Run Text="{Binding DayData.Nutrition.TotalCalories, Mode=OneWay}"/>
+                                    </TextBlock>
+                                    <TextBlock Text="kcal" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SecondaryTextBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+
+                    <!-- Macros -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Protein -->
+                        <StackPanel Grid.Column="0" Margin="4">
+                            <TextBlock Text="🥩 Białko" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Nutrition.Protein.Current, Mode=OneWay}"/><Run Text="g / "/>
+                                <Run Text="{Binding DayData.Nutrition.Protein.Goal, Mode=OneWay}"/><Run Text="g"/>
+                            </TextBlock>
+                            <ProgressBar Value="{Binding DayData.Nutrition.Protein.Percentage}"
+                                         Maximum="100"
+                                         Foreground="{StaticResource ProteinBrush}"
+                                         Style="{StaticResource CustomProgressBarStyle}"
+                                         Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <!-- Carbs -->
+                        <StackPanel Grid.Column="1" Margin="4">
+                            <TextBlock Text="🍞 Węglowodany" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Nutrition.Carbohydrates.Current, Mode=OneWay}"/><Run Text="g / "/>
+                                <Run Text="{Binding DayData.Nutrition.Carbohydrates.Goal, Mode=OneWay}"/><Run Text="g"/>
+                            </TextBlock>
+                            <ProgressBar Value="{Binding DayData.Nutrition.Carbohydrates.Percentage}"
+                                         Maximum="100"
+                                         Foreground="{StaticResource CarbsBrush}"
+                                         Style="{StaticResource CustomProgressBarStyle}"
+                                         Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <!-- Fats -->
+                        <StackPanel Grid.Column="2" Margin="4">
+                            <TextBlock Text="🥑 Tłuszcze" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.Nutrition.Fats.Current, Mode=OneWay}"/><Run Text="g / "/>
+                                <Run Text="{Binding DayData.Nutrition.Fats.Goal, Mode=OneWay}"/><Run Text="g"/>
+                            </TextBlock>
+                            <ProgressBar Value="{Binding DayData.Nutrition.Fats.Percentage}"
+                                         Maximum="100"
+                                         Foreground="{StaticResource FatBrush}"
+                                         Style="{StaticResource CustomProgressBarStyle}"
+                                         Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Calorie Balance -->
+                    <TextBlock Text="Bilans energetyczny" FontWeight="SemiBold" Margin="0,16,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock FontSize="12" Margin="0,2">
+                                <Run Text="BMR: "/><Run Text="{Binding DayData.Nutrition.BMR, Mode=OneWay}"/><Run Text=" kcal"/>
+                            </TextBlock>
+                            <TextBlock FontSize="12" Margin="0,2">
+                                <Run Text="Trening: "/><Run Text="{Binding DayData.Nutrition.TrainingCalories, Mode=OneWay}"/><Run Text=" kcal"/>
+                            </TextBlock>
+                            <TextBlock FontSize="12" Margin="0,2">
+                                <Run Text="Aktywność: "/><Run Text="{Binding DayData.Nutrition.ActivityCalories, Mode=OneWay}"/><Run Text=" kcal"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Bilans:" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}"
+                                       Foreground="{StaticResource BadStatusBrush}">
+                                <Run Text="{Binding DayData.Nutrition.CalorieBalance, Mode=OneWay}"/><Run Text=" kcal"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Section 5: Heart Rate -->
+            <TextBlock Text="❤️ Tętno przez dzień"
+                       Style="{StaticResource SectionHeaderStyle}"/>
+
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <!-- HR Chart Placeholder -->
+                    <Border Height="120"
+                            Background="#F5F5F5"
+                            CornerRadius="8"
+                            Margin="0,0,0,12">
+                        <TextBlock Text="[Wykres tętna 24h]"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource SecondaryTextBrush}"/>
+                    </Border>
+
+                    <!-- HR Metrics -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="4">
+                            <TextBlock Text="RHR (Spoczynkowe)" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.HeartRate.RestingHeartRate, Mode=OneWay}"/><Run Text=" bpm"/>
+                            </TextBlock>
+                            <TextBlock FontSize="10" Foreground="{StaticResource GoodStatusBrush}">
+                                <Run Text="▼ "/><Run Text="{Binding DayData.HeartRate.RHRBaselineChange, Mode=OneWay}"/><Run Text=" bpm"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="4">
+                            <TextBlock Text="Średnie dzienne" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.HeartRate.AverageDailyHR, Mode=OneWay}"/><Run Text=" bpm"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="4">
+                            <TextBlock Text="Maksymalne" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.HeartRate.MaxHeartRate, Mode=OneWay}"/><Run Text=" bpm"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="4">
+                            <TextBlock Text="HRV poranne" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Style="{StaticResource MetricValueStyle}">
+                                <Run Text="{Binding DayData.HeartRate.MorningHRV, Mode=OneWay}"/><Run Text=" ms"/>
+                            </TextBlock>
+                            <TextBlock FontSize="10" Foreground="{StaticResource GoodStatusBrush}">
+                                <Run Text="▲ +"/><Run Text="{Binding DayData.HeartRate.HRVBaselineChange, Mode=OneWay}"/><Run Text=" ms"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Section 6: Additional Metrics (Collapsed by default) -->
+            <Button Content="📊 Dodatkowe dane ▼"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding ToggleAdditionalMetricsCommand}"
+                    Margin="0,0,0,8"/>
+
+            <Border Style="{StaticResource CardStyle}"
+                    Visibility="{Binding IsAdditionalMetricsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Steps -->
+                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="8">
+                        <TextBlock Text="👟 Kroki" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Style="{StaticResource MetricValueStyle}">
+                            <Run Text="{Binding DayData.AdditionalMetrics.Steps, StringFormat='{}{0:N0}', Mode=OneWay}"/>
+                            <Run Text=" / "/>
+                            <Run Text="{Binding DayData.AdditionalMetrics.StepsGoal, StringFormat='{}{0:N0}', Mode=OneWay}"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Activity -->
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="8">
+                        <TextBlock Text="Aktywność" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Style="{StaticResource MetricValueStyle}">
+                            <Run Text="{Binding DayData.AdditionalMetrics.NonTrainingActivityTime, Converter={StaticResource TimeSpanToStringConverter}, Mode=OneWay}"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Stress -->
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="8">
+                        <TextBlock Text="Poziom stresu" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Style="{StaticResource MetricValueStyle}">
+                            <Run Text="{Binding DayData.AdditionalMetrics.AverageStressLevel, Mode=OneWay}"/><Run Text="/100"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- SpO2 -->
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="8">
+                        <TextBlock Text="Saturacja (SpO2)" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Style="{StaticResource MetricValueStyle}">
+                            <Run Text="{Binding DayData.AdditionalMetrics.AverageSpO2, StringFormat='{}{0:F1}%', Mode=OneWay}"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Temperature -->
+                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="8">
+                        <TextBlock Text="Temperatura" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Style="{StaticResource MetricValueStyle}">
+                            <Run Text="{Binding DayData.AdditionalMetrics.AverageTemperature, StringFormat='{}{0:F1}°C', Mode=OneWay}"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Section 7: Notes -->
+            <TextBlock Text="📝 Notatki i obserwacje"
+                       Style="{StaticResource SectionHeaderStyle}"/>
+
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <!-- Notes Input -->
+                    <TextBox Text="{Binding DayData.Notes.Notes, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap"
+                             MinHeight="50"
+                             AcceptsReturn="True"
+                             BorderBrush="{StaticResource BorderBrush}"
+                             Padding="6"
+                             FontSize="12"/>
+
+                    <!-- Mood Selection -->
+                    <TextBlock Text="Jak oceniasz ten dzień?"
+                               FontWeight="SemiBold"
+                               Margin="0,10,0,6"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="😃" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😊" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😐" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😕" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😫" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                    </StackPanel>
+
+                    <!-- Tags -->
+                    <TextBlock Text="Tagi"
+                               FontWeight="SemiBold"
+                               Margin="0,10,0,6"/>
+                    <WrapPanel>
+                        <Border Style="{StaticResource BadgeStyle}" Background="#E3F2FD" Margin="4">
+                            <TextBlock Text="✅ Dobry sen" Foreground="{StaticResource PrimaryTextBrush}"/>
+                        </Border>
+                        <Border Style="{StaticResource BadgeStyle}" Background="#E8F5E9" Margin="4">
+                            <TextBlock Text="💪 Świetna forma" Foreground="{StaticResource PrimaryTextBrush}"/>
+                        </Border>
+                        <Border Style="{StaticResource BadgeStyle}" Background="#FFF3E0" Margin="4">
+                            <TextBlock Text="😴 Zmęczenie" Foreground="{StaticResource PrimaryTextBrush}"/>
+                        </Border>
+                        <Border Style="{StaticResource BadgeStyle}" Background="#FFEBEE" Margin="4">
+                            <TextBlock Text="🤒 Choroba" Foreground="{StaticResource PrimaryTextBrush}"/>
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Bottom Action Buttons -->
+            <Grid Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Content="📊 Porównaj z innym dniem"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding CompareDayCommand}"
+                        Margin="0,0,8,0"/>
+
+                <Button Grid.Column="1"
+                        Content="📤 Eksportuj raport dnia"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding ExportDayCommand}"
+                        Margin="8,0,0,0"/>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
