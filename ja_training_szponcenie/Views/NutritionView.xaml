@@ -531,7 +531,7 @@
 
                         <!-- Placeholder dla wykresu liniowego -->
                         <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
-                                Height="400" Background="White">
+                                Height="300" Background="White">
                             <TextBlock Text="[WYKRES LINIOWY - SPOŻYCIE W CZASIE]" FontSize="24" FontStyle="Italic"
                                        Foreground="{StaticResource TextSecondaryColor}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -550,7 +550,7 @@
 
                             <!-- Wykres słupkowy bilansu -->
                             <Border Grid.Column="0" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
-                                    Height="350" Background="White" Margin="0,0,16,0">
+                                    Height="280" Background="White" Margin="0,0,16,0">
                                 <TextBlock Text="[WYKRES SŁUPKOWY - BILANS ENERGETYCZNY]" FontSize="18" FontStyle="Italic"
                                            Foreground="{StaticResource TextSecondaryColor}"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>

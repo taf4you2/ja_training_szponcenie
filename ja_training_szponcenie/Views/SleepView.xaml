@@ -202,7 +202,7 @@
 
                         <!-- Placeholder dla wykresu hipnogramu -->
                         <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
-                                Height="350" Background="White">
+                                Height="280" Background="White">
                             <TextBlock Text="[WYKRES HIPNOGRAM - FAZY SNU]" FontSize="24" FontStyle="Italic"
                                        Foreground="{StaticResource TextSecondaryColor}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -679,7 +679,7 @@
 
                         <!-- Placeholder dla wykresu -->
                         <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
-                                Height="400" Background="White">
+                                Height="300" Background="White">
                             <TextBlock Text="[WYKRES SŁUPKOWY - CZAS SNU W CZASIE]" FontSize="24" FontStyle="Italic"
                                        Foreground="{StaticResource TextSecondaryColor}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -692,7 +692,7 @@
 
                         <!-- Placeholder dla wykresu -->
                         <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
-                                Height="400" Background="White">
+                                Height="300" Background="White">
                             <TextBlock Text="[WYKRES LINIOWY - SLEEP SCORE W CZASIE]" FontSize="24" FontStyle="Italic"
                                        Foreground="{StaticResource TextSecondaryColor}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -705,7 +705,7 @@
 
                         <!-- Placeholder dla wykresu -->
                         <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
-                                Height="400" Background="White">
+                                Height="300" Background="White">
                             <TextBlock Text="[WYKRES SCATTER PLOT - GODZINY ZASYPIANIA I BUDZENIA]" FontSize="24" FontStyle="Italic"
                                        Foreground="{StaticResource TextSecondaryColor}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
