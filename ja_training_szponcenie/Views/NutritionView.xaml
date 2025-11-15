@@ -217,14 +217,13 @@
 
                                     <!-- Pasek postępu -->
                                     <Border Background="#E3F2FD" Height="32" CornerRadius="16">
-                                        <Border Background="{StaticResource ProteinBrush}" Width="71" HorizontalAlignment="Left" CornerRadius="16">
-                                            <Border.Width>
-                                                <MultiBinding Converter="{StaticResource PercentageToWidthConverter}">
-                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Border}"/>
-                                                    <Binding Source="0.71"/>
-                                                </MultiBinding>
-                                            </Border.Width>
-                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="71*"/>
+                                                <ColumnDefinition Width="29*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Background="{StaticResource ProteinBrush}" CornerRadius="16,0,0,16"/>
+                                        </Grid>
                                     </Border>
                                 </StackPanel>
 
@@ -251,14 +250,13 @@
 
                                     <!-- Pasek postępu -->
                                     <Border Background="#E8F5E9" Height="32" CornerRadius="16">
-                                        <Border Background="{StaticResource CarbsBrush}" Width="88" HorizontalAlignment="Left" CornerRadius="16">
-                                            <Border.Width>
-                                                <MultiBinding Converter="{StaticResource PercentageToWidthConverter}">
-                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Border}"/>
-                                                    <Binding Source="0.88"/>
-                                                </MultiBinding>
-                                            </Border.Width>
-                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="88*"/>
+                                                <ColumnDefinition Width="12*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Background="{StaticResource CarbsBrush}" CornerRadius="16,0,0,16"/>
+                                        </Grid>
                                     </Border>
                                 </StackPanel>
 
@@ -285,14 +283,13 @@
 
                                     <!-- Pasek postępu -->
                                     <Border Background="#FFF9C4" Height="32" CornerRadius="16">
-                                        <Border Background="{StaticResource FatBrush}" Width="74" HorizontalAlignment="Left" CornerRadius="16">
-                                            <Border.Width>
-                                                <MultiBinding Converter="{StaticResource PercentageToWidthConverter}">
-                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Border}"/>
-                                                    <Binding Source="0.74"/>
-                                                </MultiBinding>
-                                            </Border.Width>
-                                        </Border>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="74*"/>
+                                                <ColumnDefinition Width="26*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0" Background="{StaticResource FatBrush}" CornerRadius="16,0,0,16"/>
+                                        </Grid>
                                     </Border>
                                 </StackPanel>
                             </Grid>
