@@ -53,6 +53,7 @@
 
     <!-- Primary/Success/Warning Colors -->
     <SolidColorBrush x:Key="PrimaryColor" Color="#2196F3"/>
+    <SolidColorBrush x:Key="AccentColor" Color="#FF5722"/>
     <SolidColorBrush x:Key="SuccessColor" Color="#4CAF50"/>
     <SolidColorBrush x:Key="WarningColor" Color="#FFC107"/>
 

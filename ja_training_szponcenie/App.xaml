@@ -17,6 +17,11 @@
             <converters:DayTypeToTextConverter x:Key="DayTypeToTextConverter"/>
             <converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter"/>
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:TimeSpanToHoursConverter x:Key="TimeSpanToHoursConverter"/>
+            <converters:TimeSpanToMinutesConverter x:Key="TimeSpanToMinutesConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
