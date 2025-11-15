@@ -56,6 +56,7 @@
     <SolidColorBrush x:Key="AccentColor" Color="#FF5722"/>
     <SolidColorBrush x:Key="SuccessColor" Color="#4CAF50"/>
     <SolidColorBrush x:Key="WarningColor" Color="#FFC107"/>
+    <SolidColorBrush x:Key="ErrorColor" Color="#F44336"/>
 
     <!-- Performance Management Colors -->
     <SolidColorBrush x:Key="FitnessColor" Color="#2196F3"/>
