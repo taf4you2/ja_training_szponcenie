@@ -426,7 +426,7 @@
                 <!-- Rozwijana sekcja - Więcej statystyk -->
                 <Expander Header="Pokaż więcej statystyk ▼" Margin="0,16,0,0"
                           BorderBrush="{StaticResource DividerColor}" BorderThickness="1"
-                          CornerRadius="8" Background="White" Padding="16">
+                          Background="White" Padding="16">
                     <Grid Margin="0,12,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
