@@ -47,7 +47,7 @@
 
                         <!-- Prawa strona headera -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="0,0,8,0">
+                            <Button x:Name="SettingsButton" Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="0,0,8,0">
                                 <TextBlock Text="⚙️" FontSize="18"/>
                             </Button>
                             <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource PrimaryColor}">

@@ -1,0 +1,780 @@
+<UserControl x:Class="ja_training_szponcenie.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             Background="{StaticResource BackgroundColor}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="Auto"/> <!-- Unsaved changes indicator -->
+            <RowDefinition Height="*"/> <!-- Main content -->
+        </Grid.RowDefinitions>
+
+        <!-- ==================== HEADER ==================== -->
+        <Border Grid.Row="0" Background="{StaticResource SurfaceColor}" Padding="16,12">
+            <Border.Effect>
+                <DropShadowEffect Color="#000000" Opacity="0.1" BlurRadius="8" ShadowDepth="2"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Lewa strona headera -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="BackButton" Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="0,0,16,0">
+                        <TextBlock Text="←" FontSize="20"/>
+                    </Button>
+                    <TextBlock Text="Ustawienia" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryColor}"/>
+                </StackPanel>
+
+                <!-- Prawa strona headera -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="DiscardChangesButton" Content="Odrzuć zmiany" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="#9E9E9E" Padding="16,8" Margin="0,0,8,0" Visibility="Collapsed">
+                    </Button>
+                    <Button x:Name="SaveChangesButton" Style="{StaticResource PrimaryButtonStyle}"
+                            Padding="16,8" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="✓" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="Zapisz zmiany" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ==================== UNSAVED CHANGES INDICATOR ==================== -->
+        <Border x:Name="UnsavedChangesIndicator" Grid.Row="1" Background="#FFC107" Padding="12,8" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="⚠️" FontSize="16" Margin="0,0,8,0"/>
+                <TextBlock Text="Masz niezapisane zmiany" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ==================== MAIN CONTENT ==================== -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/> <!-- Left menu -->
+                <ColumnDefinition Width="*"/> <!-- Content -->
+            </Grid.ColumnDefinitions>
+
+            <!-- ==================== LEFT MENU ==================== -->
+            <Border Grid.Column="0" Background="#F5F5F5" Padding="16">
+                <StackPanel>
+                    <!-- Category buttons -->
+                    <Button x:Name="ProfileCategoryButton" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="White" BorderThickness="4,0,0,0" BorderBrush="{StaticResource PrimaryColor}"
+                            Padding="16,12" Margin="0,0,0,4" HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="👤" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="Profil użytkownika" FontWeight="SemiBold" Foreground="{StaticResource PrimaryColor}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="TrainingZonesCategoryButton" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="16,12" Margin="0,0,0,4" HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⚡" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="Strefy treningowe" Foreground="{StaticResource TextPrimaryColor}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="AdvancedCategoryButton" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="16,12" Margin="0,0,0,4" HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🔧" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="Zaawansowane" Foreground="{StaticResource TextPrimaryColor}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="AppearanceCategoryButton" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="16,12" Margin="0,0,0,4" HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🎨" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="Wygląd" Foreground="{StaticResource TextPrimaryColor}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Border Height="1" Background="{StaticResource DividerColor}" Margin="0,12"/>
+
+                    <Button x:Name="AboutCategoryButton" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent" BorderThickness="0"
+                            Padding="16,12" Margin="0,0,0,4" HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="ℹ️" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="O aplikacji" Foreground="{StaticResource TextPrimaryColor}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Restore defaults button at bottom -->
+                    <Button x:Name="RestoreAllDefaultsButton" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="#E0E0E0" Padding="12,8" Margin="0,32,0,0" HorizontalContentAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="↺" FontSize="14" Margin="0,0,6,0"/>
+                            <TextBlock Text="Przywróć wszystkie domyślne" FontSize="11"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- ==================== RIGHT CONTENT AREA ==================== -->
+            <ScrollViewer Grid.Column="1" Style="{StaticResource CustomScrollViewerStyle}" Padding="32,24">
+                <StackPanel MaxWidth="800" HorizontalAlignment="Left">
+
+                    <!-- ==================== CATEGORY 1: PROFILE ==================== -->
+                    <StackPanel x:Name="ProfileCategory">
+                        <TextBlock Text="Profil użytkownika" FontSize="24" FontWeight="Bold" Margin="0,0,0,24"/>
+
+                        <!-- Dane osobowe -->
+                        <TextBlock Text="Dane osobowe" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <!-- Zdjęcie profilowe -->
+                        <Grid Margin="0,0,0,24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Miniatura -->
+                            <Border Grid.Column="0" Width="100" Height="100" CornerRadius="50"
+                                    BorderBrush="#E0E0E0" BorderThickness="2" Background="#F5F5F5" Margin="0,0,16,0">
+                                <TextBlock Text="👤" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Przyciski akcji -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <Button x:Name="ChangePhotoButton" Style="{StaticResource PrimaryButtonStyle}"
+                                        Padding="12,8" Margin="0,0,0,8" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="📁" FontSize="14" Margin="0,0,6,0"/>
+                                        <TextBlock Text="Zmień zdjęcie"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="DeletePhotoButton" Style="{StaticResource PrimaryButtonStyle}"
+                                        Background="#9E9E9E" Padding="12,8" Margin="0,0,0,8" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="🗑️" FontSize="14" Margin="0,0,6,0"/>
+                                        <TextBlock Text="Usuń zdjęcie"/>
+                                    </StackPanel>
+                                </Button>
+                                <TextBlock Text="Zalecany rozmiar: 200x200px, max 5MB" FontSize="11"
+                                           Foreground="{StaticResource TextSecondaryColor}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Imię -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="Imię" FontSize="14" Margin="0,0,0,4"/>
+                            <TextBox x:Name="FirstNameTextBox" Padding="12,8" FontSize="14"/>
+                        </StackPanel>
+
+                        <!-- Nazwisko -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="Nazwisko" FontSize="14" Margin="0,0,0,4"/>
+                            <TextBox x:Name="LastNameTextBox" Padding="12,8" FontSize="14"/>
+                        </StackPanel>
+
+                        <!-- Data urodzenia -->
+                        <StackPanel Margin="0,0,0,8">
+                            <TextBlock Text="Data urodzenia" FontSize="14" Margin="0,0,0,4"/>
+                            <DatePicker x:Name="BirthDatePicker" Padding="12,8" FontSize="14"/>
+                            <TextBlock x:Name="AgeDisplayTextBlock" Text="Wiek: -- lat" FontSize="12"
+                                       Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <!-- Płeć -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="Płeć" FontSize="14" Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="GenderMaleRadio" Content="Mężczyzna" GroupName="Gender" Margin="0,0,16,0"/>
+                                <RadioButton x:Name="GenderFemaleRadio" Content="Kobieta" GroupName="Gender" Margin="0,0,16,0"/>
+                                <RadioButton x:Name="GenderOtherRadio" Content="Inna" GroupName="Gender" Margin="0,0,16,0"/>
+                                <RadioButton x:Name="GenderNotSpecifiedRadio" Content="Wolę nie podawać" GroupName="Gender"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,24,0,24"/>
+
+                        <!-- Dane fizyczne -->
+                        <TextBlock Text="Dane fizyczne" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <!-- Waga -->
+                        <StackPanel Margin="0,0,0,8">
+                            <Grid>
+                                <TextBlock Text="Aktualna waga" FontSize="14" Margin="0,0,0,4" HorizontalAlignment="Left"/>
+                                <Button x:Name="WeightHistoryButton" Content="📊 Historia wagi >"
+                                        Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                                        Foreground="{StaticResource PrimaryColor}" HorizontalAlignment="Right"
+                                        VerticalAlignment="Top" Padding="4"/>
+                            </Grid>
+                            <Grid>
+                                <TextBox x:Name="WeightTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBlock Text="kg" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
+                                           Foreground="{StaticResource TextSecondaryColor}"/>
+                            </Grid>
+                            <TextBlock x:Name="LastWeightUpdateTextBlock" Text="Ostatnia aktualizacja: --"
+                                       FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <!-- Wzrost -->
+                        <StackPanel Margin="0,16,0,16">
+                            <TextBlock Text="Wzrost" FontSize="14" Margin="0,0,0,4"/>
+                            <Grid>
+                                <TextBox x:Name="HeightTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBlock Text="cm" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
+                                           Foreground="{StaticResource TextSecondaryColor}"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Automatyczne obliczenia -->
+                        <Border x:Name="AutoCalculationsCard" Background="#E3F2FD" CornerRadius="8"
+                                Padding="12" Margin="0,0,0,16" Visibility="Collapsed">
+                            <StackPanel>
+                                <TextBlock Text="📊 Twoje wskaźniki:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <TextBlock x:Name="BMITextBlock" Text="BMI: -- (--)" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock x:Name="WPerKgTextBlock" Text="W/kg (z aktualnym FTP): -- W/kg" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock x:Name="IdealWeightTextBlock" Text="Idealna waga wyścigowa: ~-- kg" FontSize="13"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- Tętno spoczynkowe -->
+                        <StackPanel Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Tętno spoczynkowe (RHR)" FontSize="14" Margin="0,0,8,0"/>
+                                <Button Content="ⓘ" Style="{StaticResource PrimaryButtonStyle}"
+                                        Background="Transparent" Foreground="{StaticResource TextSecondaryColor}"
+                                        Padding="4,0" FontSize="12" ToolTip="Najniższe tętno podczas snu lub zaraz po przebudzeniu. Mierz przez kilka dni i użyj średniej."/>
+                            </StackPanel>
+                            <Grid Margin="0,4,0,0">
+                                <TextBox x:Name="RestingHeartRateTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBlock Text="bpm" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
+                                           Foreground="{StaticResource TextSecondaryColor}"/>
+                            </Grid>
+                            <Button x:Name="RHRHistoryButton" Content="📊 Zobacz historię RHR >"
+                                    Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                                    Foreground="{StaticResource PrimaryColor}" HorizontalAlignment="Left"
+                                    Padding="0,4" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <!-- Maksymalne tętno -->
+                        <StackPanel Margin="0,16,0,16">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Maksymalne tętno (Max HR)" FontSize="14" Margin="0,0,8,0"/>
+                                <Button Content="ⓘ" Style="{StaticResource PrimaryButtonStyle}"
+                                        Background="Transparent" Foreground="{StaticResource TextSecondaryColor}"
+                                        Padding="4,0" FontSize="12" ToolTip="Najwyższe tętno osiągnięte podczas maksymalnego wysiłku"/>
+                            </StackPanel>
+                            <Grid Margin="0,4,0,0">
+                                <TextBox x:Name="MaxHeartRateTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBlock Text="bpm" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
+                                           Foreground="{StaticResource TextSecondaryColor}"/>
+                            </Grid>
+                            <CheckBox x:Name="AutoCalculateMaxHRCheckBox" Content="Oblicz automatycznie (220 - wiek)"
+                                      Margin="0,8,0,0" FontSize="12"/>
+                            <Button x:Name="FindMaxHRButton" Content="🔍 Znajdź w treningach"
+                                    Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                                    Foreground="{StaticResource PrimaryColor}" HorizontalAlignment="Left"
+                                    Padding="0,4" Margin="0,4,0,0"/>
+                            <TextBlock x:Name="MaxHRFromTrainingsTextBlock" Text="" FontSize="11"
+                                       Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0" Visibility="Collapsed"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- Przyciski akcji -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,32">
+                            <Button x:Name="SavePersonalDataButton" Content="💾 Zapisz dane osobowe"
+                                    Style="{StaticResource PrimaryButtonStyle}" Padding="16,10" Margin="0,0,12,0"/>
+                            <Button x:Name="CancelPersonalDataButton" Content="Anuluj"
+                                    Style="{StaticResource PrimaryButtonStyle}" Background="#9E9E9E" Padding="16,10"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- ==================== CATEGORY 2: TRAINING ZONES ==================== -->
+                    <StackPanel x:Name="TrainingZonesCategory" Visibility="Collapsed">
+                        <TextBlock Text="Strefy treningowe" FontSize="24" FontWeight="Bold" Margin="0,0,0,24"/>
+
+                        <!-- Tabs -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                            <Button x:Name="PowerZonesTab" Content="Strefy mocy" Style="{StaticResource PrimaryButtonStyle}"
+                                    Padding="16,8" Margin="0,0,8,0" BorderThickness="0,0,0,3" BorderBrush="{StaticResource PrimaryColor}"/>
+                            <Button x:Name="HeartRateZonesTab" Content="Strefy tętna" Style="{StaticResource PrimaryButtonStyle}"
+                                    Background="Transparent" Padding="16,8" BorderThickness="0,0,0,3" BorderBrush="Transparent"/>
+                        </StackPanel>
+
+                        <!-- Power Zones Tab Content -->
+                        <StackPanel x:Name="PowerZonesTabContent">
+                            <!-- FTP Section -->
+                            <TextBlock Text="FTP (Functional Threshold Power)" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                            <StackPanel Margin="0,0,0,16">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Aktualny FTP" FontSize="14" Margin="0,0,8,0"/>
+                                    <Button Content="ⓘ" Style="{StaticResource PrimaryButtonStyle}"
+                                            Background="Transparent" Foreground="{StaticResource TextSecondaryColor}"
+                                            Padding="4,0" FontSize="12" ToolTip="Maksymalna moc którą możesz utrzymać przez 60 minut"/>
+                                </StackPanel>
+                                <Grid Margin="0,4,0,0">
+                                    <TextBox x:Name="FTPTextBox" Padding="12,12" FontSize="20" FontWeight="Bold" MaxWidth="200" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="W" FontSize="20" VerticalAlignment="Center" Margin="180,0,0,0"
+                                               Foreground="{StaticResource TextSecondaryColor}"/>
+                                </Grid>
+                                <TextBlock x:Name="WPerKgFTPTextBlock" Text="💪 -- W/kg" FontSize="16"
+                                           Foreground="{StaticResource SuccessColor}" Margin="0,8,0,0"/>
+                                <TextBlock x:Name="CategoryTextBlock" Text="Kategoria: --" FontSize="12"
+                                           Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="0,0,0,16">
+                                <TextBlock Text="Data ostatniego testu" FontSize="14" Margin="0,0,0,4"/>
+                                <DatePicker x:Name="LastFTPTestDatePicker" Padding="12,8" FontSize="14"/>
+                                <TextBlock x:Name="TimeSinceLastTestTextBlock" Text="Czas od ostatniego testu: --"
+                                           FontSize="12" Margin="0,4,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                <Button x:Name="FTPHistoryButton" Content="📊 Historia FTP >"
+                                        Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                                        Foreground="{StaticResource PrimaryColor}" Padding="8" Margin="0,0,8,0"/>
+                                <Button x:Name="DetectFTPButton" Content="🔍 Wykryj FTP z treningów"
+                                        Style="{StaticResource PrimaryButtonStyle}" Padding="12,8"/>
+                            </StackPanel>
+
+                            <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                            <!-- Power Zones Model -->
+                            <TextBlock Text="Model stref mocy" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                            <StackPanel Margin="0,0,0,16">
+                                <RadioButton x:Name="Coggan7ZonesRadio" Content="Coggan (7 stref) - domyślny, zalecany"
+                                             GroupName="PowerZoneModel" IsChecked="True" Margin="0,0,0,8"/>
+                                <RadioButton x:Name="Coggan6ZonesRadio" Content="Coggan (6 stref)"
+                                             GroupName="PowerZoneModel" Margin="0,0,0,8"/>
+                                <RadioButton x:Name="BritishCycling5ZonesRadio" Content="British Cycling (5 stref)"
+                                             GroupName="PowerZoneModel" Margin="0,0,0,8"/>
+                                <RadioButton x:Name="Polarized3ZonesRadio" Content="Polarized (3 strefy)"
+                                             GroupName="PowerZoneModel" Margin="0,0,0,8"/>
+                                <RadioButton x:Name="CustomPowerZonesRadio" Content="Custom (własne)"
+                                             GroupName="PowerZoneModel"/>
+                                <TextBlock x:Name="PowerZoneModelDescriptionTextBlock"
+                                           Text="Model Andrew Coggan - najpopularniejszy system stref treningowych. Używany przez TrainingPeaks, WKO5 i większość platform treningowych."
+                                           FontSize="11" Foreground="{StaticResource TextSecondaryColor}"
+                                           Margin="0,8,0,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                            <!-- Power Zones Table -->
+                            <Grid Margin="0,0,0,16">
+                                <TextBlock Text="Definicje stref mocy" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left"/>
+                                <Button x:Name="RestorePowerZonesButton" Content="↺ Przywróć domyślne dla modelu"
+                                        Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                                        Foreground="{StaticResource PrimaryColor}" HorizontalAlignment="Right" Padding="8"/>
+                            </Grid>
+
+                            <!-- Simplified Power Zones Table -->
+                            <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="4" Padding="16" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <!-- Z1 -->
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#9E9E9E" CornerRadius="4" Padding="8,4">
+                                            <TextBlock Text="Z1 🔵" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Text="Active Recovery" Padding="8" Margin="8,0"/>
+                                        <TextBlock Grid.Column="2" Text="0-55% FTP" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Button Grid.Column="3" Content="↺" Style="{StaticResource PrimaryButtonStyle}"
+                                                Background="Transparent" Padding="4"/>
+                                    </Grid>
+
+                                    <!-- Z2 -->
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#2196F3" CornerRadius="4" Padding="8,4">
+                                            <TextBlock Text="Z2 🟢" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Text="Endurance" Padding="8" Margin="8,0"/>
+                                        <TextBlock Grid.Column="2" Text="56-75% FTP" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Button Grid.Column="3" Content="↺" Style="{StaticResource PrimaryButtonStyle}"
+                                                Background="Transparent" Padding="4"/>
+                                    </Grid>
+
+                                    <!-- Z3 -->
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#4CAF50" CornerRadius="4" Padding="8,4">
+                                            <TextBlock Text="Z3 🟡" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Text="Tempo" Padding="8" Margin="8,0"/>
+                                        <TextBlock Grid.Column="2" Text="76-90% FTP" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Button Grid.Column="3" Content="↺" Style="{StaticResource PrimaryButtonStyle}"
+                                                Background="Transparent" Padding="4"/>
+                                    </Grid>
+
+                                    <!-- Z4 -->
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#FFC107" CornerRadius="4" Padding="8,4">
+                                            <TextBlock Text="Z4 🟠" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Text="Lactate Threshold" Padding="8" Margin="8,0"/>
+                                        <TextBlock Grid.Column="2" Text="91-105% FTP" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Button Grid.Column="3" Content="↺" Style="{StaticResource PrimaryButtonStyle}"
+                                                Background="Transparent" Padding="4"/>
+                                    </Grid>
+
+                                    <!-- Z5 -->
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#FF9800" CornerRadius="4" Padding="8,4">
+                                            <TextBlock Text="Z5 🔴" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Text="VO2max" Padding="8" Margin="8,0"/>
+                                        <TextBlock Grid.Column="2" Text="106-120% FTP" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Button Grid.Column="3" Content="↺" Style="{StaticResource PrimaryButtonStyle}"
+                                                Background="Transparent" Padding="4"/>
+                                    </Grid>
+
+                                    <!-- Z6 -->
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#F44336" CornerRadius="4" Padding="8,4">
+                                            <TextBlock Text="Z6 🔴🔴" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Text="Anaerobic Capacity" Padding="8" Margin="8,0"/>
+                                        <TextBlock Grid.Column="2" Text="121-150% FTP" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Button Grid.Column="3" Content="↺" Style="{StaticResource PrimaryButtonStyle}"
+                                                Background="Transparent" Padding="4"/>
+                                    </Grid>
+
+                                    <!-- Z7 -->
+                                    <Grid Margin="0,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="#D32F2F" CornerRadius="4" Padding="8,4">
+                                            <TextBlock Text="Z7 ⚫" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Text="Neuromuscular Power" Padding="8" Margin="8,0"/>
+                                        <TextBlock Grid.Column="2" Text=">150% FTP" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <Button Grid.Column="3" Content="↺" Style="{StaticResource PrimaryButtonStyle}"
+                                                Background="Transparent" Padding="4"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Zone visualization -->
+                            <StackPanel Margin="0,0,0,24">
+                                <TextBlock Text="Podgląd stref" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <Grid Height="40">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="55*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                        <ColumnDefinition Width="15*"/>
+                                        <ColumnDefinition Width="15*"/>
+                                        <ColumnDefinition Width="15*"/>
+                                        <ColumnDefinition Width="30*"/>
+                                        <ColumnDefinition Width="150*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Background="#9E9E9E"/>
+                                    <Border Grid.Column="1" Background="#2196F3"/>
+                                    <Border Grid.Column="2" Background="#4CAF50"/>
+                                    <Border Grid.Column="3" Background="#FFC107"/>
+                                    <Border Grid.Column="4" Background="#FF9800"/>
+                                    <Border Grid.Column="5" Background="#F44336"/>
+                                    <Border Grid.Column="6" Background="#D32F2F"/>
+                                </Grid>
+                                <Grid Margin="0,8,0,0">
+                                    <TextBlock Text="0W" FontSize="11" HorizontalAlignment="Left"/>
+                                    <TextBlock x:Name="FTPLabelTextBlock" Text="FTP (285W)" FontSize="11"
+                                               FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                    <TextBlock x:Name="MaxPowerLabelTextBlock" Text="428W (150% FTP)" FontSize="11"
+                                               HorizontalAlignment="Right"/>
+                                </Grid>
+                            </StackPanel>
+
+                            <Button x:Name="SavePowerZonesButton" Content="💾 Zapisz strefy mocy"
+                                    Style="{StaticResource PrimaryButtonStyle}" Padding="16,10" Margin="0,0,0,32"/>
+                        </StackPanel>
+
+                        <!-- Heart Rate Zones Tab Content -->
+                        <StackPanel x:Name="HeartRateZonesTabContent" Visibility="Collapsed">
+                            <TextBlock Text="Strefy tętna - zawartość" FontSize="16" Margin="0,0,0,16"/>
+                            <TextBlock Text="[Implementacja stref tętna - analogiczna do stref mocy]"
+                                       FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- ==================== CATEGORY 3: ADVANCED ==================== -->
+                    <StackPanel x:Name="AdvancedCategory" Visibility="Collapsed">
+                        <TextBlock Text="Ustawienia zaawansowane" FontSize="24" FontWeight="Bold" Margin="0,0,0,24"/>
+                        <Border Background="#FFF3E0" BorderBrush="#FFC107" BorderThickness="2" CornerRadius="4" Padding="12" Margin="0,0,0,24">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚠️" FontSize="16" Margin="0,0,8,0"/>
+                                <TextBlock Text="Zmiana tych ustawień może wpłynąć na dokładność analiz"
+                                           FontSize="13" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Algorytm wykrywania interwałów -->
+                        <TextBlock Text="Wykrywanie interwałów treningowych" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <StackPanel Margin="0,0,0,24">
+                            <TextBlock Text="Czułość algorytmu" FontSize="14" Margin="0,0,0,8"/>
+                            <Slider x:Name="IntervalSensitivitySlider" Minimum="1" Maximum="4" Value="3"
+                                    TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,8"/>
+                            <TextBlock x:Name="SensitivityLabelTextBlock" Text="Wysoka (domyślna)"
+                                       FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- TSS Calculation -->
+                        <TextBlock Text="Training Stress Score (TSS)" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <StackPanel Margin="0,0,0,24">
+                            <RadioButton x:Name="StandardTSSRadio" Content="Standardowy (IF² × czas) - domyślny"
+                                         GroupName="TSSMethod" IsChecked="True" Margin="0,0,0,8"/>
+                            <RadioButton x:Name="AlternativeTSSRadio" Content="Alternatywny (VI adjusted)"
+                                         GroupName="TSSMethod" Margin="0,0,0,8"/>
+                            <RadioButton x:Name="HRTSSRadio" Content="hrTSS (na podstawie tętna - jeśli brak mocy)"
+                                         GroupName="TSSMethod"/>
+                            <TextBlock x:Name="TSSMethodDescriptionTextBlock"
+                                       Text="Metoda standardowa: TSS = (s × NP × IF) / (FTP × 3600) × 100"
+                                       FontSize="11" Foreground="{StaticResource TextSecondaryColor}"
+                                       Margin="0,8,0,0" TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- PMC Parameters -->
+                        <TextBlock Text="Parametry PMC" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <StackPanel Margin="0,0,0,16">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="CTL - Fitness (długoterminowe obciążenie)" FontSize="14" Margin="0,0,8,0"/>
+                                <Button Content="ⓘ" Style="{StaticResource PrimaryButtonStyle}"
+                                        Background="Transparent" Foreground="{StaticResource TextSecondaryColor}"
+                                        Padding="4,0" FontSize="12" ToolTip="Ile dni używać do obliczania CTL (Fitness)"/>
+                            </StackPanel>
+                            <Grid Margin="0,4,0,0">
+                                <TextBox x:Name="CTLDaysTextBox" Text="42" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBlock Text="dni" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
+                                           Foreground="{StaticResource TextSecondaryColor}"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Margin="0,0,0,16">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="ATL - Fatigue (krótkoterminowe obciążenie)" FontSize="14" Margin="0,0,8,0"/>
+                                <Button Content="ⓘ" Style="{StaticResource PrimaryButtonStyle}"
+                                        Background="Transparent" Foreground="{StaticResource TextSecondaryColor}"
+                                        Padding="4,0" FontSize="12" ToolTip="Ile dni używać do obliczania ATL (Fatigue)"/>
+                            </StackPanel>
+                            <Grid Margin="0,4,0,0">
+                                <TextBox x:Name="ATLDaysTextBox" Text="7" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBlock Text="dni" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
+                                           Foreground="{StaticResource TextSecondaryColor}"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <Button x:Name="RestorePMCDefaultsButton" Content="↺ Przywróć domyślne stałe PMC"
+                                Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                                Foreground="{StaticResource PrimaryColor}" HorizontalAlignment="Left"
+                                Padding="8" Margin="0,0,0,24"/>
+
+                        <Button x:Name="SaveAdvancedSettingsButton" Content="💾 Zapisz ustawienia zaawansowane"
+                                Style="{StaticResource PrimaryButtonStyle}" Padding="16,10" Margin="0,0,0,32"/>
+                    </StackPanel>
+
+                    <!-- ==================== CATEGORY 4: APPEARANCE ==================== -->
+                    <StackPanel x:Name="AppearanceCategory" Visibility="Collapsed">
+                        <TextBlock Text="Personalizacja wyglądu" FontSize="24" FontWeight="Bold" Margin="0,0,0,24"/>
+
+                        <!-- Theme -->
+                        <TextBlock Text="Motyw aplikacji" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <StackPanel Margin="0,0,0,24">
+                            <RadioButton x:Name="LightThemeRadio" GroupName="Theme" IsChecked="True" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <TextBlock Text="Jasny" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Domyślny motyw, zalecany na dzień" FontSize="11"
+                                               Foreground="{StaticResource TextSecondaryColor}"/>
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton x:Name="DarkThemeRadio" GroupName="Theme" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <TextBlock Text="Ciemny" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Wygodny dla oczu w nocy" FontSize="11"
+                                               Foreground="{StaticResource TextSecondaryColor}"/>
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton x:Name="SystemThemeRadio" GroupName="Theme">
+                                <StackPanel>
+                                    <TextBlock Text="Automatyczny (systemowy)" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Dopasowuje się do ustawień Windows" FontSize="11"
+                                               Foreground="{StaticResource TextSecondaryColor}"/>
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- Accent Color -->
+                        <TextBlock Text="Kolor główny (accent)" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                            <Border x:Name="BlueColorBorder" Width="40" Height="40" Background="#2196F3" CornerRadius="4"
+                                    Margin="0,0,8,0" BorderBrush="Black" BorderThickness="2" Cursor="Hand"/>
+                            <Border x:Name="GreenColorBorder" Width="40" Height="40" Background="#4CAF50" CornerRadius="4"
+                                    Margin="0,0,8,0" BorderBrush="Transparent" BorderThickness="2" Cursor="Hand"/>
+                            <Border x:Name="OrangeColorBorder" Width="40" Height="40" Background="#FF9800" CornerRadius="4"
+                                    Margin="0,0,8,0" BorderBrush="Transparent" BorderThickness="2" Cursor="Hand"/>
+                            <Border x:Name="RedColorBorder" Width="40" Height="40" Background="#F44336" CornerRadius="4"
+                                    Margin="0,0,8,0" BorderBrush="Transparent" BorderThickness="2" Cursor="Hand"/>
+                            <Border x:Name="PurpleColorBorder" Width="40" Height="40" Background="#9C27B0" CornerRadius="4"
+                                    Margin="0,0,8,0" BorderBrush="Transparent" BorderThickness="2" Cursor="Hand"/>
+                            <Border x:Name="PinkColorBorder" Width="40" Height="40" Background="#E91E63" CornerRadius="4"
+                                    Margin="0,0,8,0" BorderBrush="Transparent" BorderThickness="2" Cursor="Hand"/>
+                            <Border x:Name="CyanColorBorder" Width="40" Height="40" Background="#00BCD4" CornerRadius="4"
+                                    Margin="0,0,0,0" BorderBrush="Transparent" BorderThickness="2" Cursor="Hand"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- Font Settings -->
+                        <TextBlock Text="Czcionka interfejsu" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <StackPanel Margin="0,0,0,24">
+                            <TextBlock Text="Rozmiar czcionki" FontSize="14" Margin="0,0,0,8"/>
+                            <RadioButton x:Name="SmallFontRadio" Content="Mała (90%)" GroupName="FontSize" Margin="0,0,0,4"/>
+                            <RadioButton x:Name="MediumFontRadio" Content="Średnia (100%) - domyślna" GroupName="FontSize" IsChecked="True" Margin="0,0,0,4"/>
+                            <RadioButton x:Name="LargeFontRadio" Content="Duża (110%)" GroupName="FontSize" Margin="0,0,0,4"/>
+                            <RadioButton x:Name="ExtraLargeFontRadio" Content="Bardzo duża (125%)" GroupName="FontSize"/>
+                        </StackPanel>
+
+                        <Button x:Name="SaveAppearanceButton" Content="💾 Zapisz ustawienia wyglądu"
+                                Style="{StaticResource PrimaryButtonStyle}" Padding="16,10" Margin="0,0,0,32"/>
+                    </StackPanel>
+
+                    <!-- ==================== CATEGORY 5: ABOUT ==================== -->
+                    <StackPanel x:Name="AboutCategory" Visibility="Collapsed">
+                        <TextBlock Text="Informacje o aplikacji" FontSize="24" FontWeight="Bold" Margin="0,0,0,24"/>
+
+                        <!-- Logo and Version -->
+                        <StackPanel HorizontalAlignment="Center" Margin="0,0,0,32">
+                            <Border Width="128" Height="128" Background="{StaticResource PrimaryColor}" CornerRadius="16" Margin="0,0,0,16">
+                                <TextBlock Text="JA" FontSize="48" FontWeight="Bold" Foreground="White"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="JA Training" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Wersja: 1.0.0" FontSize="14" Foreground="{StaticResource TextSecondaryColor}"
+                                       HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                            <TextBlock Text="Build: 2025.11.14" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"
+                                       HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- Author -->
+                        <TextBlock Text="Autor" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                        <StackPanel Margin="0,0,0,24">
+                            <TextBlock Text="Utworzona przez: Jakub Antoń" FontSize="14" Margin="0,0,0,4"/>
+                            <TextBlock Text="Email: kontakt@jatraining.pl" FontSize="14" Margin="0,0,0,4"/>
+                            <TextBlock Text="Strona: www.jatraining.pl" FontSize="14"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- License -->
+                        <TextBlock Text="Licencja" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                        <StackPanel Margin="0,0,0,24">
+                            <TextBlock Text="Licencja: MIT License" FontSize="14" Margin="0,0,0,8"/>
+                            <Button x:Name="ViewLicenseButton" Content="Zobacz pełną licencję >"
+                                    Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                                    Foreground="{StaticResource PrimaryColor}" HorizontalAlignment="Left" Padding="0,4"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- Libraries -->
+                        <TextBlock Text="Użyte biblioteki i technologie" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                        <ScrollViewer MaxHeight="200" Margin="0,0,0,24">
+                            <StackPanel>
+                                <TextBlock Text="• .NET 8.0" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock Text="• WPF (Windows Presentation Foundation)" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock Text="• Python 3.11 (backend algorithms)" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock Text="• ScottPlot (wykresy)" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock Text="• SQLite (baza danych)" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock Text="• Dynastream FIT SDK" FontSize="13" Margin="0,0,0,4"/>
+                                <TextBlock Text="• DocumentFormat.OpenXml" FontSize="13"/>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                        <!-- Support -->
+                        <TextBlock Text="Pomoc i wsparcie" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                        <StackPanel Margin="0,0,0,32">
+                            <Button x:Name="DocumentationButton" Content="📖 Dokumentacja"
+                                    Style="{StaticResource PrimaryButtonStyle}" Padding="12,8" Margin="0,0,0,8" HorizontalContentAlignment="Left"/>
+                            <Button x:Name="ReportBugButton" Content="🐛 Zgłoś błąd"
+                                    Style="{StaticResource PrimaryButtonStyle}" Padding="12,8" Margin="0,0,0,8" HorizontalContentAlignment="Left"/>
+                            <Button x:Name="FeatureRequestButton" Content="💡 Zaproponuj funkcję"
+                                    Style="{StaticResource PrimaryButtonStyle}" Padding="12,8" Margin="0,0,0,8" HorizontalContentAlignment="Left"/>
+                            <Button x:Name="FAQButton" Content="❓ FAQ"
+                                    Style="{StaticResource PrimaryButtonStyle}" Padding="12,8" HorizontalContentAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+    </Grid>
+</UserControl>

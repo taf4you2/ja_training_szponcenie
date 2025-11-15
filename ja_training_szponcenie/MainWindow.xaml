@@ -12,6 +12,8 @@
         WindowState="Maximized"
         Background="{StaticResource BackgroundColor}">
     <Grid>
-        <views:DashboardView/>
+        <ContentControl x:Name="MainContent">
+            <views:DashboardView/>
+        </ContentControl>
     </Grid>
 </Window>
