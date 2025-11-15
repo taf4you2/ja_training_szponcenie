@@ -1,0 +1,378 @@
+<UserControl x:Class="ja_training_szponcenie.Views.Controls.RecordDetailPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="400"
+             Background="White">
+
+    <UserControl.Resources>
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,20,0,10"/>
+            <Setter Property="Foreground" Value="#424242"/>
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#757575"/>
+            <Setter Property="Margin" Value="0,0,0,3"/>
+        </Style>
+
+        <Style x:Key="ValueStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#212121"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,5"/>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="Background" Value="#757575"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Border BorderBrush="#E0E0E0" BorderThickness="1,0,0,0">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.3" Direction="180"/>
+        </Border.Effect>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+
+                <!-- Nagłówek panelu -->
+                <Grid Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="Szczegóły rekordu" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="5 minut" FontSize="24" FontWeight="Bold" Foreground="#2196F3" Margin="0,5,0,0"/>
+                    </StackPanel>
+                    <Button Content="❌" HorizontalAlignment="Right" VerticalAlignment="Top"
+                           Background="Transparent" BorderThickness="0" Padding="5" FontSize="18" Cursor="Hand"/>
+                </Grid>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,0,0,15"/>
+
+                <!-- Sekcja 1: Podstawowe informacje -->
+                <StackPanel>
+                    <TextBlock Text="Podstawowe informacje" Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <!-- Moc -->
+                    <TextBlock Text="324 W" FontSize="48" FontWeight="Bold" Foreground="#2196F3" HorizontalAlignment="Center"/>
+
+                    <!-- Dodatkowe metryki -->
+                    <Grid Margin="0,15,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- W/kg -->
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBlock Text="W/kg" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="4.3" Style="{StaticResource ValueStyle}" HorizontalAlignment="Center" FontSize="20"/>
+                        </StackPanel>
+
+                        <!-- % FTP -->
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Text="% FTP" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="114%" Style="{StaticResource ValueStyle}" HorizontalAlignment="Center" FontSize="20"/>
+                        </StackPanel>
+
+                        <!-- Strefa -->
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBlock Text="Strefa" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center"/>
+                            <Border Background="#FFB300" CornerRadius="4" Padding="8,4" HorizontalAlignment="Center">
+                                <TextBlock Text="Z5" Foreground="White" FontWeight="Bold"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,15"/>
+
+                <!-- Sekcja 2: Status rekordu -->
+                <StackPanel>
+                    <TextBlock Text="Status rekordu" Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <Border Background="#4CAF50" CornerRadius="6" Padding="15,10" Margin="0,10">
+                        <StackPanel>
+                            <TextBlock Text="🆕 NOWY REKORD!" Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Osiągnięty 3 dni temu" Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Grid Margin="0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Data osiągnięcia:" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="9 listopada 2025" Style="{StaticResource ValueStyle}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Poprzedni rekord:" Style="{StaticResource LabelStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="318 W (15.08.2025)" Style="{StaticResource ValueStyle}" Margin="0,8,0,0"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Poprawa:" Style="{StaticResource LabelStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="+6 W (+1.9%)" Style="{StaticResource ValueStyle}" Foreground="#4CAF50" Margin="0,8,0,0"/>
+                    </Grid>
+
+                    <!-- Mini wykres progresji (placeholder) -->
+                    <Border Height="60" Background="#F5F5F5" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4" Margin="0,10">
+                        <Canvas>
+                            <Polyline Points="10,50 40,45 70,40 100,42 130,38 160,35 190,30 220,25 250,20 280,15"
+                                     Stroke="#4CAF50" StrokeThickness="2" Fill="Transparent"/>
+                            <Ellipse Canvas.Left="278" Canvas.Top="13" Width="6" Height="6" Fill="#4CAF50"/>
+                        </Canvas>
+                    </Border>
+                </StackPanel>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,15"/>
+
+                <!-- Sekcja 3: Szczegóły treningu -->
+                <StackPanel>
+                    <TextBlock Text="Szczegóły treningu" Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <StackPanel Margin="0,10">
+                        <TextBlock Text="Nazwa treningu:" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="Evening intervals" Style="{StaticResource ValueStyle}" FontSize="16" Foreground="#2196F3" TextDecorations="Underline" Cursor="Hand"/>
+                    </StackPanel>
+
+                    <Grid Margin="0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Data i godzina:" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="09.11.2025, 17:30" Style="{StaticResource ValueStyle}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Całkowity TSS:" Style="{StaticResource LabelStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="124" Style="{StaticResource ValueStyle}" Margin="0,8,0,0"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Czas w treningu:" Style="{StaticResource LabelStyle}" Margin="0,8,0,0"/>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                            <TextBlock Text="06:15 od startu" Style="{StaticResource ValueStyle}"/>
+                            <TextBlock Text="🔗" Margin="10,0,0,0" Foreground="#2196F3" Cursor="Hand"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,15"/>
+
+                <!-- Sekcja 4: Kontekst -->
+                <StackPanel>
+                    <TextBlock Text="Kontekst" Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <Grid Margin="0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Warunki:" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Outdoor" Style="{StaticResource ValueStyle}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Tętno:" Style="{StaticResource LabelStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="178 bpm (97% Max)" Style="{StaticResource ValueStyle}" Margin="0,8,0,0"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Kadencja:" Style="{StaticResource LabelStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="98 rpm" Style="{StaticResource ValueStyle}" Margin="0,8,0,0"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Temperatura:" Style="{StaticResource LabelStyle}" Margin="0,8,0,0"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="18°C" Style="{StaticResource ValueStyle}" Margin="0,8,0,0"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,15"/>
+
+                <!-- Sekcja 5: Wykres fragmentu -->
+                <StackPanel>
+                    <TextBlock Text="Wykres fragmentu (±2 min)" Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <Border Height="120" Background="#F5F5F5" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4" Margin="0,10">
+                        <Canvas>
+                            <!-- Linie siatki -->
+                            <Line X1="0" Y1="30" X2="350" Y2="30" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="2,2"/>
+                            <Line X1="0" Y1="60" X2="350" Y2="60" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="2,2"/>
+                            <Line X1="0" Y1="90" X2="350" Y2="90" Stroke="#E0E0E0" StrokeThickness="1" StrokeDashArray="2,2"/>
+
+                            <!-- Linia mocy -->
+                            <Polyline Points="10,80 30,75 50,65 70,50 90,40 110,30 130,25 150,20 170,22 190,25 210,30 230,40 250,55 270,70 290,80 310,90 330,95"
+                                     Stroke="#2196F3" StrokeThickness="2" Fill="Transparent"/>
+
+                            <!-- Marker rekordu -->
+                            <Rectangle Canvas.Left="145" Canvas.Top="0" Width="2" Height="120" Fill="#4CAF50" Opacity="0.5"/>
+                            <Ellipse Canvas.Left="147" Canvas.Top="17" Width="8" Height="8" Fill="#4CAF50" Stroke="White" StrokeThickness="2"/>
+                        </Canvas>
+                    </Border>
+                </StackPanel>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,15"/>
+
+                <!-- Sekcja 6: Historia tego rekordu -->
+                <StackPanel>
+                    <TextBlock Text="Historia rekordu 5min" Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <StackPanel Margin="0,10">
+                        <!-- Rekord 1 - obecny -->
+                        <Border Background="#E8F5E9" Padding="10" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="🏆" FontSize="16" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" Margin="10,0">
+                                    <TextBlock Text="324 W" FontWeight="Bold" FontSize="14"/>
+                                    <TextBlock Text="09.11.2025 • Obecny rekord" FontSize="11" Foreground="#757575"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Rekord 2 -->
+                        <Border Background="#FAFAFA" Padding="10" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="2" FontSize="14" VerticalAlignment="Center" Foreground="#757575" Margin="5,0"/>
+                                <StackPanel Grid.Column="1" Margin="10,0">
+                                    <TextBlock Text="318 W" FontWeight="SemiBold" FontSize="14"/>
+                                    <TextBlock Text="15.08.2025" FontSize="11" Foreground="#757575"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="2" Text="+6W (+1.9%)" Foreground="#4CAF50" FontSize="11" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Rekord 3 -->
+                        <Border Background="#FAFAFA" Padding="10" CornerRadius="4" Margin="0,0,0,5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="3" FontSize="14" VerticalAlignment="Center" Foreground="#757575" Margin="5,0"/>
+                                <StackPanel Grid.Column="1" Margin="10,0">
+                                    <TextBlock Text="312 W" FontWeight="SemiBold" FontSize="14"/>
+                                    <TextBlock Text="22.06.2025" FontSize="11" Foreground="#757575"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="2" Text="+6W (+1.9%)" Foreground="#4CAF50" FontSize="11" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Rekord 4 -->
+                        <Border Background="#FAFAFA" Padding="10" CornerRadius="4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="4" FontSize="14" VerticalAlignment="Center" Foreground="#757575" Margin="5,0"/>
+                                <StackPanel Grid.Column="1" Margin="10,0">
+                                    <TextBlock Text="305 W" FontWeight="SemiBold" FontSize="14"/>
+                                    <TextBlock Text="10.04.2025" FontSize="11" Foreground="#757575"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="2" Text="+7W (+2.3%)" Foreground="#4CAF50" FontSize="11" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,15"/>
+
+                <!-- Sekcja 7: Top 3 wyniki -->
+                <StackPanel>
+                    <TextBlock Text="Top 3 wyniki dla 5 minut" Style="{StaticResource SectionHeaderStyle}"/>
+
+                    <StackPanel Margin="0,10">
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🥇" FontSize="18"/>
+                            <TextBlock Grid.Column="1" Text="324 W • 09.11.2025" Style="{StaticResource ValueStyle}"/>
+                            <Border Grid.Column="2" Background="#4CAF50" CornerRadius="3" Padding="5,2">
+                                <TextBlock Text="Obecny" Foreground="White" FontSize="10"/>
+                            </Border>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🥈" FontSize="18"/>
+                            <TextBlock Grid.Column="1" Text="320 W • 28.10.2025" Foreground="#616161"/>
+                            <TextBlock Grid.Column="2" Text="-4W" Foreground="#757575" FontSize="11"/>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🥉" FontSize="18"/>
+                            <TextBlock Grid.Column="1" Text="318 W • 15.08.2025" Foreground="#616161"/>
+                            <TextBlock Grid.Column="2" Text="-6W" Foreground="#757575" FontSize="11"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Separator -->
+                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Margin="0,20"/>
+
+                <!-- Przyciski akcji -->
+                <StackPanel Margin="0,15,0,20">
+                    <Button Content="Zobacz trening" Style="{StaticResource PrimaryButtonStyle}"/>
+                    <Button Content="Porównaj z innymi" Style="{StaticResource SecondaryButtonStyle}"/>
+                    <Button Content="Udostępnij" Style="{StaticResource SecondaryButtonStyle}"/>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ja_training_szponcenie.Views;
 
 namespace ja_training_szponcenie
 {
@@ -16,9 +17,38 @@ namespace ja_training_szponcenie
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DashboardView dashboardView;
+        private SettingsView settingsView;
+
         public MainWindow()
         {
             InitializeComponent();
+            dashboardView = new DashboardView();
+
+            // Initialize with Dashboard
+            MainContent.Content = dashboardView;
+        }
+
+        public void NavigateToSettings()
+        {
+            if (settingsView == null)
+            {
+                settingsView = new SettingsView();
+            }
+            MainContent.Content = settingsView;
+            Title = "JA Training - Ustawienia";
+        }
+
+        public void NavigateToDashboard()
+        {
+            MainContent.Content = dashboardView;
+            Title = "JA Training - Dashboard";
+        }
+
+        private void OpenRecordsPowerCurveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var recordsWindow = new RecordsPowerCurveView();
+            recordsWindow.Show();
         }
     }
 }
