@@ -175,15 +175,13 @@
                         <!-- Imię -->
                         <StackPanel Margin="0,0,0,16">
                             <TextBlock Text="Imię" FontSize="14" Margin="0,0,0,4"/>
-                            <TextBox x:Name="FirstNameTextBox" Style="{StaticResource {x:Type TextBox}}"
-                                     Padding="12,8" FontSize="14"/>
+                            <TextBox x:Name="FirstNameTextBox" Padding="12,8" FontSize="14"/>
                         </StackPanel>
 
                         <!-- Nazwisko -->
                         <StackPanel Margin="0,0,0,16">
                             <TextBlock Text="Nazwisko" FontSize="14" Margin="0,0,0,4"/>
-                            <TextBox x:Name="LastNameTextBox" Style="{StaticResource {x:Type TextBox}}"
-                                     Padding="12,8" FontSize="14"/>
+                            <TextBox x:Name="LastNameTextBox" Padding="12,8" FontSize="14"/>
                         </StackPanel>
 
                         <!-- Data urodzenia -->
@@ -220,8 +218,7 @@
                                         VerticalAlignment="Top" Padding="4"/>
                             </Grid>
                             <Grid>
-                                <TextBox x:Name="WeightTextBox" Style="{StaticResource {x:Type TextBox}}"
-                                         Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="WeightTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
                                 <TextBlock Text="kg" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
                                            Foreground="{StaticResource TextSecondaryColor}"/>
                             </Grid>
@@ -233,8 +230,7 @@
                         <StackPanel Margin="0,16,0,16">
                             <TextBlock Text="Wzrost" FontSize="14" Margin="0,0,0,4"/>
                             <Grid>
-                                <TextBox x:Name="HeightTextBox" Style="{StaticResource {x:Type TextBox}}"
-                                         Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="HeightTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
                                 <TextBlock Text="cm" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
                                            Foreground="{StaticResource TextSecondaryColor}"/>
                             </Grid>
@@ -262,8 +258,7 @@
                                         Padding="4,0" FontSize="12" ToolTip="Najniższe tętno podczas snu lub zaraz po przebudzeniu. Mierz przez kilka dni i użyj średniej."/>
                             </StackPanel>
                             <Grid Margin="0,4,0,0">
-                                <TextBox x:Name="RestingHeartRateTextBox" Style="{StaticResource {x:Type TextBox}}"
-                                         Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="RestingHeartRateTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
                                 <TextBlock Text="bpm" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
                                            Foreground="{StaticResource TextSecondaryColor}"/>
                             </Grid>
@@ -282,8 +277,7 @@
                                         Padding="4,0" FontSize="12" ToolTip="Najwyższe tętno osiągnięte podczas maksymalnego wysiłku"/>
                             </StackPanel>
                             <Grid Margin="0,4,0,0">
-                                <TextBox x:Name="MaxHeartRateTextBox" Style="{StaticResource {x:Type TextBox}}"
-                                         Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="MaxHeartRateTextBox" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
                                 <TextBlock Text="bpm" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
                                            Foreground="{StaticResource TextSecondaryColor}"/>
                             </Grid>
@@ -333,8 +327,7 @@
                                             Padding="4,0" FontSize="12" ToolTip="Maksymalna moc którą możesz utrzymać przez 60 minut"/>
                                 </StackPanel>
                                 <Grid Margin="0,4,0,0">
-                                    <TextBox x:Name="FTPTextBox" Style="{StaticResource {x:Type TextBox}}"
-                                             Padding="12,12" FontSize="20" FontWeight="Bold" MaxWidth="200" HorizontalAlignment="Left"/>
+                                    <TextBox x:Name="FTPTextBox" Padding="12,12" FontSize="20" FontWeight="Bold" MaxWidth="200" HorizontalAlignment="Left"/>
                                     <TextBlock Text="W" FontSize="20" VerticalAlignment="Center" Margin="180,0,0,0"
                                                Foreground="{StaticResource TextSecondaryColor}"/>
                                 </Grid>
@@ -610,8 +603,7 @@
                                         Padding="4,0" FontSize="12" ToolTip="Ile dni używać do obliczania CTL (Fitness)"/>
                             </StackPanel>
                             <Grid Margin="0,4,0,0">
-                                <TextBox x:Name="CTLDaysTextBox" Text="42" Style="{StaticResource {x:Type TextBox}}"
-                                         Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="CTLDaysTextBox" Text="42" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
                                 <TextBlock Text="dni" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
                                            Foreground="{StaticResource TextSecondaryColor}"/>
                             </Grid>
@@ -625,8 +617,7 @@
                                         Padding="4,0" FontSize="12" ToolTip="Ile dni używać do obliczania ATL (Fatigue)"/>
                             </StackPanel>
                             <Grid Margin="0,4,0,0">
-                                <TextBox x:Name="ATLDaysTextBox" Text="7" Style="{StaticResource {x:Type TextBox}}"
-                                         Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
+                                <TextBox x:Name="ATLDaysTextBox" Text="7" Padding="12,8" FontSize="14" MaxWidth="200" HorizontalAlignment="Left"/>
                                 <TextBlock Text="dni" FontSize="14" VerticalAlignment="Center" Margin="180,0,0,0"
                                            Foreground="{StaticResource TextSecondaryColor}"/>
                             </Grid>
