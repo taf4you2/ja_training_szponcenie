@@ -38,12 +38,28 @@
 
     <!-- Background Colors -->
     <SolidColorBrush x:Key="BackgroundBrush" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="BackgroundColor" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="SurfaceColor" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="BorderBrush" Color="#E0E0E0"/>
+    <SolidColorBrush x:Key="DividerColor" Color="#E0E0E0"/>
 
     <!-- Text Colors -->
     <SolidColorBrush x:Key="PrimaryTextBrush" Color="#212121"/>
+    <SolidColorBrush x:Key="TextPrimaryColor" Color="#212121"/>
     <SolidColorBrush x:Key="SecondaryTextBrush" Color="#757575"/>
+    <SolidColorBrush x:Key="TextSecondaryColor" Color="#757575"/>
     <SolidColorBrush x:Key="DisabledTextBrush" Color="#BDBDBD"/>
+
+    <!-- Primary/Success/Warning Colors -->
+    <SolidColorBrush x:Key="PrimaryColor" Color="#2196F3"/>
+    <SolidColorBrush x:Key="AccentColor" Color="#FF5722"/>
+    <SolidColorBrush x:Key="SuccessColor" Color="#4CAF50"/>
+    <SolidColorBrush x:Key="WarningColor" Color="#FFC107"/>
+
+    <!-- Performance Management Colors -->
+    <SolidColorBrush x:Key="FitnessColor" Color="#2196F3"/>
+    <SolidColorBrush x:Key="FatigueColor" Color="#FF9800"/>
+    <SolidColorBrush x:Key="FormPositiveColor" Color="#4CAF50"/>
 
 </ResourceDictionary>

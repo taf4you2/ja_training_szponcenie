@@ -4,14 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ja_training_szponcenie.Views.DayView"
-             xmlns:vm="clr-namespace:ja_training_szponcenie.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="1080" d:DesignWidth="1920"
              Background="{StaticResource BackgroundBrush}">
-
-    <UserControl.DataContext>
-        <vm:DayViewModel/>
-    </UserControl.DataContext>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="16,12,16,12">

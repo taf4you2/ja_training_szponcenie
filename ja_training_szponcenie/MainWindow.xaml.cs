@@ -44,11 +44,5 @@ namespace ja_training_szponcenie
             MainContent.Content = dashboardView;
             Title = "JA Training - Dashboard";
         }
-
-        private void OpenRecordsPowerCurveButton_Click(object sender, RoutedEventArgs e)
-        {
-            var recordsWindow = new RecordsPowerCurveView();
-            recordsWindow.Show();
-        }
     }
 }
