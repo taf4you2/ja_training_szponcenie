@@ -1,0 +1,926 @@
+<UserControl x:Class="ja_training_szponcenie.Views.SleepView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             Background="{StaticResource BackgroundColor}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="*"/> <!-- Main content -->
+        </Grid.RowDefinitions>
+
+        <!-- ==================== HEADER ==================== -->
+        <Border Grid.Row="0" Background="{StaticResource SurfaceColor}" Padding="16,12">
+            <Border.Effect>
+                <DropShadowEffect Color="#000000" Opacity="0.1" BlurRadius="8" ShadowDepth="2"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Lewa strona headera -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="BackButton" Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="0,0,16,0">
+                        <TextBlock Text="←" FontSize="20"/>
+                    </Button>
+                    <TextBlock Text="Analiza snu" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryColor}"/>
+                </StackPanel>
+
+                <!-- Centrum - selektor daty (widoczny tylko w zakładce Nocny sen) -->
+                <StackPanel x:Name="DateSelector" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="PreviousDayButton" Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="0,0,16,0">
+                        <TextBlock Text="◀" FontSize="16"/>
+                    </Button>
+                    <TextBlock Text="14 listopada 2025" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <Button x:Name="NextDayButton" Style="{StaticResource PrimaryButtonStyle}" Width="40" Height="40" Margin="16,0,0,0">
+                        <TextBlock Text="▶" FontSize="16"/>
+                    </Button>
+                </StackPanel>
+
+                <!-- Prawa strona headera -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <!-- Przycisk dodaj dane snu -->
+                    <Button x:Name="AddSleepDataButton" Style="{StaticResource PrimaryButtonStyle}" Padding="16,8" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="+" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Text="Dodaj dane snu" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Przycisk eksportu -->
+                    <Button x:Name="ExportButton" Style="{StaticResource PrimaryButtonStyle}" Background="Transparent"
+                            BorderBrush="{StaticResource PrimaryColor}" BorderThickness="2" Padding="12,8" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📤" FontSize="14" Margin="0,0,6,0"/>
+                            <TextBlock Text="Eksportuj" FontSize="14" Foreground="{StaticResource PrimaryColor}"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Menu opcji -->
+                    <Button x:Name="OptionsMenuButton" Style="{StaticResource PrimaryButtonStyle}" Background="Transparent" Width="40" Height="40">
+                        <TextBlock Text="⋮" FontSize="20"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ==================== MAIN CONTENT ==================== -->
+        <ScrollViewer Grid.Row="1" Style="{StaticResource CustomScrollViewerStyle}">
+            <StackPanel Margin="32,24" MaxWidth="1400" HorizontalAlignment="Center">
+
+                <!-- ==================== ZAKŁADKI ==================== -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                    <Button x:Name="NightSleepTab" Content="Nocny sen" Style="{StaticResource PrimaryButtonStyle}"
+                            Padding="24,12" Margin="0,0,8,0" BorderThickness="0,0,0,3"
+                            BorderBrush="{StaticResource PrimaryColor}" FontSize="16" FontWeight="SemiBold"/>
+                    <Button x:Name="SleepTrendsTab" Content="Trendy snu" Style="{StaticResource PrimaryButtonStyle}"
+                            Background="Transparent" Padding="24,12" BorderThickness="0,0,0,3"
+                            BorderBrush="Transparent" FontSize="16" Foreground="{StaticResource TextPrimaryColor}"/>
+                </StackPanel>
+
+                <!-- ==================== ZAKŁADKA: NOCNY SEN ==================== -->
+                <StackPanel x:Name="NightSleepTabContent">
+
+                    <!-- ==================== SEKCJA: Podsumowanie Nocy ==================== -->
+                    <Border CornerRadius="12" Padding="24" Margin="0,0,0,24">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#F3E5F5" Offset="0"/>
+                                <GradientStop Color="#E1BEE7" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="12" ShadowDepth="4"/>
+                        </Border.Effect>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Wiersz 1: Główne metryki -->
+                            <Grid Grid.Row="0" Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Całkowity czas snu -->
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="😴" FontSize="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Całkowity czas snu" FontSize="14" Foreground="#6A1B9A"/>
+                                    </StackPanel>
+                                    <TextBlock Text="7h 32min" FontSize="36" FontWeight="Bold" Foreground="#7B1FA2"/>
+                                </StackPanel>
+
+                                <!-- Sleep Score -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="⭐" FontSize="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Sleep Score" FontSize="14" Foreground="#6A1B9A"/>
+                                    </StackPanel>
+                                    <TextBlock Text="84/100" FontSize="36" FontWeight="Bold" Foreground="#7B1FA2"/>
+                                    <Border Background="#4CAF50" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" Margin="0,8,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="✅" FontSize="11" Margin="0,0,4,0"/>
+                                            <TextBlock Text="Dobra regeneracja" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <!-- Efektywność snu -->
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="📊" FontSize="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Efektywność" FontSize="14" Foreground="#6A1B9A"/>
+                                    </StackPanel>
+                                    <TextBlock Text="92%" FontSize="36" FontWeight="Bold" Foreground="{StaticResource SuccessColor}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Wiersz 2: Czasy -->
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Zaśnięcie -->
+                                <StackPanel Grid.Column="0">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="🌙" FontSize="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Zaśnięcie" FontSize="14" Foreground="#6A1B9A"/>
+                                    </StackPanel>
+                                    <TextBlock Text="22:45" FontSize="20" FontWeight="SemiBold"/>
+                                    <TextBlock Text="wczoraj wieczorem" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                </StackPanel>
+
+                                <!-- Przebudzenie -->
+                                <StackPanel Grid.Column="1">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="☀️" FontSize="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Przebudzenie" FontSize="14" Foreground="#6A1B9A"/>
+                                    </StackPanel>
+                                    <TextBlock Text="6:17" FontSize="20" FontWeight="SemiBold"/>
+                                    <TextBlock Text="dziś rano" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                </StackPanel>
+
+                                <!-- Czas w łóżku -->
+                                <StackPanel Grid.Column="2">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="🛏️" FontSize="16" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Czas w łóżku" FontSize="14" Foreground="#6A1B9A"/>
+                                    </StackPanel>
+                                    <TextBlock Text="8h 12min" FontSize="20" FontWeight="SemiBold"/>
+                                    <TextBlock Text="+40min vs czas snu" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- Separator -->
+                    <Border Style="{StaticResource SeparatorStyle}" Margin="0,0,0,24"/>
+
+                    <!-- ==================== SEKCJA: Wykres Faz Snu (Hipnogram) ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                            <TextBlock Text="📊 Fazy snu przez noc" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            <TextBlock Text="ⓘ" FontSize="14" Foreground="{StaticResource TextSecondaryColor}"
+                                       Margin="8,0,0,0" ToolTip="Hipnogram pokazuje przejścia między fazami snu"/>
+                        </StackPanel>
+
+                        <!-- Placeholder dla wykresu hipnogramu -->
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
+                                Height="350" Background="White">
+                            <TextBlock Text="[WYKRES HIPNOGRAM - FAZY SNU]" FontSize="24" FontStyle="Italic"
+                                       Foreground="{StaticResource TextSecondaryColor}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Statystyki Faz Snu ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="⏱️ Rozkład faz snu" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="400"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Wykres kołowy -->
+                            <Border Grid.Column="0" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
+                                    Height="300" Background="White" Margin="0,0,16,0">
+                                <TextBlock Text="[WYKRES KOŁOWY FAZY SNU]" FontSize="16" FontStyle="Italic"
+                                           Foreground="{StaticResource TextSecondaryColor}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Tabela szczegółów -->
+                            <Border Grid.Column="1" BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8" Background="White">
+                                <StackPanel Margin="16">
+                                    <!-- Header tabeli -->
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="120"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Faza" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Grid.Column="1" Text="Czas" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Grid.Column="2" Text="% czasu" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Grid.Column="3" Text="Ocena" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Grid.Column="4" Text="Norma" FontWeight="SemiBold" FontSize="12"/>
+                                    </Grid>
+
+                                    <!-- Sen głęboki -->
+                                    <Border Background="#E8EAF6" Padding="12,8" CornerRadius="4" Margin="0,0,0,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                                <TextBlock Text="😴" FontSize="14" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Sen głęboki" FontSize="14" FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="1" Text="1h 45min" FontSize="14" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="23%" FontSize="14"/>
+                                            <Border Grid.Column="3" Background="{StaticResource SuccessColor}" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left">
+                                                <TextBlock Text="✅ Optymalny" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <TextBlock Grid.Column="4" Text="15-25%" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Sen REM -->
+                                    <Border Background="#F3E5F5" Padding="12,8" CornerRadius="4" Margin="0,0,0,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                                <TextBlock Text="💭" FontSize="14" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Sen REM" FontSize="14" FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="1" Text="2h 10min" FontSize="14" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="29%" FontSize="14"/>
+                                            <Border Grid.Column="3" Background="{StaticResource SuccessColor}" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left">
+                                                <TextBlock Text="✅ Wysoki" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <TextBlock Grid.Column="4" Text="20-25%" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Sen lekki -->
+                                    <Border Background="#E3F2FD" Padding="12,8" CornerRadius="4" Margin="0,0,0,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                                <TextBlock Text="🌤️" FontSize="14" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Sen lekki" FontSize="14" FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="1" Text="3h 20min" FontSize="14" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="44%" FontSize="14"/>
+                                            <Border Grid.Column="3" Background="{StaticResource WarningColor}" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left">
+                                                <TextBlock Text="✅ W normie" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <TextBlock Grid.Column="4" Text="45-55%" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Czuwanie -->
+                                    <Border Background="#F5F5F5" Padding="12,8" CornerRadius="4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="120"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                                <TextBlock Text="👁️" FontSize="14" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Czuwanie" FontSize="14" FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="1" Text="17min" FontSize="14" FontWeight="Bold"/>
+                                            <TextBlock Grid.Column="2" Text="4%" FontSize="14"/>
+                                            <Border Grid.Column="3" Background="{StaticResource SuccessColor}" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left">
+                                                <TextBlock Text="✅ Niskie" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                            </Border>
+                                            <TextBlock Grid.Column="4" Text="&lt;5%" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Podsumowanie -->
+                                    <Border Background="#E8F5E9" Padding="12" CornerRadius="4" Margin="0,16,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="✅" FontSize="14" Margin="0,0,8,0"/>
+                                            <TextBlock Text="Wszystkie fazy snu w optymalnych zakresach" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Metryki Fizjologiczne ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="❤️ Metryki fizjologiczne" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Kafelek 1: Tętno spoczynkowe -->
+                            <Border Grid.Column="0" Grid.Row="0" CornerRadius="8" Padding="20" Margin="0,0,8,8">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#FFEBEE" Offset="0"/>
+                                        <GradientStop Color="#FFCDD2" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="❤️" FontSize="20" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Tętno spoczynkowe" FontSize="14" Foreground="#757575"/>
+                                    </StackPanel>
+                                    <TextBlock Text="47 bpm" FontSize="32" FontWeight="Bold"/>
+                                    <TextBlock Text="Najniższe w nocy" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                    <TextBlock Text="o 3:45" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                        <TextBlock Text="Baseline: 51 bpm" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,8,0"/>
+                                        <TextBlock Text="-4 bpm ▼" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 2: HRV -->
+                            <Border Grid.Column="1" Grid.Row="0" CornerRadius="8" Padding="20" Margin="8,0,0,8">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#E8F5E9" Offset="0"/>
+                                        <GradientStop Color="#C8E6C9" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="📊" FontSize="20" Margin="0,0,8,0"/>
+                                        <TextBlock Text="HRV poranne" FontSize="14" Foreground="#757575"/>
+                                    </StackPanel>
+                                    <TextBlock Text="65 ms" FontSize="32" FontWeight="Bold"/>
+                                    <TextBlock Text="Po przebudzeniu" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                        <TextBlock Text="Baseline: 59 ms" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,8,0"/>
+                                        <TextBlock Text="+6 ms ▲" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                    </StackPanel>
+                                    <Border Background="{StaticResource SuccessColor}" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" Margin="0,8,0,0">
+                                        <TextBlock Text="✅ Świetna regeneracja" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 3: Temperatura -->
+                            <Border Grid.Column="0" Grid.Row="1" CornerRadius="8" Padding="20" Margin="0,8,8,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#E3F2FD" Offset="0"/>
+                                        <GradientStop Color="#BBDEFB" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="🌡️" FontSize="20" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Temperatura" FontSize="14" Foreground="#757575"/>
+                                    </StackPanel>
+                                    <TextBlock Text="36.2°C" FontSize="32" FontWeight="Bold"/>
+                                    <TextBlock Text="Zakres: 35.8°C - 36.6°C" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                        <TextBlock Text="↓ 0.6°C podczas snu" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                    </StackPanel>
+                                    <Border Background="{StaticResource SuccessColor}" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" Margin="0,8,0,0">
+                                        <TextBlock Text="✅ Prawidłowy spadek" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 4: Oddech -->
+                            <Border Grid.Column="1" Grid.Row="1" Background="#F5F5F5" CornerRadius="8" Padding="20" Margin="8,8,0,0">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="💨" FontSize="20" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Częstość oddechów" FontSize="14" Foreground="#757575"/>
+                                    </StackPanel>
+                                    <TextBlock Text="14/min" FontSize="32" FontWeight="Bold"/>
+                                    <TextBlock Text="Zakres: 12-16/min" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                    <TextBlock Text="Nieprawidłowości: Brak" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                    <Border Background="{StaticResource SuccessColor}" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" Margin="0,12,0,0">
+                                        <TextBlock Text="✅ Optymalny" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Ocena Regeneracji ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="💪 Ocena regeneracji" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <Border CornerRadius="12" Padding="24" Background="{StaticResource SuccessColor}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#000000" Opacity="0.1" BlurRadius="12" ShadowDepth="4"/>
+                            </Border.Effect>
+
+                            <StackPanel>
+                                <!-- Sleep Score -->
+                                <TextBlock Text="Sleep Score" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
+                                <TextBlock Text="84/100" FontSize="48" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,8"/>
+                                <Border Background="#2E7D32" CornerRadius="8" Padding="12,8" HorizontalAlignment="Center" Margin="0,0,0,24">
+                                    <TextBlock Text="✅ Dobra regeneracja" FontSize="16" Foreground="White" FontWeight="Bold"/>
+                                </Border>
+
+                                <!-- Komponenty score -->
+                                <TextBlock Text="Jak obliczono wynik:" FontSize="14" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,12"/>
+
+                                <Border Background="#FFFFFF" Opacity="0.9" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,8">
+                                            <TextBlock Text="Fazy snu: 28/30 pkt" FontSize="14" FontWeight="SemiBold"/>
+                                        </Grid>
+                                        <TextBlock Text="• Sen głęboki: ✅ 23% (optymalny)" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,0,4"/>
+                                        <TextBlock Text="• Sen REM: ✅ 29% (wysoki)" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,0,4"/>
+                                        <TextBlock Text="• Czuwanie: ✅ 4% (niskie)" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#FFFFFF" Opacity="0.9" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                                    <StackPanel>
+                                        <TextBlock Text="HRV: 22/25 pkt" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                        <TextBlock Text="• 65 ms (✅ +10% vs baseline)" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#FFFFFF" Opacity="0.9" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                                    <StackPanel>
+                                        <TextBlock Text="RHR: 19/20 pkt" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                        <TextBlock Text="• 47 bpm (✅ -8% vs baseline)" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#FFFFFF" Opacity="0.9" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                                    <StackPanel>
+                                        <TextBlock Text="Temperatura: 10/10 pkt" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                        <TextBlock Text="• ✅ Prawidłowy spadek o 0.6°C" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#FFFFFF" Opacity="0.9" CornerRadius="8" Padding="16">
+                                    <StackPanel>
+                                        <TextBlock Text="Oddech: 15/15 pkt" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                        <TextBlock Text="• ✅ 14/min (stabilny, bez nieprawidłowości)" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Rekomendacja -->
+                                <Border Background="#2E7D32" CornerRadius="8" Padding="16" Margin="0,24,0,0">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,8">
+                                            <TextBlock Text="💪" FontSize="20" Margin="0,0,8,0"/>
+                                            <TextBlock Text="Możesz wykonać ciężki trening" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                                        </StackPanel>
+                                        <TextBlock Text="Twój organizm jest w pełni zregenerowany. Idealny dzień na intensywny trening lub wyścig."
+                                                   FontSize="14" Foreground="White" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Notatki do Nocy ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="📝 Notatki i obserwacje" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8" Background="White" Padding="16">
+                            <!-- Pole tekstowe -->
+                            <StackPanel>
+                                <TextBox x:Name="NotesTextBox" TextWrapping="Wrap" AcceptsReturn="True" Height="100"
+                                         BorderThickness="0" Background="Transparent" FontSize="14"
+                                         Text="Jak się czułeś? Czy coś przeszkodziło w śnie? Sny?"/>
+
+                                <!-- Tagi -->
+                                <TextBlock Text="Czynniki wpływające na sen:" FontSize="14" FontWeight="SemiBold" Margin="0,16,0,8"/>
+                                <WrapPanel>
+                                    <CheckBox Content="☐ Alkohol" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Kawa po południu" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Późny posiłek" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Stres" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Trening wieczorny" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Wysoka temperatura" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Hałas" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Choroba" Margin="0,0,16,8"/>
+                                    <CheckBox Content="☐ Ból/dyskomfort" Margin="0,0,16,8"/>
+                                    <Button Content="+ Dodaj własny tag" Style="{StaticResource PrimaryButtonStyle}"
+                                            Background="Transparent" Padding="8,4" Margin="0,0,16,8"/>
+                                </WrapPanel>
+
+                                <!-- Ocena subiektywna -->
+                                <TextBlock Text="Jak oceniasz jakość tego snu?" FontSize="14" FontWeight="SemiBold" Margin="0,16,0,8"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="⭐⭐⭐⭐⭐" Style="{StaticResource PrimaryButtonStyle}" Background="Transparent" Padding="8" Margin="0,0,8,0"/>
+                                    <Button Content="⭐⭐⭐⭐" Style="{StaticResource PrimaryButtonStyle}" Background="Transparent" Padding="8" Margin="0,0,8,0"/>
+                                    <Button Content="⭐⭐⭐" Style="{StaticResource PrimaryButtonStyle}" Background="Transparent" Padding="8" Margin="0,0,8,0"/>
+                                    <Button Content="⭐⭐" Style="{StaticResource PrimaryButtonStyle}" Background="Transparent" Padding="8" Margin="0,0,8,0"/>
+                                    <Button Content="⭐" Style="{StaticResource PrimaryButtonStyle}" Background="Transparent" Padding="8"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <!-- ==================== ZAKŁADKA: TRENDY SNU ==================== -->
+                <StackPanel x:Name="SleepTrendsTabContent" Visibility="Collapsed">
+
+                    <!-- ==================== SEKCJA: Podsumowanie Okresu ==================== -->
+                    <Border CornerRadius="12" Padding="24" Margin="0,0,0,24">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#E8EAF6" Offset="0"/>
+                                <GradientStop Color="#C5CAE9" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="12" ShadowDepth="4"/>
+                        </Border.Effect>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Kafelek 1: Średni czas snu -->
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBlock Text="😴" FontSize="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Średni czas snu" FontSize="14" Foreground="#3949AB"/>
+                                </StackPanel>
+                                <TextBlock Text="7h 22min" FontSize="32" FontWeight="Bold" Foreground="#3F51B5"/>
+                                <TextBlock Text="Ostatnie 30 dni" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="+15min vs poprzednie 30 dni" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Kafelek 2: Średni Sleep Score -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBlock Text="⭐" FontSize="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Średni Sleep Score" FontSize="14" Foreground="#3949AB"/>
+                                </StackPanel>
+                                <TextBlock Text="82/100" FontSize="32" FontWeight="Bold" Foreground="#3F51B5"/>
+                                <TextBlock Text="Dobry" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="+3 pkt vs poprzednie 30 dni" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Kafelek 3: Efektywność snu -->
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBlock Text="📊" FontSize="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Średnia efektywność" FontSize="14" Foreground="#3949AB"/>
+                                </StackPanel>
+                                <TextBlock Text="89%" FontSize="32" FontWeight="Bold" Foreground="#3F51B5"/>
+                                <TextBlock Text="Dobra" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="▲ Trend wzrostowy" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Kafelek 4: Regularność -->
+                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBlock Text="📅" FontSize="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Regularność snu" FontSize="14" Foreground="#3949AB"/>
+                                </StackPanel>
+                                <TextBlock Text="85%" FontSize="32" FontWeight="Bold" Foreground="#3F51B5"/>
+                                <TextBlock Text="Zasypiasz i budzisz się regularnie" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0" TextWrapping="Wrap"/>
+                                <TextBlock Text="Odchylenie std: ±35 min" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- ==================== SEKCJA: Wykres Czasu Snu ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="📈 Czas snu w ostatnich dniach" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <!-- Toolbar -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                            <Button Content="7 dni" Style="{StaticResource PrimaryButtonStyle}"
+                                    Background="Transparent" Padding="12,8" Margin="0,0,4,0"/>
+                            <Button Content="30 dni" Style="{StaticResource PrimaryButtonStyle}"
+                                    Padding="12,8" Margin="0,0,4,0"/>
+                            <Button Content="90 dni" Style="{StaticResource PrimaryButtonStyle}"
+                                    Background="Transparent" Padding="12,8" Margin="0,0,4,0"/>
+                            <Button Content="6 miesięcy" Style="{StaticResource PrimaryButtonStyle}"
+                                    Background="Transparent" Padding="12,8"/>
+                        </StackPanel>
+
+                        <!-- Placeholder dla wykresu -->
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
+                                Height="400" Background="White">
+                            <TextBlock Text="[WYKRES SŁUPKOWY - CZAS SNU W CZASIE]" FontSize="24" FontStyle="Italic"
+                                       Foreground="{StaticResource TextSecondaryColor}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Wykres Jakości Snu ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="⭐ Jakość snu w czasie" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <!-- Placeholder dla wykresu -->
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
+                                Height="400" Background="White">
+                            <TextBlock Text="[WYKRES LINIOWY - SLEEP SCORE W CZASIE]" FontSize="24" FontStyle="Italic"
+                                       Foreground="{StaticResource TextSecondaryColor}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Godziny Zasypiania i Budzenia ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="🌙 Regularność godzin snu" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <!-- Placeholder dla wykresu -->
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8"
+                                Height="400" Background="White">
+                            <TextBlock Text="[WYKRES SCATTER PLOT - GODZINY ZASYPIANIA I BUDZENIA]" FontSize="24" FontStyle="Italic"
+                                       Foreground="{StaticResource TextSecondaryColor}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <!-- Analiza -->
+                        <Grid Margin="0,16,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#E8F5E9" Padding="12" CornerRadius="4" Margin="0,0,8,0">
+                                <StackPanel>
+                                    <TextBlock Text="✅ Regularność zaśnięcia: wysoka" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource SuccessColor}"/>
+                                    <TextBlock Text="±35 min" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Background="#FFF9C4" Padding="12" CornerRadius="4" Margin="8,0,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="⚠️ Regularność budzenia: średnia" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource WarningColor}"/>
+                                    <TextBlock Text="±50 min" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Statystyki Szczegółowe ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="📊 Statystyki okresowe" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Kafelek 1: Najdłuższy sen -->
+                            <Border Grid.Column="0" Grid.Row="0" CornerRadius="8" Padding="20" Margin="0,0,8,8">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#E8F5E9" Offset="0"/>
+                                        <GradientStop Color="#C8E6C9" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <TextBlock Text="😴" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Najdłuższy sen" FontSize="14" Foreground="#757575" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="9h 15min" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="12.11.2025" FontSize="12" Foreground="#757575" HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                    <TextBlock Text="Score: 92/100" FontSize="11" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 2: Najkrótszy sen -->
+                            <Border Grid.Column="1" Grid.Row="0" CornerRadius="8" Padding="20" Margin="8,0,8,8">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#FFEBEE" Offset="0"/>
+                                        <GradientStop Color="#FFCDD2" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <TextBlock Text="⏰" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Najkrótszy sen" FontSize="14" Foreground="#757575" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="5h 40min" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="08.11.2025" FontSize="12" Foreground="#757575" HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                    <TextBlock Text="Score: 62/100" FontSize="11" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 3: Najlepszy sen -->
+                            <Border Grid.Column="2" Grid.Row="0" CornerRadius="8" Padding="20" Margin="8,0,0,8">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#FFF9C4" Offset="0"/>
+                                        <GradientStop Color="#FFF59D" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <TextBlock Text="⭐" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Najlepszy sen" FontSize="14" Foreground="#757575" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="95/100" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="10.11.2025" FontSize="12" Foreground="#757575" HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                    <TextBlock Text="Czas: 8h 20min" FontSize="11" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 4: Najgorszy sen -->
+                            <Border Grid.Column="0" Grid.Row="1" Background="#F5F5F5" CornerRadius="8" Padding="20" Margin="0,8,8,0">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <TextBlock Text="😴💤" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Najgorszy sen" FontSize="14" Foreground="#757575" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="52/100" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="05.11.2025" FontSize="12" Foreground="#757575" HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                    <TextBlock Text="Czas: 6h 10min" FontSize="11" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 5: Dni z dobrym snem -->
+                            <Border Grid.Column="1" Grid.Row="1" CornerRadius="8" Padding="20" Margin="8,8,8,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#E8F5E9" Offset="0"/>
+                                        <GradientStop Color="#C8E6C9" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <TextBlock Text="✅" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Dni z dobrym snem" FontSize="14" Foreground="#757575" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="22 dni" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="(73%)" FontSize="16" Foreground="#757575" HorizontalAlignment="Center" Margin="0,4,0,4"/>
+                                    <TextBlock Text="Score &gt;75" FontSize="11" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Kafelek 6: Dni ze słabym snem -->
+                            <Border Grid.Column="2" Grid.Row="1" CornerRadius="8" Padding="20" Margin="8,8,0,0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#FFF9C4" Offset="0"/>
+                                        <GradientStop Color="#FFF59D" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="8" ShadowDepth="2"/>
+                                </Border.Effect>
+
+                                <StackPanel>
+                                    <TextBlock Text="⚠️" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Dni ze słabym snem" FontSize="14" Foreground="#757575" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="3 dni" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="(10%)" FontSize="16" Foreground="#757575" HorizontalAlignment="Center" Margin="0,4,0,4"/>
+                                    <TextBlock Text="Score &lt;60" FontSize="11" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ==================== SEKCJA: Wzorce i Insights ==================== -->
+                    <StackPanel Margin="0,0,0,24">
+                        <TextBlock Text="💡 Wykryte wzorce" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16"/>
+
+                        <!-- Insight 1 -->
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8" Background="White" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBlock Text="📅" FontSize="18" Margin="0,0,12,0"/>
+                                    <TextBlock Text="Regularność w weekendy" FontSize="16" FontWeight="SemiBold"/>
+                                </StackPanel>
+                                <TextBlock Text="Najlepszy sen masz we wtorki i czwartki (średni score: 87/100)" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                                <TextBlock Text="Najgorszy: Poniedziałki (średni score: 76/100)" FontSize="14" Foreground="{StaticResource TextSecondaryColor}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Insight 2 -->
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8" Background="White" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBlock Text="🏋️" FontSize="18" Margin="0,0,12,0"/>
+                                    <TextBlock Text="Sen po ciężkich treningach" FontSize="16" FontWeight="SemiBold"/>
+                                </StackPanel>
+                                <TextBlock Text="Twój sen jest o 15min krótszy w dni po ciężkich treningach (TSS &gt;200)" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                                <Border Background="#FFF9C4" Padding="8" CornerRadius="4" Margin="0,8,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="💡" FontSize="14" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Sugestia: Rozważ wcześniejsze kładzenie się spać po ciężkich dniach" FontSize="12" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Insight 3 -->
+                        <Border BorderBrush="{StaticResource DividerColor}" BorderThickness="1" CornerRadius="8" Background="White" Padding="16" Margin="0,0,0,12">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBlock Text="⏰" FontSize="18" Margin="0,0,12,0"/>
+                                    <TextBlock Text="Optymalna godzina zaśnięcia" FontSize="16" FontWeight="SemiBold"/>
+                                </StackPanel>
+                                <TextBlock Text="Najlepszy sen (score &gt;85) osiągasz gdy zasypiasz między 22:00-23:00" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="Aktualne: Średnio zasypiasz o 22:45" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,8,0"/>
+                                    <TextBlock Text="✅" FontSize="12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
