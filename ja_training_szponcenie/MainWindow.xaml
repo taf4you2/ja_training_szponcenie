@@ -12,6 +12,21 @@
         WindowState="Maximized"
         Background="{StaticResource BackgroundColor}">
     <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Aplikacja Treningowa" FontSize="24" FontWeight="Bold"
+                      HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+            <Button x:Name="OpenRecordsPowerCurveButton"
+                   Content="Otwórz Rekordy i Power Curve"
+                   Click="OpenRecordsPowerCurveButton_Click"
+                   Padding="20,10"
+                   FontSize="16"
+                   Background="#2196F3"
+                   Foreground="White"
+                   BorderThickness="0"
+                   Cursor="Hand"
+                   Width="300"/>
+        </StackPanel>
         <ContentControl x:Name="MainContent">
             <views:DashboardView/>
         </ContentControl>
