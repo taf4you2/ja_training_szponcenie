@@ -194,27 +194,29 @@
                                 </Grid.RowDefinitions>
 
                                 <!-- Header tabeli -->
-                                <Grid Grid.Row="0" Background="#F5F5F5" Padding="16,12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="100"/>
-                                    </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Background="#F5F5F5" Padding="16,12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Column="0" Text="Data" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="1" Text="FTP (W)" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="2" Text="Waga" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="3" Text="W/kg" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="4" Text="Zmiana" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="5" Text="Źródło" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="6" Text="Notatka" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="7" Text="Akcje" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                                </Grid>
+                                        <TextBlock Grid.Column="0" Text="Data" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="1" Text="FTP (W)" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="2" Text="Waga" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="3" Text="W/kg" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="4" Text="Zmiana" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="5" Text="Źródło" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="6" Text="Notatka" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="7" Text="Akcje" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
 
                                 <!-- Wiersze tabeli -->
                                 <StackPanel Grid.Row="1">
@@ -578,25 +580,27 @@
                                 </Grid.RowDefinitions>
 
                                 <!-- Header tabeli -->
-                                <Grid Grid.Row="0" Background="#F5F5F5" Padding="16,12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="100"/>
-                                    </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Background="#F5F5F5" Padding="16,12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Column="0" Text="Data" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="1" Text="Waga (kg)" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="2" Text="Zmiana" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="3" Text="BMI" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="4" Text="W/kg (FTP)" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="5" Text="Notatka" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="6" Text="Akcje" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                                </Grid>
+                                        <TextBlock Grid.Column="0" Text="Data" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="1" Text="Waga (kg)" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="2" Text="Zmiana" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="3" Text="BMI" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="4" Text="W/kg (FTP)" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="5" Text="Notatka" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="6" Text="Akcje" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
 
                                 <!-- Wiersze tabeli -->
                                 <StackPanel Grid.Row="1">
