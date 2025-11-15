@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ja_training_szponcenie"
+        xmlns:views="clr-namespace:ja_training_szponcenie.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="JA Training - Dashboard"
+        Height="900"
+        Width="1600"
+        WindowState="Maximized"
+        Background="{StaticResource BackgroundColor}">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Aplikacja Treningowa" FontSize="24" FontWeight="Bold"
@@ -22,5 +27,8 @@
                    Cursor="Hand"
                    Width="300"/>
         </StackPanel>
+        <ContentControl x:Name="MainContent">
+            <views:DashboardView/>
+        </ContentControl>
     </Grid>
 </Window>

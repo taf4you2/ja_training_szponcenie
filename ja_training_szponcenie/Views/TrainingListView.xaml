@@ -1,0 +1,926 @@
+<UserControl x:Class="ja_training_szponcenie.Views.TrainingListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             Background="{StaticResource BackgroundColor}">
+
+    <Grid>
+        <!-- Główny layout z panelem bocznym filtrów -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/> <!-- Panel boczny filtrów (ukryty domyślnie) -->
+        </Grid.ColumnDefinitions>
+
+        <!-- ==================== GŁÓWNA ZAWARTOŚĆ ==================== -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Header -->
+                <RowDefinition Height="Auto"/> <!-- Toolbar -->
+                <RowDefinition Height="Auto"/> <!-- Statystyki (collapsed) -->
+                <RowDefinition Height="Auto"/> <!-- Aktywne filtry -->
+                <RowDefinition Height="*"/>    <!-- Lista treningów -->
+            </Grid.RowDefinitions>
+
+            <!-- ==================== HEADER ==================== -->
+            <Border Grid.Row="0" Background="{StaticResource SurfaceColor}" Padding="16,12">
+                <Border.Effect>
+                    <DropShadowEffect Color="#000000" Opacity="0.1" BlurRadius="8" ShadowDepth="2"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Lewa strona headera -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource IconButtonStyle}" Width="40" Height="40" Margin="0,0,12,0" ToolTip="Wstecz do dashboardu">
+                            <TextBlock Text="←" FontSize="24"/>
+                        </Button>
+                        <TextBlock Text="Lista treningów" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryColor}"/>
+                    </StackPanel>
+
+                    <!-- Środek headera -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Wszystkie treningi (247)" Style="{StaticResource SubheaderTextStyle}" HorizontalAlignment="Center" Margin="0"/>
+                        <TextBlock Text="2024-2025" Style="{StaticResource CaptionTextStyle}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Prawa strona headera -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource IconButtonStyle}" Width="40" Height="40" Margin="0,0,8,0" ToolTip="Otwórz zaawansowane filtry">
+                            <TextBlock Text="🔍" FontSize="18"/>
+                        </Button>
+                        <Button Style="{StaticResource IconButtonStyle}" Width="40" Height="40" Margin="0,0,8,0" ToolTip="Eksportuj do CSV">
+                            <TextBlock Text="📤" FontSize="18"/>
+                        </Button>
+                        <Button Style="{StaticResource IconButtonStyle}" Width="40" Height="40" ToolTip="Menu opcji">
+                            <TextBlock Text="⋮" FontSize="24"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ==================== TOOLBAR ==================== -->
+            <Border Grid.Row="1" Background="{StaticResource SurfaceColor}" Padding="16,12" BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/> <!-- Wyszukiwanie -->
+                        <ColumnDefinition Width="*"/>    <!-- Szybkie filtry -->
+                        <ColumnDefinition Width="Auto"/> <!-- Sortowanie i widok -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Wyszukiwanie -->
+                    <Border Grid.Column="0" Width="350" Background="{StaticResource BackgroundColor}" CornerRadius="4" Padding="10,8" Margin="0,0,16,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🔍" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" BorderThickness="0" Background="Transparent"
+                                     VerticalAlignment="Center" FontSize="14"
+                                     Text="Szukaj treningu po nazwie, dacie, notatce..."/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Szybkie filtry -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource PrimaryColor}"
+                                Foreground="White" Margin="4,0" Padding="12,6" Content="Wszystkie"/>
+                        <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                Foreground="{StaticResource TextPrimaryColor}" Margin="4,0" Padding="12,6" Content="Outdoor 🚴"/>
+                        <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                Foreground="{StaticResource TextPrimaryColor}" Margin="4,0" Padding="12,6" Content="Indoor 🏠"/>
+                        <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                Foreground="{StaticResource TextPrimaryColor}" Margin="4,0" Padding="12,6" Content="Wyścigi 🏆"/>
+                        <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                Foreground="{StaticResource TextPrimaryColor}" Margin="4,0" Padding="12,6" Content="Z rekordami 🆕"/>
+                        <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                Foreground="{StaticResource TextPrimaryColor}" Margin="4,0" Padding="12,6" Content="Ostatnie 30 dni"/>
+                    </StackPanel>
+
+                    <!-- Sortowanie i widok -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <ComboBox Width="180" Height="36" Margin="0,0,8,0" VerticalContentAlignment="Center" FontSize="14">
+                            <ComboBoxItem Content="Od najnowszych" IsSelected="True"/>
+                            <ComboBoxItem Content="Od najstarszych"/>
+                            <ComboBoxItem Content="Najwyższy TSS"/>
+                            <ComboBoxItem Content="Najdłuższe"/>
+                            <ComboBoxItem Content="Najkrótsze"/>
+                            <ComboBoxItem Content="Alfabetycznie A-Z"/>
+                            <ComboBoxItem Content="Alfabetycznie Z-A"/>
+                        </ComboBox>
+                        <Button Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="0,0,4,0" ToolTip="Widok listy">
+                            <TextBlock Text="☰" FontSize="20"/>
+                        </Button>
+                        <Button Style="{StaticResource IconButtonStyle}" Width="36" Height="36" ToolTip="Widok siatki">
+                            <TextBlock Text="⊞" FontSize="20"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ==================== STATYSTYKI WSZYSTKICH TRENINGÓW (collapsed) ==================== -->
+            <Border Grid.Row="2" Background="{StaticResource SurfaceColor}" Padding="16" Margin="0,0,0,0"
+                    BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1" Visibility="Collapsed">
+                <StackPanel>
+                    <!-- Przycisk rozwinięcia -->
+                    <Button Style="{StaticResource BaseButtonStyle}" Background="Transparent"
+                            Foreground="{StaticResource TextPrimaryColor}" HorizontalAlignment="Left" Padding="8,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📊" FontSize="14" Margin="0,0,8,0"/>
+                            <TextBlock Text="Pokaż statystyki wszystkich treningów" FontSize="14"/>
+                            <TextBlock Text="▼" FontSize="12" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Statystyki (widoczne po rozwinięciu) -->
+                    <Grid Margin="0,16,0,0" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Kafelek 1: Ogólne -->
+                        <Border Grid.Column="0" Style="{StaticResource MetricCardStyle}" Background="#E3F2FD">
+                            <StackPanel>
+                                <TextBlock Text="Ogólne" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,12"/>
+                                <TextBlock Text="247" FontSize="32" FontWeight="Bold" Foreground="{StaticResource PrimaryColor}"/>
+                                <TextBlock Text="Całkowita liczba treningów" Style="{StaticResource CaptionTextStyle}" Margin="0,4,0,8"/>
+                                <TextBlock Text="Czas: 485h 30min" Style="{StaticResource CaptionTextStyle}"/>
+                                <TextBlock Text="Dystans: 12,450 km" Style="{StaticResource CaptionTextStyle}"/>
+                                <TextBlock Text="TSS: 18,340" Style="{StaticResource CaptionTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Kafelek 2: Średnie -->
+                        <Border Grid.Column="1" Style="{StaticResource MetricCardStyle}" Background="#F3E5F5">
+                            <StackPanel>
+                                <TextBlock Text="Średnie" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,12"/>
+                                <TextBlock Text="1h 58min" FontSize="32" FontWeight="Bold" Foreground="#9C27B0"/>
+                                <TextBlock Text="Średni czas treningu" Style="{StaticResource CaptionTextStyle}" Margin="0,4,0,8"/>
+                                <TextBlock Text="Dystans: 50.4 km" Style="{StaticResource CaptionTextStyle}"/>
+                                <TextBlock Text="TSS: 74" Style="{StaticResource CaptionTextStyle}"/>
+                                <TextBlock Text="Moc: 238 W" Style="{StaticResource CaptionTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Kafelek 3: Rekordy -->
+                        <Border Grid.Column="2" Style="{StaticResource MetricCardStyle}" Background="#FFF3E0">
+                            <StackPanel>
+                                <TextBlock Text="Rekordy" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,12"/>
+                                <TextBlock Text="🏆" FontSize="32"/>
+                                <TextBlock Text="Najdłuższy: 6h 45min" Style="{StaticResource CaptionTextStyle}" Margin="0,4,0,4"/>
+                                <TextBlock Text="Najwyższy TSS: 385" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,4"/>
+                                <TextBlock Text="Największy dystans: 185 km" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,4"/>
+                                <TextBlock Text="Najwyższa śr. moc: 285 W" Style="{StaticResource CaptionTextStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Kafelek 4: Rozkład -->
+                        <Border Grid.Column="3" Style="{StaticResource MetricCardStyle}" Background="#E8F5E9">
+                            <StackPanel>
+                                <TextBlock Text="Rozkład" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,12"/>
+                                <StackPanel Margin="0,8,0,0">
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="🚴 Outdoor" Style="{StaticResource CaptionTextStyle}"/>
+                                        <TextBlock Grid.Column="1" Text="185 (75%)" Style="{StaticResource CaptionTextStyle}" FontWeight="SemiBold"/>
+                                    </Grid>
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="🏠 Indoor" Style="{StaticResource CaptionTextStyle}"/>
+                                        <TextBlock Grid.Column="1" Text="62 (25%)" Style="{StaticResource CaptionTextStyle}" FontWeight="SemiBold"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="🏆 Wyścigi" Style="{StaticResource CaptionTextStyle}"/>
+                                        <TextBlock Grid.Column="1" Text="12 (5%)" Style="{StaticResource CaptionTextStyle}" FontWeight="SemiBold"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ==================== AKTYWNE FILTRY ==================== -->
+            <Border Grid.Row="3" Background="{StaticResource BackgroundColor}" Padding="16,12"
+                    BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1" Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Aktywne filtry:" FontSize="13" FontWeight="SemiBold"
+                               VerticalAlignment="Center" Margin="0,0,12,0" Foreground="{StaticResource TextPrimaryColor}"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <!-- Przykładowe chipy filtrów -->
+                        <Border Background="{StaticResource PrimaryColor}" CornerRadius="12" Padding="10,4" Margin="0,0,8,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Outdoor" FontSize="12" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock Text=" ❌" FontSize="10" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{StaticResource PrimaryColor}" CornerRadius="12" Padding="10,4" Margin="0,0,8,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="TSS 100-200" FontSize="12" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock Text=" ❌" FontSize="10" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{StaticResource PrimaryColor}" CornerRadius="12" Padding="10,4" Margin="0,0,8,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Ostatnie 3 miesiące" FontSize="12" Foreground="White" VerticalAlignment="Center"/>
+                                <TextBlock Text=" ❌" FontSize="10" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <Button Grid.Column="2" Style="{StaticResource BaseButtonStyle}" Background="Transparent"
+                            Foreground="{StaticResource PrimaryColor}" Content="Wyczyść wszystkie filtry"
+                            FontSize="13" Padding="8,4"/>
+                </Grid>
+            </Border>
+
+            <!-- ==================== LISTA TRENINGÓW ==================== -->
+            <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="16">
+
+                    <!-- Liczba wyników -->
+                    <TextBlock Text="Wyświetlono 1-50 z 247 treningów" Style="{StaticResource CaptionTextStyle}"
+                               Margin="0,0,0,12"/>
+
+                    <!-- WIDOK LISTY (domyślny) -->
+                    <StackPanel x:Name="ListViewContainer">
+
+                        <!-- Przykładowy wiersz treningu 1 -->
+                        <Border Background="{StaticResource SurfaceColor}" CornerRadius="8" Padding="16" Margin="0,0,0,8"
+                                BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.1" Color="#000000"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>   <!-- Data -->
+                                    <ColumnDefinition Width="280"/>  <!-- Szczegóły -->
+                                    <ColumnDefinition Width="*"/>    <!-- Metryki -->
+                                    <ColumnDefinition Width="150"/>  <!-- Wykres -->
+                                    <ColumnDefinition Width="120"/>  <!-- Akcje -->
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Kolumna 1: Data i status -->
+                                <Border Grid.Column="0" Background="#E3F2FD" CornerRadius="8" Padding="8" Margin="0,0,12,0">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="14 LIS" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource PrimaryColor}"/>
+                                        <TextBlock Text="2025" FontSize="10" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,0"/>
+                                        <TextBlock Text="Czw" FontSize="9" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,4"/>
+                                        <TextBlock Text="🚴" FontSize="20" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Kolumna 2: Szczegóły treningu -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <Grid Margin="0,0,0,4">
+                                        <TextBlock Text="Evening ride" FontSize="14" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextPrimaryColor}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="✏️" FontSize="12" HorizontalAlignment="Right" Opacity="0.5"
+                                                   VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    </Grid>
+                                    <TextBlock Text="17:30" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,0,6"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Background="#E0E0E0" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
+                                            <TextBlock Text="intervals" FontSize="10" Foreground="{StaticResource TextPrimaryColor}"/>
+                                        </Border>
+                                        <Border Background="#E0E0E0" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
+                                            <TextBlock Text="outdoor" FontSize="10" Foreground="{StaticResource TextPrimaryColor}"/>
+                                        </Border>
+                                        <Border Background="#E0E0E0" CornerRadius="10" Padding="8,2">
+                                            <TextBlock Text="good feeling" FontSize="10" Foreground="{StaticResource TextPrimaryColor}"/>
+                                        </Border>
+                                    </StackPanel>
+                                    <TextBlock Text="⭐⭐⭐⭐⭐" FontSize="12" Margin="0,4,0,0"/>
+                                </StackPanel>
+
+                                <!-- Kolumna 3: Kluczowe metryki -->
+                                <Grid Grid.Column="2" VerticalAlignment="Center" Margin="12,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Rząd 1 -->
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,8,8">
+                                        <TextBlock Text="⏱️ Czas" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="1:45:32" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,8,8">
+                                        <TextBlock Text="📏 Dystans" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="45.2 km" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,8,8">
+                                        <TextBlock Text="⚡ Śr. moc" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="245 W" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="3" Margin="0,0,0,8">
+                                        <TextBlock Text="💪 TSS" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="124" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentColor}"/>
+                                    </StackPanel>
+
+                                    <!-- Rząd 2 -->
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">
+                                        <TextBlock Text="⚡⚡ NP" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="268 W" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,8,0">
+                                        <TextBlock Text="🎯 IF" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="0.94" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,8,0">
+                                        <TextBlock Text="❤️ Śr. HR" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="152 bpm" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="3">
+                                        <TextBlock Text="🔥 Work" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="1547 kJ" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Kolumna 4: Miniatura wykresu -->
+                                <Border Grid.Column="3" Background="#F5F5F5" CornerRadius="4" Height="60" Margin="8,0">
+                                    <Grid>
+                                        <!-- Placeholder dla wykresu sparkline -->
+                                        <Path Stroke="{StaticResource PrimaryColor}" StrokeThickness="2"
+                                              Data="M 5,50 L 20,30 L 35,40 L 50,20 L 65,35 L 80,15 L 95,25 L 110,45 L 125,30 L 140,10"
+                                              Stretch="Uniform" Margin="5"/>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Kolumna 5: Akcje -->
+                                <StackPanel Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,0,0,0">
+                                    <Button Style="{StaticResource PrimaryButtonStyle}" Content="Szczegóły >"
+                                            Padding="12,8" FontSize="13" Margin="0,0,0,8"/>
+                                    <Button Style="{StaticResource IconButtonStyle}" ToolTip="Menu opcji">
+                                        <TextBlock Text="⋮" FontSize="20"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Przykładowy wiersz treningu 2 - Indoor -->
+                        <Border Background="{StaticResource SurfaceColor}" CornerRadius="8" Padding="16" Margin="0,0,0,8"
+                                BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.1" Color="#000000"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="280"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Data i status -->
+                                <Border Grid.Column="0" Background="#FFF3E0" CornerRadius="8" Padding="8" Margin="0,0,12,0">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="13 LIS" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource AccentColor}"/>
+                                        <TextBlock Text="2025" FontSize="10" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,0"/>
+                                        <TextBlock Text="Śro" FontSize="9" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,4"/>
+                                        <TextBlock Text="🏠" FontSize="20" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Szczegóły -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="2025-11-13_indoor.fit" FontSize="14" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextPrimaryColor}" Margin="0,0,0,4"/>
+                                    <TextBlock Text="06:15" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,0,6"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Background="#E0E0E0" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
+                                            <TextBlock Text="indoor" FontSize="10" Foreground="{StaticResource TextPrimaryColor}"/>
+                                        </Border>
+                                        <Border Background="#E0E0E0" CornerRadius="10" Padding="8,2">
+                                            <TextBlock Text="zwift" FontSize="10" Foreground="{StaticResource TextPrimaryColor}"/>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Metryki -->
+                                <Grid Grid.Column="2" VerticalAlignment="Center" Margin="12,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,8,8">
+                                        <TextBlock Text="⏱️ Czas" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="1:00:00" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,8,8">
+                                        <TextBlock Text="📏 Dystans" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="28.5 km" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,8,8">
+                                        <TextBlock Text="⚡ Śr. moc" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="220 W" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="3" Margin="0,0,0,8">
+                                        <TextBlock Text="💪 TSS" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="68" FontSize="12" FontWeight="SemiBold" Foreground="#4CAF50"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">
+                                        <TextBlock Text="⚡⚡ NP" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="235 W" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,8,0">
+                                        <TextBlock Text="🎯 IF" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="0.82" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,8,0">
+                                        <TextBlock Text="❤️ Śr. HR" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="145 bpm" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="3">
+                                        <TextBlock Text="🔥 Work" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="792 kJ" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Wykres -->
+                                <Border Grid.Column="3" Background="#F5F5F5" CornerRadius="4" Height="60" Margin="8,0">
+                                    <Path Stroke="{StaticResource AccentColor}" StrokeThickness="2"
+                                          Data="M 5,40 L 20,40 L 35,38 L 50,42 L 65,40 L 80,38 L 95,41 L 110,39 L 125,40 L 140,38"
+                                          Stretch="Uniform" Margin="5"/>
+                                </Border>
+
+                                <!-- Akcje -->
+                                <StackPanel Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,0,0,0">
+                                    <Button Style="{StaticResource PrimaryButtonStyle}" Content="Szczegóły >"
+                                            Padding="12,8" FontSize="13" Margin="0,0,0,8"/>
+                                    <Button Style="{StaticResource IconButtonStyle}" ToolTip="Menu opcji">
+                                        <TextBlock Text="⋮" FontSize="20"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Przykładowy wiersz treningu 3 - Wyścig z rekordem -->
+                        <Border Background="{StaticResource SurfaceColor}" CornerRadius="8" Padding="16" Margin="0,0,0,8"
+                                BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.1" Color="#000000"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="280"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Data i status -->
+                                <Border Grid.Column="0" Background="#FFEBEE" CornerRadius="8" Padding="8" Margin="0,0,12,0">
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="10 LIS" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"
+                                                   Foreground="#D32F2F"/>
+                                        <TextBlock Text="2025" FontSize="10" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,0"/>
+                                        <TextBlock Text="Ndz" FontSize="9" HorizontalAlignment="Center"
+                                                   Foreground="{StaticResource TextSecondaryColor}" Margin="0,2,0,4"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="🏆" FontSize="16"/>
+                                            <TextBlock Text="🆕" FontSize="12" Margin="2,0,0,0"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Szczegóły -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Mistrzostwa Polski - XCO" FontSize="14" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextPrimaryColor}" Margin="0,0,0,4"/>
+                                    <TextBlock Text="10:00" FontSize="12" Foreground="{StaticResource TextSecondaryColor}" Margin="0,0,0,6"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Background="#FFE0B2" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
+                                            <TextBlock Text="wyścig" FontSize="10" FontWeight="SemiBold" Foreground="#E65100"/>
+                                        </Border>
+                                        <Border Background="#FFCDD2" CornerRadius="10" Padding="8,2" Margin="0,0,4,0">
+                                            <TextBlock Text="rekord" FontSize="10" FontWeight="SemiBold" Foreground="#D32F2F"/>
+                                        </Border>
+                                    </StackPanel>
+                                    <TextBlock Text="RPE: 9/10" FontSize="11" FontWeight="SemiBold" Foreground="#D32F2F" Margin="0,4,0,0"/>
+                                </StackPanel>
+
+                                <!-- Metryki -->
+                                <Grid Grid.Column="2" VerticalAlignment="Center" Margin="12,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,8,8">
+                                        <TextBlock Text="⏱️ Czas" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="2:15:48" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,8,8">
+                                        <TextBlock Text="📏 Dystans" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="62.8 km" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,8,8">
+                                        <TextBlock Text="⚡ Śr. moc" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="285 W" FontSize="12" FontWeight="SemiBold" Foreground="#D32F2F"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="3" Margin="0,0,0,8">
+                                        <TextBlock Text="💪 TSS" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="185" FontSize="12" FontWeight="SemiBold" Foreground="#D32F2F"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">
+                                        <TextBlock Text="⚡⚡ NP" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="298 W" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,8,0">
+                                        <TextBlock Text="🎯 IF" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="1.05" FontSize="12" FontWeight="SemiBold" Foreground="#D32F2F"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,8,0">
+                                        <TextBlock Text="❤️ Śr. HR" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="168 bpm" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="3">
+                                        <TextBlock Text="🔥 Work" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="2314 kJ" FontSize="12" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Wykres -->
+                                <Border Grid.Column="3" Background="#F5F5F5" CornerRadius="4" Height="60" Margin="8,0">
+                                    <Path Stroke="#D32F2F" StrokeThickness="2"
+                                          Data="M 5,45 L 20,35 L 35,10 L 50,30 L 65,15 L 80,40 L 95,20 L 110,50 L 125,25 L 140,35"
+                                          Stretch="Uniform" Margin="5"/>
+                                </Border>
+
+                                <!-- Akcje -->
+                                <StackPanel Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,0,0,0">
+                                    <Button Style="{StaticResource PrimaryButtonStyle}" Content="Szczegóły >"
+                                            Padding="12,8" FontSize="13" Margin="0,0,0,8"/>
+                                    <Button Style="{StaticResource IconButtonStyle}" ToolTip="Menu opcji">
+                                        <TextBlock Text="⋮" FontSize="20"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Dodatkowe wiersze... (placeholder) -->
+                        <TextBlock Text="..." FontSize="24" HorizontalAlignment="Center" Margin="0,16"
+                                   Foreground="{StaticResource TextSecondaryColor}"/>
+
+                    </StackPanel>
+
+                    <!-- WIDOK SIATKI (ukryty domyślnie) -->
+                    <WrapPanel x:Name="GridViewContainer" Visibility="Collapsed" Orientation="Horizontal">
+
+                        <!-- Przykładowy kafelek treningu -->
+                        <Border Background="{StaticResource SurfaceColor}" Width="280" Height="320"
+                                CornerRadius="8" Padding="16" Margin="8">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.15" Color="#000000"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <!-- Nagłówek kafelka -->
+                                <Grid Margin="0,0,0,12">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="🚴" FontSize="18" Margin="0,0,6,0"/>
+                                        <TextBlock Text="14 listopada 2025" FontSize="13" FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryColor}"/>
+                                    </StackPanel>
+                                    <Border Background="{StaticResource AccentColor}" CornerRadius="10"
+                                            Padding="8,4" HorizontalAlignment="Right">
+                                        <TextBlock Text="124 TSS" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Wykres mocy -->
+                                <Border Background="#F5F5F5" Height="100" CornerRadius="4" Margin="0,0,0,12">
+                                    <Path Stroke="{StaticResource PrimaryColor}" StrokeThickness="2"
+                                          Data="M 5,80 L 40,50 L 75,60 L 110,30 L 145,50 L 180,25 L 215,40 L 250,70 L 265,45"
+                                          Stretch="Uniform" Margin="8"/>
+                                </Border>
+
+                                <!-- Metryki -->
+                                <TextBlock Text="Evening ride" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextPrimaryColor}" TextTrimming="CharacterEllipsis"
+                                           Margin="0,0,0,8"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,8">
+                                        <TextBlock Text="⏱️ Czas" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="1:45:32" FontSize="13" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,8">
+                                        <TextBlock Text="📏 Dystans" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="45.2 km" FontSize="13" FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,8">
+                                        <TextBlock Text="⚡ Śr. moc" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="245 W" FontSize="13" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,8">
+                                        <TextBlock Text="🎯 IF" FontSize="10" Foreground="{StaticResource TextSecondaryColor}"/>
+                                        <TextBlock Text="0.94" FontSize="13" FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <Button Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource PrimaryButtonStyle}"
+                                            Content="Szczegóły" HorizontalAlignment="Stretch" Margin="0,8,0,0"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Dodatkowe kafelki... -->
+
+                    </WrapPanel>
+
+                    <!-- Paginacja / Infinite scroll -->
+                    <StackPanel HorizontalAlignment="Center" Margin="0,24,0,0">
+                        <Button Style="{StaticResource PrimaryButtonStyle}" Content="Pokaż kolejne 50"
+                                Padding="24,12" FontSize="14"/>
+                        <TextBlock Text="Wyświetlono 50 z 247 treningów" Style="{StaticResource CaptionTextStyle}"
+                                   HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+
+        <!-- ==================== PANEL BOCZNY - ZAAWANSOWANE FILTRY ==================== -->
+        <Border Grid.Column="1" Width="350" Background="{StaticResource SurfaceColor}"
+                BorderBrush="{StaticResource DividerColor}" BorderThickness="1,0,0,0" Visibility="Collapsed">
+            <Border.Effect>
+                <DropShadowEffect Color="#000000" Opacity="0.15" BlurRadius="12" ShadowDepth="0" Direction="180"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Nagłówek -->
+                    <RowDefinition Height="*"/>    <!-- Zawartość -->
+                    <RowDefinition Height="Auto"/> <!-- Przyciski -->
+                </Grid.RowDefinitions>
+
+                <!-- Nagłówek panelu -->
+                <Border Grid.Row="0" Background="{StaticResource BackgroundColor}" Padding="16"
+                        BorderBrush="{StaticResource DividerColor}" BorderThickness="0,0,0,1">
+                    <Grid>
+                        <TextBlock Text="Zaawansowane filtry" FontSize="18" FontWeight="SemiBold"
+                                   VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryColor}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="Transparent"
+                                    Foreground="{StaticResource PrimaryColor}" Content="Resetuj wszystkie"
+                                    FontSize="12" Padding="8,4" Margin="0,0,8,0"/>
+                            <Button Style="{StaticResource IconButtonStyle}" ToolTip="Zamknij">
+                                <TextBlock Text="❌" FontSize="14"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Zawartość panelu -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+
+                        <!-- Sekcja 1: Zakres dat -->
+                        <TextBlock Text="Zakres dat" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryColor}" Margin="0,0,0,12"/>
+
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="Data od:" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,4"/>
+                            <DatePicker Width="300" Height="36" HorizontalAlignment="Left"/>
+                        </StackPanel>
+
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="Data do:" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,4"/>
+                            <DatePicker Width="300" Height="36" HorizontalAlignment="Left"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Szybkie wybory:" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,8"/>
+                        <WrapPanel Margin="0,0,0,16">
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                    Content="Ostatnie 7 dni" FontSize="12" Padding="10,6" Margin="0,0,4,4"/>
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                    Content="Ostatnie 30 dni" FontSize="12" Padding="10,6" Margin="0,0,4,4"/>
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                    Content="Ostatnie 3 miesiące" FontSize="12" Padding="10,6" Margin="0,0,4,4"/>
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                    Content="Ostatnie 6 miesięcy" FontSize="12" Padding="10,6" Margin="0,0,4,4"/>
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                    Content="Ten rok" FontSize="12" Padding="10,6" Margin="0,0,4,4"/>
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                    Content="Zeszły rok" FontSize="12" Padding="10,6" Margin="0,0,4,4"/>
+                            <Button Style="{StaticResource BaseButtonStyle}" Background="{StaticResource BackgroundColor}"
+                                    Content="Cały czas" FontSize="12" Padding="10,6" Margin="0,0,4,4"/>
+                        </WrapPanel>
+
+                        <Rectangle Height="1" Fill="{StaticResource DividerColor}" Margin="0,8,0,16"/>
+
+                        <!-- Sekcja 2: Metryki treningowe -->
+                        <TextBlock Text="Metryki treningowe" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryColor}" Margin="0,0,0,12"/>
+
+                        <!-- TSS -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="TSS (Training Stress Score)" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="500" Value="100"
+                                        TickFrequency="50" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="100 - 200" FontSize="12" FontWeight="SemiBold"
+                                           Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Czas trwania -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="Czas trwania" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="480" Value="60"
+                                        TickFrequency="30" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="1h - 3h" FontSize="12" FontWeight="SemiBold"
+                                           Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Dystans -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="Dystans" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="200" Value="40"
+                                        TickFrequency="10" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="40km - 80km" FontSize="12" FontWeight="SemiBold"
+                                           Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Średnia moc -->
+                        <StackPanel Margin="0,0,0,16">
+                            <Grid Margin="0,0,0,8">
+                                <TextBlock Text="Średnia moc" Style="{StaticResource CaptionTextStyle}"/>
+                                <CheckBox Content="% FTP" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="400" Value="150"
+                                        TickFrequency="25" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="150W - 300W" FontSize="12" FontWeight="SemiBold"
+                                           Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Normalized Power -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="Normalized Power" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="400" Value="150"
+                                        TickFrequency="25" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="150W - 300W" FontSize="12" FontWeight="SemiBold"
+                                           Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Intensity Factor -->
+                        <StackPanel Margin="0,0,0,16">
+                            <TextBlock Text="Intensity Factor (IF)" Style="{StaticResource CaptionTextStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="2" Value="0.8"
+                                        TickFrequency="0.1" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="0.8 - 1.1" FontSize="12" FontWeight="SemiBold"
+                                           Margin="12,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <Rectangle Height="1" Fill="{StaticResource DividerColor}" Margin="0,8,0,16"/>
+
+                        <!-- Sekcja 3: Typ treningu -->
+                        <TextBlock Text="Typ treningu" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryColor}" Margin="0,0,0,12"/>
+
+                        <StackPanel Margin="0,0,0,16">
+                            <CheckBox Content="Outdoor" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="Indoor" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="Wyścig" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="Test FTP" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="Recovery (TSS &lt; 100)" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="Endurance (IF &lt; 0.75)" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="Tempo (IF 0.75-0.85)" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="Threshold (IF 0.85-1.05)" FontSize="13" Margin="0,0,0,8"/>
+                            <CheckBox Content="VO2max (IF &gt; 1.05)" FontSize="13" Margin="0,0,0,8"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Przyciski na dole -->
+                <Border Grid.Row="2" Background="{StaticResource BackgroundColor}" Padding="16"
+                        BorderBrush="{StaticResource DividerColor}" BorderThickness="0,1,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Znaleziono 47 treningów" FontSize="13" FontWeight="SemiBold"
+                                   HorizontalAlignment="Center" Foreground="{StaticResource PrimaryColor}" Margin="0,0,0,12"/>
+                        <Button Style="{StaticResource PrimaryButtonStyle}" Content="Zastosuj filtry"
+                                HorizontalAlignment="Stretch" Padding="16,12" FontSize="14" Margin="0,0,0,8"/>
+                        <Button Style="{StaticResource BaseButtonStyle}" Background="Transparent"
+                                Foreground="{StaticResource TextSecondaryColor}" Content="Anuluj"
+                                HorizontalAlignment="Stretch" Padding="16,12" FontSize="14"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ==================== FLOATING ACTION BUTTON (FAB) ==================== -->
+        <Border Grid.Column="0" Width="60" Height="60" Background="{StaticResource PrimaryColor}"
+                CornerRadius="30" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Margin="0,0,24,24" Cursor="Hand">
+            <Border.Effect>
+                <DropShadowEffect Color="#000000" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
+            </Border.Effect>
+            <TextBlock Text="+" FontSize="32" FontWeight="Bold" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+
+    </Grid>
+</UserControl>
