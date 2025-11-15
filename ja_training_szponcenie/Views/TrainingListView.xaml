@@ -741,7 +741,7 @@
 
                 <!-- Zawartość panelu -->
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                    <StackPanel Padding="16">
+                    <StackPanel Margin="16">
 
                         <!-- Sekcja 1: Zakres dat -->
                         <TextBlock Text="Zakres dat" FontSize="14" FontWeight="SemiBold"
