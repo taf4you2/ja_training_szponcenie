@@ -190,16 +190,12 @@
                                Margin="0,0,0,8"/>
 
                     <!-- Readiness Bar -->
-                    <Grid Margin="0,0,0,8">
-                        <Border Background="#E0E0E0"
-                                Height="12"
-                                CornerRadius="6"/>
-                        <Border Background="{Binding DayData.Overview.ReadinessScore, Converter={StaticResource ScoreToColorConverter}}"
-                                Height="12"
-                                CornerRadius="6"
-                                HorizontalAlignment="Left"
-                                Width="{Binding DayData.Overview.ReadinessScore, Mode=OneWay}"/>
-                    </Grid>
+                    <ProgressBar Value="{Binding DayData.Overview.ReadinessScore}"
+                                 Maximum="100"
+                                 Height="12"
+                                 Margin="0,0,0,8"
+                                 Foreground="{Binding DayData.Overview.ReadinessScore, Converter={StaticResource ScoreToColorConverter}}"
+                                 Style="{StaticResource CustomProgressBarStyle}"/>
 
                     <TextBlock Style="{StaticResource MetricValueStyle}">
                         <Run Text="Gotowość: "/><Run Text="{Binding DayData.Overview.ReadinessScore, Mode=OneWay}"/><Run Text="/100 - "/>

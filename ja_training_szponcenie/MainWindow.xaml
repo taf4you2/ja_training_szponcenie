@@ -7,6 +7,7 @@
         xmlns:views="clr-namespace:ja_training_szponcenie.Views.DayView"
         mc:Ignorable="d"
         Title="Widok Dnia - Trening" Height="1080" Width="1920"
+        WindowState="Maximized"
         Background="{StaticResource BackgroundBrush}">
     <Grid>
         <views:DayView/>

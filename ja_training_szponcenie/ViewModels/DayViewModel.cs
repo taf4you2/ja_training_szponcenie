@@ -1,5 +1,5 @@
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows.Input;
 using ja_training_szponcenie.Models;
 
@@ -39,6 +39,7 @@ namespace ja_training_szponcenie.ViewModels
             {
                 if (SetProperty(ref _selectedDate, value))
                 {
+                    OnPropertyChanged(nameof(FormattedDate));
                     LoadDayData(value);
                 }
             }

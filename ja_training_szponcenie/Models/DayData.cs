@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ja_training_szponcenie.Models
 {
