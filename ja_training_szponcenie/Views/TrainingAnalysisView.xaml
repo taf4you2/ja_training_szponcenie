@@ -115,12 +115,8 @@
                         <Border Grid.Column="0" Style="{StaticResource MetricCardStyle}" Background="#E8F5E9">
                             <StackPanel>
                                 <TextBlock Text="😴" FontSize="24" Margin="0,0,0,4"/>
-                                <TextBlock FontSize="20" FontWeight="SemiBold" Margin="0,0,0,2">
-                                    <Run Text="{Binding SleepDuration.Hours, Mode=OneWay}"/>
-                                    <Run Text="h "/>
-                                    <Run Text="{Binding SleepDuration.Minutes, Mode=OneWay}"/>
-                                    <Run Text="min"/>
-                                </TextBlock>
+                                <TextBlock FontSize="20" FontWeight="SemiBold" Margin="0,0,0,2"
+                                           Text="{Binding SleepDurationText, FallbackValue='7h 35min'}"/>
                                 <TextBlock Style="{StaticResource CaptionTextStyle}">
                                     <Run Text="Sleep score: "/>
                                     <Run Text="{Binding SleepScore, Mode=OneWay}"/>
