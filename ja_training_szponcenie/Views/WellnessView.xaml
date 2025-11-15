@@ -502,7 +502,7 @@
                                                 <GradientStop Color="#FF7043" Offset="1"/>
                                             </LinearGradientBrush>
                                         </Border.Background>
-                                    </Grid>
+                                    </Border>
                                     <!-- Marker bilansu -->
                                     <Border Width="16" Height="16" CornerRadius="8" Background="White"
                                             HorizontalAlignment="Left" Margin="80,0,0,0"
