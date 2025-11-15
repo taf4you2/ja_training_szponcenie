@@ -1,0 +1,136 @@
+<Window x:Class="ja_training_szponcenie.Views.Controls.AddWeightMeasurementDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Title="Dodaj pomiar wagi" Height="600" Width="550"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundColor}"
+        ResizeMode="NoResize">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="*"/> <!-- Content -->
+            <RowDefinition Height="Auto"/> <!-- Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- ==================== HEADER ==================== -->
+        <Grid Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="Dodaj pomiar wagi" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button x:Name="CloseButton" Content="❌" Style="{StaticResource PrimaryButtonStyle}"
+                    Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right"/>
+        </Grid>
+
+        <!-- ==================== FORMULARZ ==================== -->
+        <ScrollViewer Grid.Row="1" Style="{StaticResource CustomScrollViewerStyle}">
+            <StackPanel>
+
+                <!-- Pole 1: Data pomiaru -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="Data" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <DatePicker x:Name="MeasurementDatePicker" Padding="12,8" FontSize="14"/>
+                </StackPanel>
+
+                <!-- Pole 2: Waga -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="Waga (kg) *" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <Grid>
+                        <TextBox x:Name="WeightValueTextBox" Padding="12,12" FontSize="20" FontWeight="Bold" MaxWidth="300" HorizontalAlignment="Left"/>
+                        <TextBlock Text="kg" FontSize="20" VerticalAlignment="Center" Margin="280,0,0,0"
+                                   Foreground="{StaticResource TextSecondaryColor}"/>
+                    </Grid>
+                    <TextBlock Text="Walidacja: 30-200 kg, precyzja: 0.1 kg" FontSize="11" Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <!-- Auto-obliczenia pod polem wagi -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- BMI -->
+                    <Border Grid.Column="0" Background="#E8F5E9" CornerRadius="6" Padding="12,8" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="BMI:" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                            <TextBlock x:Name="BMITextBlock" Text="22.8 (norma)" FontSize="16" FontWeight="Bold" Foreground="{StaticResource SuccessColor}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- W/kg z FTP -->
+                    <Border Grid.Column="1" Background="#E3F2FD" CornerRadius="6" Padding="12,8" Margin="8,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="W/kg z FTP:" FontSize="12" Foreground="{StaticResource TextSecondaryColor}"/>
+                            <TextBlock x:Name="WattsPerKgTextBlock" Text="3.8 W/kg" FontSize="16" FontWeight="Bold" Foreground="{StaticResource PrimaryColor}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Pole 3: Notatka -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="Notatka (opcjonalna)" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <TextBox x:Name="NoteTextBox" Padding="12,8" FontSize="14" Height="80"
+                             TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                             MaxLength="300"/>
+                    <TextBlock x:Name="CharCountTextBlock" Text="0/300" FontSize="11"
+                               Foreground="{StaticResource TextSecondaryColor}" HorizontalAlignment="Right" Margin="0,4,0,0"/>
+                    <TextBlock Text="Np. pomiar rano, przed śniadaniem" FontSize="11" FontStyle="Italic"
+                               Foreground="{StaticResource TextSecondaryColor}" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <!-- Checkbox: Ustaw jako aktualną wagę -->
+                <CheckBox x:Name="SetAsCurrentWeightCheckBox" Content="Ustaw jako aktualną wagę" Margin="0,0,0,20"
+                          FontSize="14" FontWeight="SemiBold" IsChecked="True"/>
+
+                <!-- Podgląd wpływu -->
+                <Border x:Name="ImpactPreview" Background="#E8F5E9" CornerRadius="8" Padding="16" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="To zmieni Twoje W/kg:" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                <TextBlock Text="Poprzednio:" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                <TextBlock Text="Nowe:" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                <TextBlock Text="Zmiana:" FontSize="12" FontWeight="SemiBold"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="3.8 W/kg (285W / 75.0kg)" FontSize="12" Margin="0,0,0,4"/>
+                                <TextBlock Text="3.9 W/kg (285W / 73.5kg)" FontSize="12" Foreground="{StaticResource SuccessColor}" Margin="0,0,0,4"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="▲" FontSize="12" Foreground="{StaticResource SuccessColor}" Margin="0,0,4,0"/>
+                                    <TextBlock Text="+0.1 W/kg" FontSize="12" Foreground="{StaticResource SuccessColor}" FontWeight="Bold"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ==================== PRZYCISKI ==================== -->
+        <Grid Grid.Row="2" Margin="0,24,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="CancelButton" Grid.Column="1" Content="Anuluj"
+                    Style="{StaticResource PrimaryButtonStyle}" Background="#9E9E9E"
+                    Padding="24,12" Margin="0,0,12,0" Width="120"/>
+
+            <Button x:Name="SaveButton" Grid.Column="2" Content="💾 Zapisz"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Background="{StaticResource SuccessColor}"
+                    Padding="24,12" Width="160" FontSize="16" FontWeight="SemiBold"/>
+        </Grid>
+    </Grid>
+</Window>
