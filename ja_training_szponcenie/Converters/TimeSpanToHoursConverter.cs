@@ -1,15 +1,18 @@
 using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 
 namespace ja_training_szponcenie.Converters
 {
-    public class NullToVisibilityConverter : IValueConverter
+    public class TimeSpanToHoursConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null ? Visibility.Collapsed : Visibility.Visible;
+            if (value is TimeSpan timeSpan)
+            {
+                return timeSpan.Hours;
+            }
+            return 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:ja_training_szponcenie.Converters">
 
     <!-- Kolory -->
     <SolidColorBrush x:Key="PrimaryColor" Color="#2196F3"/>
@@ -176,6 +177,118 @@
     <Style x:Key="CustomScrollViewerStyle" TargetType="ScrollViewer">
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+    </Style>
+
+    <!-- Converters -->
+    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    <converters:TimeSpanToHoursConverter x:Key="TimeSpanToHoursConverter"/>
+    <converters:TimeSpanToMinutesConverter x:Key="TimeSpanToMinutesConverter"/>
+
+    <!-- Additional Text Styles -->
+    <Style x:Key="CaptionTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}"/>
+    </Style>
+
+    <Style x:Key="SubheaderTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+        <Setter Property="Margin" Value="0,0,0,12"/>
+    </Style>
+
+    <Style x:Key="MetricTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+        <Setter Property="Margin" Value="0,0,0,4"/>
+    </Style>
+
+    <Style x:Key="MetricSubValueStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}"/>
+    </Style>
+
+    <!-- Button Styles -->
+    <Style x:Key="BaseButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource SurfaceColor}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DividerColor}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#F0F0F0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="IconButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#F0F0F0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Card Styles -->
+    <Style x:Key="MetricCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource SurfaceColor}"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DividerColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!-- DataGrid Style -->
+    <Style x:Key="IntervalDataGridStyle" TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="CanUserDeleteRows" Value="False"/>
+        <Setter Property="CanUserResizeRows" Value="False"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource DividerColor}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DividerColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="RowBackground" Value="White"/>
+        <Setter Property="AlternatingRowBackground" Value="#FAFAFA"/>
     </Style>
 
 </ResourceDictionary>
