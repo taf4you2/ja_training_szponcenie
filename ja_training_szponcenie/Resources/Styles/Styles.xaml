@@ -11,8 +11,8 @@
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="Padding" Value="16"/>
-        <Setter Property="Margin" Value="0,0,0,16"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1" Color="#000000"/>
@@ -22,22 +22,22 @@
 
     <!-- Section Header Style -->
     <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
-        <Setter Property="Margin" Value="0,0,0,12"/>
+        <Setter Property="Margin" Value="0,0,0,8"/>
     </Style>
 
     <!-- Large Number Style -->
     <Style x:Key="LargeNumberStyle" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="36"/>
+        <Setter Property="FontSize" Value="28"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
     </Style>
 
     <!-- Medium Number Style -->
     <Style x:Key="MediumNumberStyle" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontSize" Value="18"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
     </Style>

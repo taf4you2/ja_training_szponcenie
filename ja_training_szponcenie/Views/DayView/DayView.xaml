@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ja_training_szponcenie.Views.DayView"
              xmlns:vm="clr-namespace:ja_training_szponcenie.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="1200" d:DesignWidth="800"
+             d:DesignHeight="1080" d:DesignWidth="1920"
              Background="{StaticResource BackgroundBrush}">
 
     <UserControl.DataContext>
@@ -14,10 +14,10 @@
     </UserControl.DataContext>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="20">
+        <StackPanel Margin="16,12,16,12">
 
             <!-- Header Section -->
-            <Grid Margin="0,0,0,20">
+            <Grid Margin="0,0,0,12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -474,8 +474,8 @@
             <Border Style="{StaticResource CardStyle}">
                 <StackPanel>
                     <!-- Calorie Ring -->
-                    <Grid Height="120" Margin="0,0,0,16">
-                        <Viewbox Width="100" Height="100">
+                    <Grid Height="80" Margin="0,0,0,12">
+                        <Viewbox Width="70" Height="70">
                             <Grid>
                                 <!-- Background Circle -->
                                 <Ellipse Stroke="#E0E0E0"
@@ -590,10 +590,10 @@
             <Border Style="{StaticResource CardStyle}">
                 <StackPanel>
                     <!-- HR Chart Placeholder -->
-                    <Border Height="200"
+                    <Border Height="120"
                             Background="#F5F5F5"
                             CornerRadius="8"
-                            Margin="0,0,0,16">
+                            Margin="0,0,0,12">
                         <TextBlock Text="[Wykres tętna 24h]"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -721,28 +721,28 @@
                     <!-- Notes Input -->
                     <TextBox Text="{Binding DayData.Notes.Notes, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap"
-                             MinHeight="80"
+                             MinHeight="50"
                              AcceptsReturn="True"
                              BorderBrush="{StaticResource BorderBrush}"
-                             Padding="8"
-                             FontSize="14"/>
+                             Padding="6"
+                             FontSize="12"/>
 
                     <!-- Mood Selection -->
                     <TextBlock Text="Jak oceniasz ten dzień?"
                                FontWeight="SemiBold"
-                               Margin="0,16,0,8"/>
+                               Margin="0,10,0,6"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="😃" FontSize="32" Style="{StaticResource IconButtonStyle}" Width="48" Height="48" Margin="4"/>
-                        <Button Content="😊" FontSize="32" Style="{StaticResource IconButtonStyle}" Width="48" Height="48" Margin="4"/>
-                        <Button Content="😐" FontSize="32" Style="{StaticResource IconButtonStyle}" Width="48" Height="48" Margin="4"/>
-                        <Button Content="😕" FontSize="32" Style="{StaticResource IconButtonStyle}" Width="48" Height="48" Margin="4"/>
-                        <Button Content="😫" FontSize="32" Style="{StaticResource IconButtonStyle}" Width="48" Height="48" Margin="4"/>
+                        <Button Content="😃" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😊" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😐" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😕" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
+                        <Button Content="😫" FontSize="24" Style="{StaticResource IconButtonStyle}" Width="36" Height="36" Margin="3"/>
                     </StackPanel>
 
                     <!-- Tags -->
                     <TextBlock Text="Tagi"
                                FontWeight="SemiBold"
-                               Margin="0,16,0,8"/>
+                               Margin="0,10,0,6"/>
                     <WrapPanel>
                         <Border Style="{StaticResource BadgeStyle}" Background="#E3F2FD" Margin="4">
                             <TextBlock Text="✅ Dobry sen" Foreground="{StaticResource PrimaryTextBrush}"/>
@@ -761,7 +761,7 @@
             </Border>
 
             <!-- Bottom Action Buttons -->
-            <Grid Margin="0,16,0,32">
+            <Grid Margin="0,10,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
